@@ -8,7 +8,7 @@ python -m pip install -r requirements.txt
 python src/main.py
 ````
 
-#### Unix bassed
+#### Unix based
 ````python
 python3 -m pip install -r requirements.txt
 python3 src/main.py
