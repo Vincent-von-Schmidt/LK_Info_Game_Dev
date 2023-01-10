@@ -5,7 +5,7 @@ import core
 class Sprite:
     """Sprite class for basic movement, etc."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
 
         self.step_speed = kwargs["speed"] # pix / s
         self.step_change = kwargs["change"] # s
@@ -26,7 +26,7 @@ class Sprite:
         self.images_right = kwargs["images_right"]
 
     def move_up(
-        self, elapsed_time: float = 0, pixel: float = 0, still=False
+        self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
     ) -> float:
         """Move the sprite up."""
 
@@ -45,7 +45,7 @@ class Sprite:
         return dis
     
     def move_down(
-        self, elapsed_time: float = 0, pixel: float = 0, still=False
+        self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
     ) -> float:
         """Move the sprite down."""
 
@@ -64,7 +64,7 @@ class Sprite:
         return dis
     
     def move_left(
-        self, elapsed_time: float = 0, pixel: float = 0, still=False
+        self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
     ) -> float:
         """Move the sprite left."""
 
@@ -83,7 +83,7 @@ class Sprite:
         return dis
     
     def move_right(
-        self, elapsed_time: float = 0, pixel: float = 0, still=False
+        self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
     ) -> float:
         """Move the sprite right."""
 
@@ -102,8 +102,8 @@ class Sprite:
         return dis
     
     def move_up_right(
-        self, elapsed_time: float = 0, pixel: float = 0, still=False
-    ):
+        self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
+    ) -> float:
         """Move the sprite up right."""
 
         dis = 0
@@ -118,8 +118,8 @@ class Sprite:
         return dis
 
     def move_up_left(
-        self, elapsed_time: float = 0, pixel: float = 0, still=False
-    ):
+        self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
+    ) -> float:
         """Move the sprite up left."""
 
         dis = 0
@@ -134,8 +134,8 @@ class Sprite:
         return dis
     
     def move_down_left(
-        self, elapsed_time: float = 0, pixel: float = 0, still=False
-    ):
+        self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
+    ) -> float:
         """Move the sprite down left."""
 
         dis = 0
@@ -150,8 +150,8 @@ class Sprite:
         return dis
     
     def move_down_right(
-        self, elapsed_time: float = 0, pixel: float = 0, still=False
-    ):
+        self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
+    ) -> float:
         """Move the sprite down right."""
 
         dis = 0
@@ -165,7 +165,8 @@ class Sprite:
         
         return dis
     
-    def update(self, elapsed_time: float):
+    def update(self, elapsed_time: float) -> None:
+        """Updates the players movement and attacks."""
         
         # Movement
 

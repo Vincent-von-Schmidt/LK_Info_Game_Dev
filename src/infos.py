@@ -4,7 +4,7 @@ import core
 
 class Infos:
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialisation of info bar objects and variables."""
 
         ################################################################
@@ -32,7 +32,7 @@ class Infos:
         self.heart_empty = pygame.image.load("./assets/hotbar/heart_empty.png")
         self.skull = pygame.image.load("./assets/hotbar/skull.png")
     
-    def set_time(self, minute, second):
+    def set_time(self, minute: int, second: int) -> None:
         """Set the time of the info bar."""
 
         ################################################################
@@ -41,7 +41,7 @@ class Infos:
 
         self.time = minute, second
     
-    def set_fps(self, fps):
+    def set_fps(self, fps: float) -> None:
         """Set the fps of the info bar."""
 
         ################################################################
@@ -50,24 +50,32 @@ class Infos:
 
         self.fps = fps
 
-    def update_kills(self, kills):
+    def update_kills(self, kills: int) -> None:
+        """Update the kill count."""
 
         self.kills += kills
     
-    def set_level(self, level):
+    def set_level(self, level: int) -> None:
+        """Set the level count."""
 
         self.level = level
     
-    def update_hearts(self, hearts):
+    def update_hearts(self, hearts: int) -> None:
+        """Update the health count."""
 
         live = self.live
+        
         for i in range (3):
+            
             if (live - (2-i)) == 1:
                 self.hearts.append((self.heart_full, (48 + (2 - i)*16, 3)))
+            
             elif (live - (3-i)) == 0.5:
                 self.hearts.append((self.heart_half, (48 + (2 - i)*16, 3)))
+            
             else:
                 self.hearts.append((self.heart_empty, (48 + (2 - i)*16, 3)))
+            
             live -= 1
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:

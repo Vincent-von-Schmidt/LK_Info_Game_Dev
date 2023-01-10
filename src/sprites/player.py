@@ -2,7 +2,6 @@ import pygame
 
 import core
 import sprites.sprite as sprite
-import sprites.bullets as bullets
 
 class Player(sprite.Sprite):
 
@@ -10,9 +9,11 @@ class Player(sprite.Sprite):
 
     def __init__(self) -> None:
         """Initialisation of player objects and variables."""
+
         ################################################################
         # 1. Set the start properties.                                 #
         ################################################################
+
         # Properties
 
         self.v = 300 # Pixel / Second
@@ -46,8 +47,3 @@ class Player(sprite.Sprite):
                 pygame.image.load("./assets/player/player_right_2.png")
             )
         )
-
-    
-
-
-
