@@ -1,7 +1,6 @@
 # Event keys
 
 MOVE = "move"
-VIEW = "view"
 ACTION = "action"
 
 # Event infos

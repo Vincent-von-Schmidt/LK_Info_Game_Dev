@@ -15,7 +15,7 @@ class Sprite:
 
         self.step_speed = kwargs["speed"] # pix / s
         self.step_change = kwargs["change"] # s
-        self.step_max = 2 # num
+        self.step_max = len(kwargs["images_up"]) - 1 # num
 
         self.images_up = kwargs["images_up"]
         self.images_down = kwargs["images_down"]

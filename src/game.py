@@ -86,21 +86,8 @@ class Game:
         elif keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN)]
         
-        elif keys[pygame.K_LEFT]:
-            self.eventqueue += [(core.VIEW, core.LEFT)]
-        
-        elif keys[pygame.K_RIGHT]:
-            self.eventqueue += [(core.VIEW, core.RIGHT)]
-        
-        elif keys[pygame.K_UP]:
-            self.eventqueue += [(core.VIEW, core.UP)]
-        
-        elif keys[pygame.K_DOWN]:
-            self.eventqueue += [(core.VIEW, core.DOWN)]
-        
         elif keys[pygame.K_SPACE]:
             
-            self.eventqueue += [(core.VIEW, core.RESET)]
             self.eventqueue += [(core.ACTION, core.SHOOT)]
 
     
@@ -150,39 +137,6 @@ class Game:
                 
                 elif info == core.DOWN:
                     self.player.move_down(elapsed_time=elapsed_time)
-                
-            elif key == core.VIEW:
-
-                if info == core.LEFT:
-                    
-                    dis = self.background.move_left(elapsed_time=elapsed_time)
-                    self.player.move_right(pixel=dis, still=True)
-                
-                elif info == core.RIGHT:
-                    
-                    dis = self.background.move_right(elapsed_time=elapsed_time)
-                    self.player.move_left(pixel=dis, still=True)
-                
-                elif info == core.UP:
-                    
-                    dis = self.background.move_up(elapsed_time=elapsed_time)
-                    self.player.move_down(pixel=dis, still=True)
-                
-                elif info == core.DOWN:
-                    
-                    dis = self.background.move_down(elapsed_time=elapsed_time)
-                    self.player.move_up(pixel=dis, still=True)
-                
-                elif info == core.RESET:
-
-                    x_dis = 320 - self.player.x
-                    y_dis = 240 - self.player.y
-
-                    self.player.move_right(pixel=x_dis, still=True)
-                    self.player.move_down(pixel=y_dis, still=True)
-
-                    self.background.move_left(pixel=x_dis)
-                    self.background.move_up(pixel=y_dis)
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
