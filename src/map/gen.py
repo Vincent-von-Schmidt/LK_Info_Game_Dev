@@ -55,7 +55,7 @@ class Room:
             for column_index, tile in enumerate( row ):
                 self.surface.blit( tile, ( column_index * tile.get_width(), row_index * tile.get_height() ) )
 
-        self.rendered_map = [(pygame.transform.scale(self.surface, (1280, 720)), (0, 0))] 
+        self.rendered_map = [(self.surface, (0, 32))] 
 
     def get_map( self ):
         return self.rendered_map

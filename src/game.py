@@ -201,9 +201,13 @@ class Game:
         objects += self.infos.render()
         
         # Display
+        tmp_surface = pygame.surface.Surface((240, 192))
+        tmp_surface.blits(objects)
 
         self.screen.fill((0, 0, 0))
-        self.screen.blits(objects)
+
+        self.screen.blit( pygame.transform.scale( tmp_surface, (1280, 720)), (0, 0) )
+
         pygame.display.flip()
     
     def wait(self) -> None:
