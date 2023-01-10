@@ -49,7 +49,6 @@ class Game:
         # 1. Clear event queue.                                        #
         # 2. Create event queue.                                       #
         ################################################################
-        
 
         self.eventqueue.clear()
         
@@ -139,14 +138,15 @@ class Game:
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
+                    if not self.player.walking:
                     
-                    self.bullets_list += [(
-                        bullets.Bullets(
-                            self.player.x,
-                            self.player.y,
-                            self.player.pos
-                        )
-                    )]
+                        self.bullets_list += [(
+                            bullets.Bullets(
+                                self.player.x,
+                                self.player.y,
+                                self.player.pos
+                            )
+                        )]
 
         # Check collisions
         
@@ -198,8 +198,6 @@ class Game:
             objects += bullet.render()
         objects += self.player.render()
         objects += self.infos.render()
-        
-        
         
         # Display
 
