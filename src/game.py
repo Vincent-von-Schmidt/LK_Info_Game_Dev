@@ -52,41 +52,55 @@ class Game:
 
         self.eventqueue.clear()
         
-        for event in pygame.event.get():
+        events = pygame.event.get()
+
+        for event in events:
             
             if event.type == pygame.QUIT:
                 self.running = False
             
-            elif event.type == pygame.KEYDOWN:
+        keys = pygame.key.get_pressed()
 
-                if event.key == pygame.K_a:
-                    self.eventqueue += [(core.MOVE, core.LEFT)]
-                
-                elif event.key == pygame.K_d:
-                    self.eventqueue += [(core.MOVE, core.RIGHT)]
-                
-                elif event.key == pygame.K_w:
-                    self.eventqueue += [(core.MOVE, core.UP)]
-                
-                elif event.key == pygame.K_s:
-                    self.eventqueue += [(core.MOVE, core.DOWN)]
-                
-                elif event.key == pygame.K_LEFT:
-                    self.eventqueue += [(core.VIEW, core.LEFT)]
-                
-                elif event.key == pygame.K_RIGHT:
-                    self.eventqueue += [(core.VIEW, core.RIGHT)]
-                
-                elif event.key == pygame.K_UP:
-                    self.eventqueue += [(core.VIEW, core.UP)]
-                
-                elif event.key == pygame.K_DOWN:
-                    self.eventqueue += [(core.VIEW, core.DOWN)]
-                
-                elif event.key == pygame.K_SPACE:
-                    
-                    self.eventqueue += [(core.VIEW, core.RESET)]
-                    self.eventqueue += [(core.ACTION, core.SHOOT)]
+        if keys[pygame.K_a] and keys[pygame.K_s]:
+            self.eventqueue += [(core.MOVE, core.DOWN_LEFT)]
+        
+        elif keys[pygame.K_a] and keys[pygame.K_w]:
+            self.eventqueue += [(core.MOVE, core.UP_LEFT)]
+        
+        elif keys[pygame.K_d] and keys[pygame.K_s]:
+            self.eventqueue += [(core.MOVE, core.DOWN_RIGHT)]
+        
+        elif keys[pygame.K_d] and keys[pygame.K_w]:
+            self.eventqueue += [(core.MOVE, core.UP_RIGHT)]
+
+        elif keys[pygame.K_a]:
+            self.eventqueue += [(core.MOVE, core.LEFT)]
+        
+        elif keys[pygame.K_d]:
+            self.eventqueue += [(core.MOVE, core.RIGHT)]
+        
+        elif keys[pygame.K_w]:
+            self.eventqueue += [(core.MOVE, core.UP)]
+        
+        elif keys[pygame.K_s]:
+            self.eventqueue += [(core.MOVE, core.DOWN)]
+        
+        elif keys[pygame.K_LEFT]:
+            self.eventqueue += [(core.VIEW, core.LEFT)]
+        
+        elif keys[pygame.K_RIGHT]:
+            self.eventqueue += [(core.VIEW, core.RIGHT)]
+        
+        elif keys[pygame.K_UP]:
+            self.eventqueue += [(core.VIEW, core.UP)]
+        
+        elif keys[pygame.K_DOWN]:
+            self.eventqueue += [(core.VIEW, core.DOWN)]
+        
+        elif keys[pygame.K_SPACE]:
+            
+            self.eventqueue += [(core.VIEW, core.RESET)]
+            self.eventqueue += [(core.ACTION, core.SHOOT)]
     
     def update(self) -> None:
         """Update scores and handle actual game logic."""
@@ -152,12 +166,11 @@ class Game:
                     self.background.move_left(pixel=x_dis)
                     self.background.move_up(pixel=y_dis)
 
-            elif key == core.ACTION: 
+            elif key == core.ACTION:
 
-                if info == core.SHOOT: 
+                if info == core.SHOOT:
                     self.bullets_list += [(bullets.Bullets(self.player.x, self.player.y))]
 
-        
         # Check collisions
         
         # TODO
