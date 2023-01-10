@@ -106,9 +106,11 @@ class Sprite:
     ) -> float:
         """Move the sprite up right."""
 
+        dis1 = self.step_speed * elapsed_time / 2**0.5
+
         dis = 0
-        dis += self.move_up(elapsed_time/2, still=True)
-        dis += self.move_right(elapsed_time/2, still=True)
+        dis += self.move_up(pixel=dis1, still=True)
+        dis += self.move_right(pixel=dis1, still=True)
 
         if not still:
             self.pos = core.RIGHT
@@ -122,9 +124,11 @@ class Sprite:
     ) -> float:
         """Move the sprite up left."""
 
+        dis1 = self.step_speed * elapsed_time / 2**0.5
+
         dis = 0
-        dis += self.move_up(elapsed_time/2, still=True)
-        dis += self.move_left(elapsed_time/2, still=True)
+        dis += self.move_up(pixel=dis1, still=True)
+        dis += self.move_left(pixel=dis1, still=True)
 
         if not still:
             self.pos = core.LEFT
@@ -138,9 +142,11 @@ class Sprite:
     ) -> float:
         """Move the sprite down left."""
 
+        dis1 = self.step_speed * elapsed_time / 2**0.5
+
         dis = 0
-        dis += self.move_down(elapsed_time/2, still=True)
-        dis += self.move_left(elapsed_time/2, still=True)
+        dis += self.move_down(pixel=dis1, still=True)
+        dis += self.move_left(pixel=dis1, still=True)
 
         if not still:
             self.pos = core.LEFT
@@ -154,9 +160,13 @@ class Sprite:
     ) -> float:
         """Move the sprite down right."""
 
+        dis1 = self.step_speed * elapsed_time / 2**0.5
+
         dis = 0
-        dis += self.move_down(elapsed_time/2, still=True)
-        dis += self.move_right(elapsed_time/2, still=True)
+        dis += self.move_down(pixel=dis1, still=True)
+        dis += self.move_right(pixel=dis1, still=True)
+
+        print(dis)
 
         if not still:
             self.pos = core.RIGHT

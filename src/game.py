@@ -51,40 +51,47 @@ class Game:
 
         self.eventqueue.clear()
         
-        events = pygame.event.get()
+        events = pygame.event.get()            
+        keys = pygame.key.get_pressed()
+
+        # Window
 
         for event in events:
             if event.type == pygame.QUIT:
-                self.running = False
-            
-        keys = pygame.key.get_pressed()
+                self.eventqueue += [(core.APP, core.QUIT)]
+
+        # Movement
 
         if keys[pygame.K_a] and keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN_LEFT)]
         
-        if keys[pygame.K_a] and keys[pygame.K_w]:
+        elif keys[pygame.K_a] and keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP_LEFT)]
         
-        if keys[pygame.K_d] and keys[pygame.K_s]:
+        elif keys[pygame.K_d] and keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN_RIGHT)]
         
-        if keys[pygame.K_d] and keys[pygame.K_w]:
+        elif keys[pygame.K_d] and keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP_RIGHT)]
 
-        if keys[pygame.K_a]:
+        elif keys[pygame.K_a]:
             self.eventqueue += [(core.MOVE, core.LEFT)]
         
-        if keys[pygame.K_d]:
+        elif keys[pygame.K_d]:
             self.eventqueue += [(core.MOVE, core.RIGHT)]
         
-        if keys[pygame.K_w]:
+        elif keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP)]
         
-        if keys[pygame.K_s]:
+        elif keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN)]
+        
+        # Actions
         
         if keys[pygame.K_SPACE]:
             self.eventqueue += [(core.ACTION, core.SHOOT)]
+        
+        print(self.eventqueue)
     
     def update(self) -> None:
         """Update scores and handle actual game logic."""
@@ -101,12 +108,16 @@ class Game:
         self.player.walking = False
         
         # Handle events
-
+        
         for event in self.eventqueue:
 
             key, info = event
 
-            if key == core.MOVE:
+            if key == core.APP:
+                if info == core.QUIT:
+                    self.running = False
+
+            elif key == core.MOVE:
 
                 if info == core.DOWN_LEFT:
                     self.player.move_down_left(elapsed_time=elapsed_time)
