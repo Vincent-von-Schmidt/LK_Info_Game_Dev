@@ -65,29 +65,28 @@ class Game:
         if keys[pygame.K_a] and keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN_LEFT)]
         
-        elif keys[pygame.K_a] and keys[pygame.K_w]:
+        if keys[pygame.K_a] and keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP_LEFT)]
         
-        elif keys[pygame.K_d] and keys[pygame.K_s]:
+        if keys[pygame.K_d] and keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN_RIGHT)]
         
-        elif keys[pygame.K_d] and keys[pygame.K_w]:
+        if keys[pygame.K_d] and keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP_RIGHT)]
 
-        elif keys[pygame.K_a]:
+        if keys[pygame.K_a]:
             self.eventqueue += [(core.MOVE, core.LEFT)]
         
-        elif keys[pygame.K_d]:
+        if keys[pygame.K_d]:
             self.eventqueue += [(core.MOVE, core.RIGHT)]
         
-        elif keys[pygame.K_w]:
+        if keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP)]
         
-        elif keys[pygame.K_s]:
+        if keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN)]
         
-        elif keys[pygame.K_SPACE]:
-            
+        if keys[pygame.K_SPACE]:
             self.eventqueue += [(core.ACTION, core.SHOOT)]
 
     
