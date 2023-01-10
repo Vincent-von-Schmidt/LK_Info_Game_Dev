@@ -10,22 +10,14 @@ class Room:
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (240, 176) ) # 14 * 10
         self.surface.fill( (0, 0, 0) )
 
-        # textures
+        # textures -> .png, ( x, y )
         self.textures: dict = {
-            "wall_north" : pygame.image.load("./assets/wall_north.png"),
-            "wall_east" : pygame.image.load("./assets/wall_east.png"),
-            "wall_south" : pygame.image.load("./assets/wall_south.png"),
-            "wall_west" : pygame.image.load("./assets/wall_west.png"),
-            "ground" : pygame.image.load("./assets/ground.png"),
+            "wall_north" : ( pygame.image.load("./assets/wall_north.png"), (16, 24) ),
+            "wall_east" : ( pygame.image.load("./assets/wall_east.png"), (24, 16) ),
+            "wall_south" : ( pygame.image.load("./assets/wall_south.png"), (16, 24) ),
+            "wall_west" : ( pygame.image.load("./assets/wall_west.png"), (24, 26) ),
+            "ground" : ( pygame.image.load("./assets/ground.png"), (16, 16) ),
         }
-
-        # self.textures: dict = {
-        #     "wall_north" : pygame.surface.Surface( (16, 24) ),
-        #     "wall_east" : pygame.surface.Surface( (24, 16) ),
-        #     "wall_south" : pygame.surface.Surface( (16, 24) ),
-        #     "wall_west" : pygame.surface.Surface( (24, 16) ),
-        #     "ground" : pygame.surface.Surface( (16, 16) ),
-        # }
 
         self.tilemap: list = []
         
@@ -47,7 +39,7 @@ class Room:
 
         for row_index, row in enumerate( self.tilemap ):
             for column_index, column in enumerate( row ):
-                self.surface.blit( column, ( column_index * 14, row_index * 10 ) )
+                self.surface.blit( column[0], ( column_index * column[1][0], row_index * column[1][1] ) )
 
         return self.surface
 
