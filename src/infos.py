@@ -18,9 +18,9 @@ class Infos:
 
         self.fps = 0
         self.time = (0, 0)
-        self.kills = 0
-        self.level = 0
-        self.live = 0
+        self.kills = 15
+        self.level = 3
+        self.live = 1.5
         self.hearts = []
 
         self.background = pygame.image.load("./assets/hotbar/hotbar_background.png")
@@ -30,6 +30,7 @@ class Infos:
         self.heart_full = pygame.image.load("./assets/hotbar/heart_full.png")
         self.heart_half = pygame.image.load("./assets/hotbar/heart_half.png")
         self.heart_empty = pygame.image.load("./assets/hotbar/heart_empty.png")
+        self.skull = pygame.image.load("./assets/hotbar/skull.png")
     
     def set_time(self, minute, second):
         """Set the time of the info bar."""
@@ -62,11 +63,11 @@ class Infos:
         live = self.live
         for i in range (3):
             if (live - (2-i)) == 1:
-                self.hearts.append((self.heart_full, (48 + i*16, 3)))
+                self.hearts.append((self.heart_full, (48 + (2 - i)*16, 3)))
             elif (live - (3-i)) == 0.5:
-                self.hearts.append((self.heart_half, (48 + i*16, 3)))
+                self.hearts.append((self.heart_half, (48 + (2 - i)*16, 3)))
             else:
-                self.hearts.append((self.heart_empty, (48 + i*16, 3)))
+                self.hearts.append((self.heart_empty, (48 + (2 - i)*16, 3)))
             live -= 1
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
@@ -94,6 +95,7 @@ class Infos:
             (fpssurface, (200, 2)),
             (levelsurface, (10, 15)),
             (killsurface, (50, 15)),
+            (self.skull, (72, 15)),
             self.hearts[0],
             self.hearts[1],
             self.hearts[2],
