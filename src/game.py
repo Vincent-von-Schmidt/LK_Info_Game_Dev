@@ -28,7 +28,7 @@ class Game:
         self.maxfps = maxfps
 
         self.screen = pygame.display.set_mode((640, 480))
-        pygame.display.set_caption("MyGame")
+        pygame.display.set_caption("The Master Sword's Return")
         
         self.clock = pygame.time.Clock()
         
