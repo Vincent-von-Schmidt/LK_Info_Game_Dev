@@ -2,6 +2,7 @@
 
 MOVE = "move"
 ACTION = "action"
+APP = "app"
 
 # Event infos
 
@@ -16,3 +17,5 @@ DOWN_RIGHT = "down_right"
 RESET = "reset"
 
 SHOOT = "bullets"
+
+QUIT = "quit"

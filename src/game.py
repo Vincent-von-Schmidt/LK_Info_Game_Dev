@@ -51,37 +51,42 @@ class Game:
 
         self.eventqueue.clear()
         
-        events = pygame.event.get()
+        events = pygame.event.get()            
+        keys = pygame.key.get_pressed()
+
+        # Window
 
         for event in events:
             if event.type == pygame.QUIT:
-                self.running = False
-            
-        keys = pygame.key.get_pressed()
+                self.eventqueue += [(core.APP, core.QUIT)]
+
+        # Movement
 
         if keys[pygame.K_a] and keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN_LEFT)]
         
-        if keys[pygame.K_a] and keys[pygame.K_w]:
+        elif keys[pygame.K_a] and keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP_LEFT)]
         
-        if keys[pygame.K_d] and keys[pygame.K_s]:
+        elif keys[pygame.K_d] and keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN_RIGHT)]
         
-        if keys[pygame.K_d] and keys[pygame.K_w]:
+        elif keys[pygame.K_d] and keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP_RIGHT)]
 
-        if keys[pygame.K_a]:
+        elif keys[pygame.K_a]:
             self.eventqueue += [(core.MOVE, core.LEFT)]
         
-        if keys[pygame.K_d]:
+        elif keys[pygame.K_d]:
             self.eventqueue += [(core.MOVE, core.RIGHT)]
         
-        if keys[pygame.K_w]:
+        elif keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP)]
         
-        if keys[pygame.K_s]:
+        elif keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN)]
+        
+        # Actions
         
         if keys[pygame.K_SPACE]:
             self.eventqueue += [(core.ACTION, core.SHOOT)]
@@ -101,12 +106,20 @@ class Game:
         self.player.walking = False
         
         # Handle events
-
+        
         for event in self.eventqueue:
 
             key, info = event
 
-            if key == core.MOVE:
+            # Window
+
+            if key == core.APP:
+                if info == core.QUIT:
+                    self.running = False
+                
+            # Movement
+
+            elif key == core.MOVE:
 
                 if info == core.DOWN_LEFT:
                     self.player.move_down_left(elapsed_time=elapsed_time)
@@ -131,6 +144,8 @@ class Game:
                 
                 elif info == core.DOWN:
                     self.player.move_down(elapsed_time=elapsed_time)
+            
+            # Actions
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
@@ -161,24 +176,23 @@ class Game:
             if bullet.end == True: 
                 self.bullets_list.remove(bullet)
             
-        # Player movement
+        # Player
 
         self.player.update(elapsed_time)
-        print(self.player.attack_last)
 
-        # overlay -> TODO: player info
-        self.infos.update_hearts(3)
-
-        # Update infos
+        # Infos
         
         curr_millis = pygame.time.get_ticks()
         curr_minutes, curr_millis = divmod(curr_millis, 60_000)
         curr_seconds, curr_millis = divmod(curr_millis, 1_000)
+        self.infos.set_time(curr_minutes, curr_seconds)
 
         curr_fps = self.clock.get_fps()
-
-        self.infos.set_time(curr_minutes, curr_seconds)
         self.infos.set_fps(curr_fps)
+
+        self.infos.update_hearts(3) # Player info
+        # TODO
+        ...
     
     def render(self) -> None:
         """Render the seen image."""
