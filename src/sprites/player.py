@@ -1,22 +1,8 @@
 import pygame
 
 import core
-import sprite
-import bullets
-
-
-
-#Create Sprites Group to draw them later 
-
-player = Player()
-player_group = pygame.sprite.Group()
-player_group.add(player)
-
-bullet = bullets()
-bullets_group = pygame.sprite.Group()
-bullets_group.add(bullet)
-
-
+import sprites.sprite as sprite
+import sprites.bullets as bullets
 
 class Player(sprite.sprite.Sprite):
 
@@ -50,6 +36,13 @@ class Player(sprite.sprite.Sprite):
     def shoot(self):
         return bullets(player.x, player.y)
 
-   
+#Create Sprites Group to draw them later 
+player = Player()
+player_group = pygame.sprite.Group()
+player_group.add(player)
+
+bullet = bullets()
+bullets_group = pygame.sprite.Group()
+bullets_group.add(bullet)
     
 
