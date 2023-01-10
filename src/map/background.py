@@ -20,7 +20,7 @@ class Background:
         self.x = 0
         self.y = 0
 
-        self.image = pygame.image.load("./assets/background.png")
+        self.image = pygame.image.load("./assets/map/background.png")
 
     def move_up(self, elapsed_time: float = 0, pixel: float = 0) -> float:
         """Move the background up."""
