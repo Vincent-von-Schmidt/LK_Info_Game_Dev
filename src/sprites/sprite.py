@@ -170,10 +170,12 @@ class Sprite:
         
         # Movement
 
-        self.step_last += elapsed_time
-        self.step_idx += 1
+        if self.walking:
+            self.step_last += elapsed_time
 
-        if self.step_last >= self.step_change:
+        while self.step_last >= self.step_change:
+
+            self.step_idx += 1
             self.step_last -= self.step_change
         
         if self.step_idx > self.step_max:

@@ -4,7 +4,6 @@ import core
 import sprites.sprite as sprite
 
 class Player(sprite.Sprite):
-
     """Player class."""
 
     def __init__(self) -> None:
@@ -16,7 +15,9 @@ class Player(sprite.Sprite):
 
         # Properties
 
-        self.v = 300 # Pixel / Second
+        self.v = 30 # Pixel / Second
+        self.change = 0.2 # Seconds
+        self.attack_block = 1
 
         self.x = 320
         self.y = 240
@@ -24,8 +25,8 @@ class Player(sprite.Sprite):
 
         super().__init__(
             speed = self.v,
-            change = 3,
-            attack_block = 1,
+            change = self.change,
+            attack_block = self.attack_block,
             images_up = (
                 pygame.image.load("./assets/player/player_up_0.png"),
                 pygame.image.load("./assets/player/player_up_1.png"),

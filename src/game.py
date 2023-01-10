@@ -164,7 +164,6 @@ class Game:
         # Player movement
 
         self.player.update(elapsed_time)
-        print(self.player.attack_last)
 
         # overlay -> TODO: player info
         self.infos.update_hearts(3)
