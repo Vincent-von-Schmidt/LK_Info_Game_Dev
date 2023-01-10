@@ -22,21 +22,24 @@ class Room:
         self.textures: dict = {
             "wall_north" : pygame.surface.Surface( (16, 24) ),
             "wall_east" : pygame.surface.Surface( (24, 16) ),
-            "wall_south" : pygame.imgae.load("./assets/wall_south.png"),
-            "wall_west" : pygame.image.load("./assets/wall_west.png"),
-            "ground" : pygame.image.load("./assets/ground.png"),
+            "wall_south" : pygame.surface.Surface( (16, 24) ),
+            "wall_west" : pygame.surface.Surface( (24, 16) ),
+            "ground" : pygame.surface.Surface( (16, 16) ),
         }
 
         self.tilemap: list = []
         
-        for _ in range( 14 ): self.tilemap.append( self.wall_north )
+        self.tilemap.append( tmp := [] )
+        for _ in range ( 14 ): tmp.append( self.textures["wall_north"] )
 
         for _ in range( 8 ): 
-            self.tilemap.append( self.wall_west )
-            for _ in range( 8 ): self.tilemap.append( self.ground )
-            self.tilemap.append( self.wall_east )
+            self.tilemap.append( tmp := [] )
+            tmp.append( self.textures["wall_west"] )
+            for _ in range( 8 ): tmp.append( self.textures["ground"] )
+            tmp.append( self.textures["wall_east"] )
 
-        for _ in range( 14 ): self.tilemap.append( self.wall_south )
+        self.tilemap.append( tmp := [] )
+        tmp.append( self.textures["wall_south"] )
 
         print( f"{self.tilemap = }" )
 
@@ -44,7 +47,7 @@ class Room:
 
         for row in range( len( self.tilemap ) ):
             for column in range( len( self.tilemap[row] ) ):
-                self.surface.blit()
+                self.surface.blit( self.tilemap, self.surface )
 
         return self.surface
 
