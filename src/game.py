@@ -230,11 +230,12 @@ class Game:
         objects = []
 
         objects += self.background.render()
+        for bullet in self.bullets_list: 
+            objects += bullet.render()
         objects += self.player.render()
         objects += self.infos.render()
         
-        for bullet in self.bullets_list: 
-            objects += bullet.render()
+        
         
         # Display
 

@@ -12,7 +12,7 @@ class Bullets:
         #horizontal bullets
         self.image = pygame.Surface((50, 10))
         self.image.fill((255, 0, 0))
-        self.rect = self.image.get_rect(center = (pos_y, pos_x))
+        self.rect = self.image.get_rect(center = (pos_x, pos_y))
 
         #vertical bullets
         self.image2 = pygame.Surface((10, 50))
