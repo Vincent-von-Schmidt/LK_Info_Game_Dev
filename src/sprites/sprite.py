@@ -86,6 +86,66 @@ class Sprite:
 
         return dis
     
+    def move_up_right(
+        self, elapsed_time: float = 0, pixel: float = 0, still=False
+    ):
+        """Move the sprite up right."""
+
+        dis = 0
+
+        dis += self.move_up(elapsed_time/2, still=True)
+        dis += self.move_right(elapsed_time/2, still=True)
+
+        if not still:
+            self.pos = core.RIGHT
+        
+        return dis
+
+    def move_up_left(
+        self, elapsed_time: float = 0, pixel: float = 0, still=False
+    ):
+        """Move the sprite up left."""
+
+        dis = 0
+
+        dis += self.move_up(elapsed_time/2, still=True)
+        dis += self.move_left(elapsed_time/2, still=True)
+
+        if not still:
+            self.pos = core.LEFT
+        
+        return dis
+    
+    def move_down_left(
+        self, elapsed_time: float = 0, pixel: float = 0, still=False
+    ):
+        """Move the sprite down left."""
+
+        dis = 0
+
+        dis += self.move_down(elapsed_time/2, still=True)
+        dis += self.move_left(elapsed_time/2, still=True)
+
+        if not still:
+            self.pos = core.LEFT
+        
+        return dis
+    
+    def move_down_right(
+        self, elapsed_time: float = 0, pixel: float = 0, still=False
+    ):
+        """Move the sprite down right."""
+
+        dis = 0
+
+        dis += self.move_down(elapsed_time/2, still=True)
+        dis += self.move_right(elapsed_time/2, still=True)
+
+        if not still:
+            self.pos = core.RIGHT
+        
+        return dis
+
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         """Render the sprite graphic."""
 

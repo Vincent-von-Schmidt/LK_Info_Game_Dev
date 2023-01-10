@@ -2,6 +2,7 @@ import pygame
 
 import core
 import sprites.sprite
+import bullets
 
 
 #Create Sprites Group to draw them later 
