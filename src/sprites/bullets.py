@@ -10,25 +10,17 @@ class Bullets:
         super().__init__()
 
         #horizontal bullets
-        #self.image_right = pygame.Surface((50, 10))
-        #self.image_right.fill((255, 0, 0))
-        self.image_right = pygame.image.load("./assets/arrow_right.png")
+        self.image_right = pygame.image.load("./assets/bullets/arrow_right.png")
         self.rect_right = self.image_right.get_rect(center = (pos_x, pos_y))
 
-        #self.image_left = pygame.Surface((50, 10))
-        #self.image_left.fill((255, 0, 0))
-        self.image_left = pygame.image.load("./assets/arrow_left.png")
+        self.image_left = pygame.image.load("./assets/bullets/arrow_left.png")
         self.rect_left = self.image_left.get_rect(center = (pos_x, pos_y))
 
         #vertical bullets
-        #self.image_up = pygame.Surface((10, 50))
-        #self.image_up.fill((0, 255, 0))
-        self.image_up = pygame.image.load("./assets/arrow_up.png")
+        self.image_up = pygame.image.load("./assets/bullets/arrow_up.png")
         self.rect_up = self.image_up.get_rect(center =(pos_x, pos_y))
 
-        #self.image_down = pygame.Surface((10, 50))
-        #self.image_down.fill((0, 255, 0))
-        self.image_down = pygame.image.load("./assets/arrow_down.png")
+        self.image_down = pygame.image.load("./assets/bullets/arrow_down.png")
         self.rect_down = self.image_down.get_rect(center =(pos_x, pos_y))
 
         self.end = False

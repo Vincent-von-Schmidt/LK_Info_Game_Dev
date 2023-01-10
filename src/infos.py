@@ -23,13 +23,13 @@ class Infos:
         self.live = 0
         self.hearts = []
 
-        self.background = pygame.image.load("./assets/hotbar_background.png")
-        self.sword = pygame.image.load("./assets/sword.png")
-        self.bow = pygame.image.load("./assets/bow.png")
-        self.border = pygame.image.load("./assets/border.png")
-        self.heart_full = pygame.image.load("./assets/heart_full.png")
-        self.heart_half = pygame.image.load("./assets/heart_half.png")
-        self.heart_empty = pygame.image.load("./assets/heart_empty.png")
+        self.background = pygame.image.load("./assets/hotbar/hotbar_background.png")
+        self.sword = pygame.image.load("./assets/hotbar/sword.png")
+        self.bow = pygame.image.load("./assets/hotbar/bow.png")
+        self.border = pygame.image.load("./assets/hotbar/border.png")
+        self.heart_full = pygame.image.load("./assets/hotbar/heart_full.png")
+        self.heart_half = pygame.image.load("./assets/hotbar/heart_half.png")
+        self.heart_empty = pygame.image.load("./assets/hotbar/heart_empty.png")
     
     def set_time(self, minute, second):
         """Set the time of the info bar."""

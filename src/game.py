@@ -49,6 +49,7 @@ class Game:
         # 1. Clear event queue.                                        #
         # 2. Create event queue.                                       #
         ################################################################
+        
 
         self.eventqueue.clear()
         
@@ -101,6 +102,8 @@ class Game:
             
             self.eventqueue += [(core.VIEW, core.RESET)]
             self.eventqueue += [(core.ACTION, core.SHOOT)]
+
+    
     
     def update(self) -> None:
         """Update scores and handle actual game logic."""
