@@ -203,6 +203,9 @@ class Game:
             if bullet.end == True: 
                 self.bullets_list.remove(bullet)
 
+        # overlay -> TODO: player info
+        self.infos.update_hearts(3)
+
         # Update infos
         
         curr_millis = pygame.time.get_ticks()
