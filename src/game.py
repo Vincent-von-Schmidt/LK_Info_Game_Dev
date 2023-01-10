@@ -211,6 +211,9 @@ class Game:
         self.player.update(elapsed_time)
         print(self.player.walking, self.player.step_idx)
 
+        # overlay -> TODO: player info
+        self.infos.update_hearts(3)
+
         # Update infos
         
         curr_millis = pygame.time.get_ticks()
@@ -235,11 +238,12 @@ class Game:
         objects = []
 
         objects += self.background.render()
+        for bullet in self.bullets_list: 
+            objects += bullet.render()
         objects += self.player.render()
         objects += self.infos.render()
         
-        for bullet in self.bullets_list: 
-            objects += bullet.render()
+        
         
         # Display
 

@@ -14,10 +14,22 @@ class Infos:
         # Infos
 
         pygame.font.init()
-        self.font = font = pygame.font.SysFont('Comic Sans MS', 30)
+        self.font = font = pygame.font.SysFont('Comic Sans MS', 10)
 
         self.fps = 0
         self.time = (0, 0)
+        self.kills = 0
+        self.level = 0
+        self.live = 0
+        self.hearts = []
+
+        self.background = pygame.image.load("./assets/hotbar_background.png")
+        self.sword = pygame.image.load("./assets/sword.png")
+        self.bow = pygame.image.load("./assets/bow.png")
+        self.border = pygame.image.load("./assets/border.png")
+        self.heart_full = pygame.image.load("./assets/heart_full.png")
+        self.heart_half = pygame.image.load("./assets/heart_half.png")
+        self.heart_empty = pygame.image.load("./assets/heart_empty.png")
     
     def set_time(self, minute, second):
         """Set the time of the info bar."""
@@ -36,6 +48,26 @@ class Infos:
         ################################################################
 
         self.fps = fps
+
+    def update_kills(self, kills):
+
+        self.kills += kills
+    
+    def set_level(self, level):
+
+        self.level = level
+    
+    def update_hearts(self, hearts):
+
+        live = self.live
+        for i in range (3):
+            if (live - (2-i)) == 1:
+                self.hearts.append((self.heart_full, (48 + i*16, 3)))
+            elif (live - (3-i)) == 0.5:
+                self.hearts.append((self.heart_half, (48 + i*16, 3)))
+            else:
+                self.hearts.append((self.heart_empty, (48 + i*16, 3)))
+            live -= 1
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         """Render the info graphic."""
@@ -43,9 +75,6 @@ class Infos:
         ################################################################
         # 1. Create the surfaces.                                      #
         ################################################################
-
-        boxsurface = pygame.Surface((640, 50))
-        boxsurface.fill((0, 0, 0))
 
         timesurface = self.font.render(
             f"{self.time[0]}:{self.time[1]:02d}", False, (255, 255, 255)
@@ -55,8 +84,21 @@ class Infos:
             f"{self.fps:.0f} FPS", False, (255, 255, 255)
         )
 
+        levelsurface = self.font.render(f"{self.level:.0f} LVL", False, (255, 255, 255))
+
+        killsurface = self.font.render(f"{self.kills:.0f}", False, (255, 255, 255))
+
         return [
-            (boxsurface, (0, 0)),
-            (timesurface, (25, 3)),
-            (fpssurface, (520, 3))
+            (self.background, (0, 0)),
+            (timesurface, (10, 2)),
+            (fpssurface, (200, 2)),
+            (levelsurface, (10, 15)),
+            (killsurface, (50, 15)),
+            self.hearts[0],
+            self.hearts[1],
+            self.hearts[2],
+            (self.border, (96, 2)),
+            (self.border, (125, 2)),
+            (self.sword, (100, 7)),
+            (self.bow, (130, 8))
         ]
