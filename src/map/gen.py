@@ -10,6 +10,8 @@ class Room:
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (240, 176) ) # 14 * 10
         self.surface.fill( (0, 0, 0) )
 
+        self.rendered_map = None
+
         # textures -> .png, ( x, y )
         self.textures: dict = {
             "wall_north" :  pygame.image.load("./assets/map/wall_north.png"),
@@ -35,13 +37,19 @@ class Room:
 
         print( f"{self.tilemap = }" )
 
-    def render( self ): # -> pygame.surface.Surface:
+        # render map
+        self.render()
+
+    def render( self ) -> None: # -> pygame.surface.Surface:
 
         for row_index, row in enumerate( self.tilemap ):
             for column_index, tile in enumerate( row ):
                 self.surface.blit( tile, ( column_index * tile.get_width(), row_index * tile.get_height() ) )
 
-        return [(pygame.transform.scale(self.surface, (1280, 720)), (0, 0))] 
+        self.rendered_map = [(pygame.transform.scale(self.surface, (1280, 720)), (0, 65))] 
+
+    def get_map( self ):
+        return self.rendered_map
 
 if __name__ == "__main__":
     pygame.init()
@@ -53,6 +61,6 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event == pygame.QUIT: pygame.quit()
 
-        screen.blits( map.render() )
+        screen.blits( map.get_map() )
 
         pygame.display.flip()
