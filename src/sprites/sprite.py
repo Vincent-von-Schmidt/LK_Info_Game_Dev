@@ -100,3 +100,4 @@ class Sprite:
         
         elif self.pos == core.DOWN:
             return [(self.image_down, (self.x, self.y))]
+    

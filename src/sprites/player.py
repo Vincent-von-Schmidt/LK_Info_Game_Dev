@@ -1,6 +1,7 @@
 import pygame
 
 import core
+import sprites.sprite
 
 
 #Create Sprites Group to draw them later 
