@@ -2,11 +2,16 @@ import pygame
 import sprites.player as player
 import core 
 
-pygame.init()
 
+class Bullets:
 
+<<<<<<< HEAD
 class Bullets(pygame.sprite.Sprite): 
     def __init__(self, pos_x, pos_y, dir) -> None:
+=======
+    def __init__(self, pos_x, pos_y) -> None:
+        
+>>>>>>> a526480a855ff6493d1e2559ad918ccc3708b4b8
         super().__init__()
         self.image = pygame.Surface((50, 10))
         self.image.fill((255, 0, 0))
@@ -36,7 +41,6 @@ class Bullets(pygame.sprite.Sprite):
     
     def render(self): 
         return [(self.image, (self.rect.centerx, self.rect.centery))]
-
 
 
 
