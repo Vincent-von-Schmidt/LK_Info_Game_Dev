@@ -1,6 +1,6 @@
-import game
+import game as g
 
 if __name__ == "__main__":
 
-    master_swords_return = game.Game(200)
-    master_swords_return.run()
+    game: g.Game = g.Game(200)
+    game.run()

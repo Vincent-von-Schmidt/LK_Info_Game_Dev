@@ -4,6 +4,9 @@ import core
 import sprites.player as player
 import infos
 import map.background as background
+import sprites.player as player
+import sprites.bullets as bullets
+
 
 
 class Game:
@@ -80,6 +83,10 @@ class Game:
                 
                 elif event.key == pygame.K_SPACE:
                     self.eventqueue += [(core.VIEW, core.RESET)]
+
+                elif event.key == pygame.K_SPACE: 
+                    self.eventqueue += [(core.ACTION, core.SHOOT)]
+                    
     
     def update(self) -> None:
         """Update scores and handle actual game logic."""
@@ -144,6 +151,11 @@ class Game:
 
                     self.background.move_left(pixel=x_dis)
                     self.background.move_up(pixel=y_dis)
+                    
+            elif key == core.ACTION: 
+
+                if info == core.SHOOT: 
+                    player.bullets_group.add(player.shoot)
         
         # Check collisions
         

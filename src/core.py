@@ -2,6 +2,7 @@
 
 MOVE = "move"
 VIEW = "view"
+ACTION = "action"
 
 # Event infos
 
@@ -14,3 +15,4 @@ UP_RIGHT = "up_right"
 DOWN_LEFT = "down_left"
 DOWN_RIGHT = "down_right"
 RESET = "reset"
+SHOOT = "bullets"

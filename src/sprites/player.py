@@ -1,14 +1,9 @@
 import pygame
 
 import core
-<<<<<<< HEAD
-import sprites
+import sprite
 import bullets
 
-=======
-import sprites.sprite
-import bullets
->>>>>>> 6ab7e2f87737693ee5ff4c7e89049c6a29604efe
 
 
 #Create Sprites Group to draw them later 
@@ -23,7 +18,7 @@ bullets_group.add(bullet)
 
 
 
-class Player(sprites.sprite.Sprite):
+class Player(sprite.sprite.Sprite):
 
     """Player class."""
 
