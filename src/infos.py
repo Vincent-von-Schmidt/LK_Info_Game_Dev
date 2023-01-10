@@ -14,7 +14,8 @@ class Infos:
         # Infos
 
         pygame.font.init()
-        self.font = font = pygame.font.SysFont('Comic Sans MS', 10)
+        # self.font = font = pygame.font.SysFont('Comic Sans MS', 10)
+        self.font = pygame.font.SysFont('Arial', 10)
 
         self.fps = 0
         self.time = (0, 0)
