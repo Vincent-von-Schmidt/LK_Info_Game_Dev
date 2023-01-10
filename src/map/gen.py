@@ -12,11 +12,11 @@ class Room:
 
         # textures -> .png, ( x, y )
         self.textures: dict = {
-            "wall_north" : ( pygame.image.load("./assets/wall_north.png"), (16, 24) ),
-            "wall_east" : ( pygame.image.load("./assets/wall_east.png"), (24, 16) ),
-            "wall_south" : ( pygame.image.load("./assets/wall_south.png"), (16, 24) ),
-            "wall_west" : ( pygame.image.load("./assets/wall_west.png"), (24, 26) ),
-            "ground" : ( pygame.image.load("./assets/ground.png"), (16, 16) ),
+            "wall_north" :  pygame.image.load("./assets/wall_north.png"),
+            "wall_east" :  pygame.image.load("./assets/wall_east.png"),
+            "wall_south" :  pygame.image.load("./assets/wall_south.png"),
+            "wall_west" :  pygame.image.load("./assets/wall_west.png"),
+            "ground" :  pygame.image.load("./assets/ground.png"),
         }
 
         self.tilemap: list = []
@@ -35,17 +35,17 @@ class Room:
 
         print( f"{self.tilemap = }" )
 
-    def render( self ) -> pygame.surface.Surface:
+    def render( self ): # -> pygame.surface.Surface:
 
         for row_index, row in enumerate( self.tilemap ):
             for column_index, column in enumerate( row ):
-                self.surface.blit( column[0], ( column_index * column[1][0], row_index * column[1][1] ) )
+                self.surface.blit( column, ( column_index * column.get_width(), row_index * column.get_height() ) )
 
-        return self.surface
+        return [(pygame.transform.scale(self.surface, (1280, 720)), (0, 0))] 
 
 if __name__ == "__main__":
     pygame.init()
-    screen = pygame.display.set_mode( (240, 176) )
+    screen = pygame.display.set_mode( (1280, 720) )
 
     map = Room()
 
@@ -53,6 +53,6 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event == pygame.QUIT: pygame.quit()
 
-        screen.blit( map.render(), (0, 0) )
+        screen.blits( map.render() )
 
         pygame.display.flip()
