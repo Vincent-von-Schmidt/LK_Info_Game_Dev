@@ -235,6 +235,7 @@ class Game:
         
         # Display
 
+        self.screen.fill((0, 0, 0))
         self.screen.blits(objects)
         pygame.display.flip()
     
