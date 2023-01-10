@@ -15,7 +15,7 @@ class Sprite:
 
         self.step_speed = kwargs["speed"] # pix / s
         self.step_change = kwargs["change"] # s
-        self.step_max = 1 # num
+        self.step_max = len(kwargs["images_up"]) - 1 # num
 
         self.images_up = kwargs["images_up"]
         self.images_down = kwargs["images_down"]
@@ -162,11 +162,6 @@ class Sprite:
         
         return dis
     
-    def stop(self):
-        """Stop the player."""
-
-        self.walking = False
-    
     def update(self, elapsed_time: float):
         
         # Movement
@@ -180,7 +175,7 @@ class Sprite:
         if self.step_idx > self.step_max:
             self.step_idx = 1
         
-        if not self.walking:
+        if self.walking == False:
             self.step_idx = 0
 
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:

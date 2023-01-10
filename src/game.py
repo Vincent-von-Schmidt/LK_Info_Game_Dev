@@ -3,7 +3,7 @@ import pygame
 import core
 import sprites.player as player
 import infos
-import map.background as background
+import map.gen as map
 import sprites.player as player
 import sprites.bullets as bullets
 
@@ -24,7 +24,7 @@ class Game:
 
         self.player = player.Player()
         self.infos = infos.Infos()
-        self.background = background.Background()
+        self.map = map.Room()
         self.bullets_list = []
 
 
@@ -32,7 +32,7 @@ class Game:
 
         self.maxfps = maxfps
 
-        self.screen = pygame.display.set_mode((640, 480))
+        self.screen = pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("The Master Sword's Return")
         
         self.clock = pygame.time.Clock()
@@ -49,6 +49,7 @@ class Game:
         # 1. Clear event queue.                                        #
         # 2. Create event queue.                                       #
         ################################################################
+        
 
         self.eventqueue.clear()
         
@@ -64,43 +65,31 @@ class Game:
         if keys[pygame.K_a] and keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN_LEFT)]
         
-        elif keys[pygame.K_a] and keys[pygame.K_w]:
+        if keys[pygame.K_a] and keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP_LEFT)]
         
-        elif keys[pygame.K_d] and keys[pygame.K_s]:
+        if keys[pygame.K_d] and keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN_RIGHT)]
         
-        elif keys[pygame.K_d] and keys[pygame.K_w]:
+        if keys[pygame.K_d] and keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP_RIGHT)]
 
-        elif keys[pygame.K_a]:
+        if keys[pygame.K_a]:
             self.eventqueue += [(core.MOVE, core.LEFT)]
         
-        elif keys[pygame.K_d]:
+        if keys[pygame.K_d]:
             self.eventqueue += [(core.MOVE, core.RIGHT)]
         
-        elif keys[pygame.K_w]:
+        if keys[pygame.K_w]:
             self.eventqueue += [(core.MOVE, core.UP)]
         
-        elif keys[pygame.K_s]:
+        if keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN)]
         
-        elif keys[pygame.K_LEFT]:
-            self.eventqueue += [(core.VIEW, core.LEFT)]
-        
-        elif keys[pygame.K_RIGHT]:
-            self.eventqueue += [(core.VIEW, core.RIGHT)]
-        
-        elif keys[pygame.K_UP]:
-            self.eventqueue += [(core.VIEW, core.UP)]
-        
-        elif keys[pygame.K_DOWN]:
-            self.eventqueue += [(core.VIEW, core.DOWN)]
-        
-        elif keys[pygame.K_SPACE]:
-            
-            self.eventqueue += [(core.VIEW, core.RESET)]
+        if keys[pygame.K_SPACE]:
             self.eventqueue += [(core.ACTION, core.SHOOT)]
+
+    
     
     def update(self) -> None:
         """Update scores and handle actual game logic."""
@@ -111,7 +100,10 @@ class Game:
         # 3. Update game infos.                                        #
         ################################################################
 
+        # Reset variables
+
         elapsed_time = self.clock.get_time() / 1_000
+        self.player.walking = False
         
         # Handle events
 
@@ -144,42 +136,6 @@ class Game:
                 
                 elif info == core.DOWN:
                     self.player.move_down(elapsed_time=elapsed_time)
-                
-                else:
-                    self.player.stop()
-                
-            elif key == core.VIEW:
-
-                if info == core.LEFT:
-                    
-                    dis = self.background.move_left(elapsed_time=elapsed_time)
-                    self.player.move_right(pixel=dis, still=True)
-                
-                elif info == core.RIGHT:
-                    
-                    dis = self.background.move_right(elapsed_time=elapsed_time)
-                    self.player.move_left(pixel=dis, still=True)
-                
-                elif info == core.UP:
-                    
-                    dis = self.background.move_up(elapsed_time=elapsed_time)
-                    self.player.move_down(pixel=dis, still=True)
-                
-                elif info == core.DOWN:
-                    
-                    dis = self.background.move_down(elapsed_time=elapsed_time)
-                    self.player.move_up(pixel=dis, still=True)
-                
-                elif info == core.RESET:
-
-                    x_dis = 320 - self.player.x
-                    y_dis = 240 - self.player.y
-
-                    self.player.move_right(pixel=x_dis, still=True)
-                    self.player.move_down(pixel=y_dis, still=True)
-
-                    self.background.move_left(pixel=x_dis)
-                    self.background.move_up(pixel=y_dis)
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
@@ -237,7 +193,7 @@ class Game:
 
         objects = []
 
-        objects += self.background.render()
+        objects += self.map.get_map()
         for bullet in self.bullets_list: 
             objects += bullet.render()
         objects += self.player.render()
