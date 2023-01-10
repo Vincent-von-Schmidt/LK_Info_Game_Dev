@@ -155,7 +155,7 @@ class Game:
             elif key == core.ACTION: 
 
                 if info == core.SHOOT: 
-                    self.bullets_list += [(bullets.Bullets(self.player.x, self.player.y))]
+                    self.bullets_list += [(bullets.Bullets(self.player.x, self.player.y, self.player.pos))]
 
         
         # Check collisions
@@ -165,7 +165,7 @@ class Game:
 
         #Bulltes
         for bullet in self.bullets_list: 
-            bullet.update()
+            bullet.update(elapsed_time, self.player.pos)
             if bullet.end == True: 
                 self.bullets_list.remove(bullet)
 
