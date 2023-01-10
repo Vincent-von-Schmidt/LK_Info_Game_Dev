@@ -38,9 +38,9 @@ class Room:
         print( f"{self.tilemap = }" )
 
         # render map
-        self.render()
+        self.__render()
 
-    def render( self ) -> None: # -> pygame.surface.Surface:
+    def __render( self ) -> None: # -> pygame.surface.Surface:
 
         for row_index, row in enumerate( self.tilemap ):
             for column_index, tile in enumerate( row ):
