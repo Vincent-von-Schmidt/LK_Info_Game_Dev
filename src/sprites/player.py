@@ -2,6 +2,11 @@ import pygame
 
 import core
 
+#Create Sprites Group to draw them later 
+player_group = pygame.sprite.Group()
+bullet_group = pygame.sprite.Group()
+
+
 
 class Player:
     """Player class."""
@@ -93,6 +98,19 @@ class Player:
             self.pos = core.RIGHT
 
         return dis
+    
+    def shoot(self):
+        ...
+
+
+
+
+
+
+
+
+
+
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         """Render the player graphic."""
