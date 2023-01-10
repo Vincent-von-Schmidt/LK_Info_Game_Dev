@@ -32,12 +32,13 @@ class Game:
 
         self.maxfps = maxfps
 
+
         self.screen = pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("The Master Sword's Return")
         
         self.clock = pygame.time.Clock()
         
-        pygame.key.set_repeat(500, 30)
+        pygame.key.set_repeat(0, 30)
 
         self.eventqueue = []
         self.running = True
@@ -49,7 +50,7 @@ class Game:
         # 1. Clear event queue.                                        #
         # 2. Create event queue.                                       #
         ################################################################
-        
+    
 
         self.eventqueue.clear()
         
@@ -87,7 +88,6 @@ class Game:
             self.eventqueue += [(core.MOVE, core.DOWN)]
         
         elif keys[pygame.K_SPACE]:
-            
             self.eventqueue += [(core.ACTION, core.SHOOT)]
 
     
