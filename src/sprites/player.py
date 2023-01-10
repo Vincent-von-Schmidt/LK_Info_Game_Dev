@@ -15,20 +15,35 @@ class Player(sprite.Sprite):
         ################################################################
         # Properties
 
-        self.v = 1000 # Pixel / Second
+        self.v = 300 # Pixel / Second
 
         self.x = 320
         self.y = 240
         self.pos = core.RIGHT
 
-
-
         super().__init__(
             speed = self.v,
-            image_up = pygame.image.load("./assets/player_up.png"),
-            image_down = pygame.image.load("./assets/player_down.png"),
-            image_left = pygame.image.load("./assets/player_left.png"),
-            image_right = pygame.image.load("./assets/player_right.png")
+            change = 3,
+            images_up = (
+                pygame.image.load("./assets/player_up_1.png"),
+                pygame.image.load("./assets/player_up_1.png"),
+                pygame.image.load("./assets/player_up_2.png"),
+            ),
+            images_down = (
+                pygame.image.load("./assets/player_down_1.png"),
+                pygame.image.load("./assets/player_down_1.png"),
+                pygame.image.load("./assets/player_down_2.png")
+            ),
+            images_left = (
+                pygame.image.load("./assets/player_left_1.png"),
+                pygame.image.load("./assets/player_left_1.png"),
+                pygame.image.load("./assets/player_left_2.png")
+            ),
+            images_right = (
+                pygame.image.load("./assets/player_right_1.png"),
+                pygame.image.load("./assets/player_right_1.png"),
+                pygame.image.load("./assets/player_right_2.png")
+            )
         )
 
     

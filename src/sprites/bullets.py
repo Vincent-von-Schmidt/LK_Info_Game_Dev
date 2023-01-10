@@ -37,9 +37,3 @@ class Bullets:
     
     def render(self): 
         return [(self.image, (self.rect.centerx, self.rect.centery))]
-
-
-
-
-
-

@@ -145,6 +145,9 @@ class Game:
                 elif info == core.DOWN:
                     self.player.move_down(elapsed_time=elapsed_time)
                 
+                else:
+                    self.player.stop()
+                
             elif key == core.VIEW:
 
                 if info == core.LEFT:
@@ -202,6 +205,11 @@ class Game:
             
             if bullet.end == True: 
                 self.bullets_list.remove(bullet)
+            
+        # Player movement
+
+        self.player.update(elapsed_time)
+        print(self.player.walking, self.player.step_idx)
 
         # Update infos
         

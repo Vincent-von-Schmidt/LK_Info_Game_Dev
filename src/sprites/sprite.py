@@ -2,7 +2,6 @@ import pygame
 
 import core
 
-
 class Sprite:
     """Sprite class for basic movement, etc."""
 
@@ -10,13 +9,18 @@ class Sprite:
 
         self.x = 0
         self.y = 0
+        self.step_last = 0 # Time
+        self.step_idx = 0 # Index
+        self.walking = False
 
-        self.speed = kwargs["speed"] # pix / s
+        self.step_speed = kwargs["speed"] # pix / s
+        self.step_change = kwargs["change"] # s
+        self.step_max = 1 # num
 
-        self.image_up = kwargs["image_up"]
-        self.image_down = kwargs["image_down"]
-        self.image_left = kwargs["image_left"]
-        self.image_right = kwargs["image_right"]
+        self.images_up = kwargs["images_up"]
+        self.images_down = kwargs["images_down"]
+        self.images_left = kwargs["images_left"]
+        self.images_right = kwargs["images_right"]
 
     def move_up(
         self, elapsed_time: float = 0, pixel: float = 0, still=False
@@ -27,11 +31,13 @@ class Sprite:
         # 1. Change the player position.                               #
         ################################################################
 
-        dis = (self.v * elapsed_time) + pixel
+        dis = (self.step_speed * elapsed_time) + pixel
         self.y -= dis
 
         if not still:
             self.pos = core.UP
+
+        self.walking = True
 
         return dis
     
@@ -44,11 +50,13 @@ class Sprite:
         # 1. Change the player position.                               #
         ################################################################
 
-        dis = (self.v * elapsed_time) + pixel
+        dis = (self.step_speed * elapsed_time) + pixel
         self.y += dis
 
         if not still:
             self.pos = core.DOWN
+
+        self.walking = True
 
         return dis
     
@@ -61,11 +69,13 @@ class Sprite:
         # 1. Change the player position.                               #
         ################################################################
 
-        dis = (self.v * elapsed_time) + pixel
+        dis = (self.step_speed * elapsed_time) + pixel
         self.x -= dis
 
         if not still:
             self.pos = core.LEFT
+        
+        self.walking = True
 
         return dis
     
@@ -78,11 +88,13 @@ class Sprite:
         # 1. Change the player position.                               #
         ################################################################
 
-        dis = (self.v * elapsed_time) + pixel
+        dis = (self.step_speed * elapsed_time) + pixel
         self.x += dis
 
         if not still:
             self.pos = core.RIGHT
+        
+        self.walking = True
 
         return dis
     
@@ -98,6 +110,8 @@ class Sprite:
         if not still:
             self.pos = core.RIGHT
         
+        self.walking = True
+        
         return dis
 
     def move_up_left(
@@ -111,6 +125,8 @@ class Sprite:
 
         if not still:
             self.pos = core.LEFT
+        
+        self.walking = True
         
         return dis
     
@@ -126,6 +142,8 @@ class Sprite:
         if not still:
             self.pos = core.LEFT
         
+        self.walking = True
+        
         return dis
     
     def move_down_right(
@@ -139,21 +157,46 @@ class Sprite:
 
         if not still:
             self.pos = core.RIGHT
+
+        self.walking = True
         
         return dis
+    
+    def stop(self):
+        """Stop the player."""
+
+        self.walking = False
+    
+    def update(self, elapsed_time: float):
+        
+        # Movement
+
+        self.step_last += elapsed_time
+        self.step_idx += 1
+
+        if self.step_last >= self.step_change:
+            self.step_last -= self.step_change
+        
+        if self.step_idx > self.step_max:
+            self.step_idx = 1
+        
+        if not self.walking:
+            self.step_idx = 0
 
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         """Render the sprite graphic."""
 
+        # Movement
+
         if self.pos == core.RIGHT:
-            return [(self.image_right, (self.x, self.y))]
+            return [(self.images_right[self.step_idx], (self.x, self.y))]
         
         elif self.pos == core.LEFT:
-            return [(self.image_left, (self.x, self.y))]
+            return [(self.images_left[self.step_idx], (self.x, self.y))]
         
         elif self.pos == core.UP:
-            return [(self.image_up, (self.x, self.y))]
+            return [(self.images_up[self.step_idx], (self.x, self.y))]
         
         elif self.pos == core.DOWN:
-            return [(self.image_down, (self.x, self.y))]
+            return [(self.images_down[self.step_idx], (self.x, self.y))]
     
