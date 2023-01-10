@@ -7,15 +7,18 @@ class Sprite:
 
     def __init__(self, **kwargs):
 
+        self.step_speed = kwargs["speed"] # pix / s
+        self.step_change = kwargs["change"] # s
+        self.step_max = len(kwargs["images_up"]) - 1 # num
+        self.attack_block = kwargs["attack_block"]
+
         self.x = 0
         self.y = 0
         self.step_last = 0 # Time
         self.step_idx = 0 # Index
         self.walking = False
-
-        self.step_speed = kwargs["speed"] # pix / s
-        self.step_change = kwargs["change"] # s
-        self.step_max = len(kwargs["images_up"]) - 1 # num
+        self.shooting = True
+        self.attack_last = self.attack_block # Time
 
         self.images_up = kwargs["images_up"]
         self.images_down = kwargs["images_down"]
@@ -177,6 +180,17 @@ class Sprite:
         
         if self.walking == False:
             self.step_idx = 0
+        
+        # Attack
+
+        self.attack_last += elapsed_time
+
+        if self.attack_last >= self.attack_block:
+            self.shooting = True
+        
+        else:
+            self.shooting = False
+
 
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         """Render the sprite graphic."""

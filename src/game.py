@@ -140,14 +140,17 @@ class Game:
             elif key == core.ACTION:
                 if info == core.SHOOT:
                     if not self.player.walking:
+                        if self.player.shooting:
                     
-                        self.bullets_list += [(
-                            bullets.Bullets(
-                                self.player.x,
-                                self.player.y,
-                                self.player.pos
-                            )
-                        )]
+                            self.bullets_list += [(
+                                bullets.Bullets(
+                                    self.player.x,
+                                    self.player.y,
+                                    self.player.pos
+                                )
+                            )]
+
+                            self.player.attack_last -= self.player.attack_block
 
         # Check collisions
         
@@ -166,7 +169,7 @@ class Game:
         # Player movement
 
         self.player.update(elapsed_time)
-        print(self.player.walking, self.player.step_idx)
+        print(self.player.attack_last)
 
         # overlay -> TODO: player info
         self.infos.update_hearts(3)

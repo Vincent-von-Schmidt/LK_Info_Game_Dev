@@ -24,6 +24,7 @@ class Player(sprite.Sprite):
         super().__init__(
             speed = self.v,
             change = 3,
+            attack_block = 1,
             images_up = (
                 pygame.image.load("./assets/player/player_up_0.png"),
                 pygame.image.load("./assets/player/player_up_1.png"),
