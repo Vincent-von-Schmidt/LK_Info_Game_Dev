@@ -92,7 +92,6 @@ class Sprite:
         """Move the sprite up right."""
 
         dis = 0
-
         dis += self.move_up(elapsed_time/2, still=True)
         dis += self.move_right(elapsed_time/2, still=True)
 
@@ -107,7 +106,6 @@ class Sprite:
         """Move the sprite up left."""
 
         dis = 0
-
         dis += self.move_up(elapsed_time/2, still=True)
         dis += self.move_left(elapsed_time/2, still=True)
 
@@ -122,7 +120,6 @@ class Sprite:
         """Move the sprite down left."""
 
         dis = 0
-
         dis += self.move_down(elapsed_time/2, still=True)
         dis += self.move_left(elapsed_time/2, still=True)
 
@@ -137,7 +134,6 @@ class Sprite:
         """Move the sprite down right."""
 
         dis = 0
-
         dis += self.move_down(elapsed_time/2, still=True)
         dis += self.move_right(elapsed_time/2, still=True)
 
