@@ -12,11 +12,11 @@ class Room:
 
         # textures -> .png, ( x, y )
         self.textures: dict = {
-            "wall_north" :  pygame.image.load("./assets/wall_north.png"),
-            "wall_east" :  pygame.image.load("./assets/wall_east.png"),
-            "wall_south" :  pygame.image.load("./assets/wall_south.png"),
-            "wall_west" :  pygame.image.load("./assets/wall_west.png"),
-            "ground" :  pygame.image.load("./assets/ground.png"),
+            "wall_north" :  pygame.image.load("./assets/map/wall_north.png"),
+            "wall_east" :  pygame.image.load("./assets/map/wall_east.png"),
+            "wall_south" :  pygame.image.load("./assets/map/wall_south.png"),
+            "wall_west" :  pygame.image.load("./assets/map/wall_west.png"),
+            "ground" :  pygame.image.load("./assets/map/ground.png"),
         }
 
         self.tilemap: list = []
