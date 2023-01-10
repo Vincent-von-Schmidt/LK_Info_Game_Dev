@@ -163,9 +163,12 @@ class Game:
         # TODO
         ...
 
-        #Bulltes
+        # Bullets
+
         for bullet in self.bullets_list: 
+           
             bullet.update()
+            
             if bullet.end == True: 
                 self.bullets_list.remove(bullet)
 
