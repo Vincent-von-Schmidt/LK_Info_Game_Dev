@@ -11,6 +11,7 @@ class bullets(pygame.sprite.Sprite):
         self.rect = pygame.imgage.get_rect(center = (pos_y, pos_x))
 
     def b_update(self): 
+        
         self.rect += 5
 
         if self.rect.x >= 200:
