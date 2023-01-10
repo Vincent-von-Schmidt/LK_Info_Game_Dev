@@ -11,19 +11,20 @@ class Sprite:
         self.step_change = kwargs["change"] # s
         self.step_max = len(kwargs["images_up"]) - 1 # num
         self.attack_block = kwargs["attack_block"]
-
-        self.x = 0
-        self.y = 0
-        self.step_last = 0 # Time
-        self.step_idx = 0 # Index
-        self.walking = False
-        self.shooting = True
-        self.attack_last = self.attack_block # Time
+        self.pos = kwargs["pos"]
+        self.x = kwargs["x"]
+        self.y = kwargs["y"]
 
         self.images_up = kwargs["images_up"]
         self.images_down = kwargs["images_down"]
         self.images_left = kwargs["images_left"]
         self.images_right = kwargs["images_right"]
+
+        self.step_last = 0 # Time
+        self.step_idx = 0 # Index
+        self.walking = False
+        self.shooting = True
+        self.attack_last = self.attack_block # Time
 
     def move_up(
         self, elapsed_time: float = 0, pixel: float = 0, still: bool = False

@@ -36,7 +36,7 @@ class Game:
         
         self.clock = pygame.time.Clock()
         
-        pygame.key.set_repeat(0, 30)
+        pygame.key.set_repeat(30, 30)
 
         self.eventqueue = []
         self.running = True

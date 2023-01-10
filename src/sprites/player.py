@@ -15,18 +15,13 @@ class Player(sprite.Sprite):
 
         # Properties
 
-        self.v = 30 # Pixel / Second
-        self.change = 0.2 # Seconds
-        self.attack_block = 1
-
-        self.x = 320
-        self.y = 240
-        self.pos = core.RIGHT
-
         super().__init__(
-            speed = self.v,
-            change = self.change,
-            attack_block = self.attack_block,
+            x = 120,
+            y = 96,
+            pos = core.DOWN,
+            speed = 30, # Pixel / Second
+            change = 0.2, # Seconds
+            attack_block = 1,
             images_up = (
                 pygame.image.load("./assets/player/player_up_0.png"),
                 pygame.image.load("./assets/player/player_up_1.png"),
