@@ -25,22 +25,22 @@ class Player(sprite.Sprite):
             speed = self.v,
             change = 3,
             images_up = (
-                pygame.image.load("./assets/player/player_up_1.png"),
+                pygame.image.load("./assets/player/player_up_0.png"),
                 pygame.image.load("./assets/player/player_up_1.png"),
                 pygame.image.load("./assets/player/player_up_2.png"),
             ),
             images_down = (
-                pygame.image.load("./assets/player/player_down_1.png"),
+                pygame.image.load("./assets/player/player_down_0.png"),
                 pygame.image.load("./assets/player/player_down_1.png"),
                 pygame.image.load("./assets/player/player_down_2.png")
             ),
             images_left = (
-                pygame.image.load("./assets/player/player_left_1.png"),
+                pygame.image.load("./assets/player/player_left_0.png"),
                 pygame.image.load("./assets/player/player_left_1.png"),
                 pygame.image.load("./assets/player/player_left_2.png")
             ),
             images_right = (
-                pygame.image.load("./assets/player/player_right_1.png"),
+                pygame.image.load("./assets/player/player_right_0.png"),
                 pygame.image.load("./assets/player/player_right_1.png"),
                 pygame.image.load("./assets/player/player_right_2.png")
             )

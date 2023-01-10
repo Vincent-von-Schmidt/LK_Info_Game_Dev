@@ -24,17 +24,20 @@ class Room:
 
         self.tilemap: list = []
         
+        # first row
         self.tilemap.append( tmp := [] )
         tmp.append( self.textures["edge"] )
         for _ in range ( 13 ): tmp.append( self.textures["wall_north"] )
         tmp.append( self.textures["edge"] )
 
+        # between
         for _ in range( 8 ): 
             self.tilemap.append( tmp := [] )
             tmp.append( self.textures["wall_west"] )
             for _ in range( 13 ): tmp.append( self.textures["ground"] )
             tmp.append( self.textures["wall_east"] )
 
+        # last row
         self.tilemap.append( tmp := [] )
         tmp.append( self.textures["edge"] )
         for _ in range( 13 ): tmp.append( self.textures["wall_south"] )
