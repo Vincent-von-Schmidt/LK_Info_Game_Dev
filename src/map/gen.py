@@ -19,11 +19,13 @@ class Room:
         #     "ground" : pygame.image.load("./assets/ground.png"),
         # }
 
-        self.wall_north = 0
-        self.wall_east = 1
-        self.wall_south = 2
-        self.wall_west = 3
-        self.ground = 4
+        self.textures: dict = {
+            "wall_north" : pygame.surface.Surface( (16, 24) ),
+            "wall_east" : pygame.surface.Surface( (24, 16) ),
+            "wall_south" : pygame.imgae.load("./assets/wall_south.png"),
+            "wall_west" : pygame.image.load("./assets/wall_west.png"),
+            "ground" : pygame.image.load("./assets/ground.png"),
+        }
 
         self.tilemap: list = []
         
@@ -38,8 +40,13 @@ class Room:
 
         print( f"{self.tilemap = }" )
 
-    def render( self ) -> None:
-        ...
+    def render( self ) -> pygame.surface.Surface:
+
+        for row in range( len( self.tilemap ) ):
+            for column in range( len( self.tilemap[row] ) ):
+                self.surface.blit()
+
+        return self.surface
 
 if __name__ == "__main__":
     test = Room()
