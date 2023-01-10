@@ -22,24 +22,24 @@ class Room:
         self.tilemap: list = []
         
         self.tilemap.append( tmp := [] )
-        for _ in range ( 14 ): tmp.append( self.textures["wall_north"] )
+        for _ in range ( 15 ): tmp.append( self.textures["wall_north"] )
 
         for _ in range( 8 ): 
             self.tilemap.append( tmp := [] )
             tmp.append( self.textures["wall_west"] )
-            for _ in range( 8 ): tmp.append( self.textures["ground"] )
+            for _ in range( 13 ): tmp.append( self.textures["ground"] )
             tmp.append( self.textures["wall_east"] )
 
         self.tilemap.append( tmp := [] )
-        tmp.append( self.textures["wall_south"] )
+        for _ in range( 15 ): tmp.append( self.textures["wall_south"] )
 
         print( f"{self.tilemap = }" )
 
     def render( self ): # -> pygame.surface.Surface:
 
         for row_index, row in enumerate( self.tilemap ):
-            for column_index, column in enumerate( row ):
-                self.surface.blit( column, ( column_index * column.get_width(), row_index * column.get_height() ) )
+            for column_index, tile in enumerate( row ):
+                self.surface.blit( tile, ( column_index * tile.get_width(), row_index * tile.get_height() ) )
 
         return [(pygame.transform.scale(self.surface, (1280, 720)), (0, 0))] 
 
