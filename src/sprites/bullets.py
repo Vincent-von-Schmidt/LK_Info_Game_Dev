@@ -5,34 +5,30 @@ import core
 
 class Bullets:
 
-<<<<<<< HEAD
-class Bullets(pygame.sprite.Sprite): 
     def __init__(self, pos_x, pos_y, dir) -> None:
-=======
-    def __init__(self, pos_x, pos_y) -> None:
         
->>>>>>> a526480a855ff6493d1e2559ad918ccc3708b4b8
         super().__init__()
         self.image = pygame.Surface((50, 10))
         self.image.fill((255, 0, 0))
         self.rect = self.image.get_rect(center = (pos_y, pos_x))
         self.end = False
         self.vel = 1000
+        self.dir = dir
 
-    def update(self, elapsed_time, dir): 
+    def update(self, elapsed_time):
 
         v = elapsed_time * self.vel
         
-        if dir == core.RIGHT:
+        if self.dir == core.RIGHT:
             self.rect.x += v
         
-        elif dir == core.LEFT:
+        elif self.dir == core.LEFT:
             self.rect.x -= 5 
         
-        elif dir == core.UP:
+        elif self.dir == core.UP:
             self.rect.y -= 5 
 
-        elif dir == core.DOWN:
+        elif self.dir == core.DOWN:
             self.rect.y += 5 
 
     def kill(self): 

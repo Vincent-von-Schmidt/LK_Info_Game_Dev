@@ -179,14 +179,15 @@ class Game:
                     self.background.move_up(pixel=y_dis)
 
             elif key == core.ACTION:
-
-<<<<<<< HEAD
-                if info == core.SHOOT: 
-                    self.bullets_list += [(bullets.Bullets(self.player.x, self.player.y, self.player.pos))]
-=======
                 if info == core.SHOOT:
-                    self.bullets_list += [(bullets.Bullets(self.player.x, self.player.y))]
->>>>>>> a526480a855ff6493d1e2559ad918ccc3708b4b8
+                    
+                    self.bullets_list += [(
+                        bullets.Bullets(
+                            self.player.x,
+                            self.player.y,
+                            self.player.pos
+                        )
+                    )]
 
         # Check collisions
         
@@ -196,13 +197,9 @@ class Game:
         # Bullets
 
         for bullet in self.bullets_list: 
-<<<<<<< HEAD
-            bullet.update(elapsed_time, self.player.pos)
-=======
-           
-            bullet.update()
             
->>>>>>> a526480a855ff6493d1e2559ad918ccc3708b4b8
+            bullet.update(elapsed_time)
+            
             if bullet.end == True: 
                 self.bullets_list.remove(bullet)
 
