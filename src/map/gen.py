@@ -24,6 +24,7 @@ class Room:
             "wall_west": tiles.Tile( texture = "./assets/map/wall_west.png", collision = True ),
             "ground": tiles.Tile( texture = "./assets/map/ground.png" ),
             "edge": tiles.Tile( texture = "./assets/map/edge.png" ),
+            "block": tiles.Tile( texture = "./assets/map/block.png", collision = True ),
         }
 
         self.tilemap: list = []
