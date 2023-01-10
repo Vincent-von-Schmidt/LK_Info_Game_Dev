@@ -19,12 +19,15 @@ class Room:
             "wall_south" :  pygame.image.load("./assets/map/wall_south.png"),
             "wall_west" :  pygame.image.load("./assets/map/wall_west.png"),
             "ground" :  pygame.image.load("./assets/map/ground.png"),
+            "edge": pygame.image.load("./assets/map/edge.png"),
         }
 
         self.tilemap: list = []
         
         self.tilemap.append( tmp := [] )
-        for _ in range ( 15 ): tmp.append( self.textures["wall_north"] )
+        tmp.append( self.textures["edge"] )
+        for _ in range ( 13 ): tmp.append( self.textures["wall_north"] )
+        tmp.append( self.textures["edge"] )
 
         for _ in range( 8 ): 
             self.tilemap.append( tmp := [] )
@@ -33,7 +36,9 @@ class Room:
             tmp.append( self.textures["wall_east"] )
 
         self.tilemap.append( tmp := [] )
-        for _ in range( 15 ): tmp.append( self.textures["wall_south"] )
+        tmp.append( self.textures["edge"] )
+        for _ in range( 13 ): tmp.append( self.textures["wall_south"] )
+        tmp.append( self.textures["edge"] )
 
         print( f"{self.tilemap = }" )
 
