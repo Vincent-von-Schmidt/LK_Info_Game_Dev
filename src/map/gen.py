@@ -2,6 +2,8 @@ import pygame
 
 
 class Room:
+    """A class to generate the room."""
+    
     def __init__(
         self,
         entrance: list = [False, False, False, False],
@@ -12,7 +14,8 @@ class Room:
 
         self.rendered_map = None
 
-        # textures
+        # Textures
+
         self.textures: dict = {
             "wall_north" :  pygame.image.load("./assets/map/wall_north.png"),
             "wall_east" :  pygame.image.load("./assets/map/wall_east.png"),
@@ -25,20 +28,24 @@ class Room:
 
         self.tilemap: list = []
         
-        # first row
+        # First row
+
         self.tilemap.append( tmp := [] )
         tmp.append( self.textures["edge"] )
         for _ in range ( 13 ): tmp.append( self.textures["wall_north"] )
         tmp.append( self.textures["edge"] )
 
-        # between
-        for _ in range( 8 ): 
+        # Between
+
+        for _ in range( 8 ):
+
             self.tilemap.append( tmp := [] )
             tmp.append( self.textures["wall_west"] )
             for _ in range( 13 ): tmp.append( self.textures["ground"] )
             tmp.append( self.textures["wall_east"] )
 
-        # last row
+        # Last row
+
         self.tilemap.append( tmp := [] )
         tmp.append( self.textures["edge"] )
         for _ in range( 13 ): tmp.append( self.textures["wall_south"] )
@@ -46,21 +53,24 @@ class Room:
 
         print( f"{self.tilemap = }" )
 
-        # render map
+        # Render map
+
         self.__render()
 
     def __render( self ) -> None: # -> pygame.surface.Surface:
-
         for row_index, row in enumerate( self.tilemap ):
             for column_index, tile in enumerate( row ):
                 self.surface.blit( tile, ( column_index * tile.get_width(), row_index * tile.get_height() ) )
 
         self.rendered_map = [(self.surface, (0, 32))] 
 
-    def get_map( self ):
+    def get_map( self ) -> None:
+        """Get the generated map."""
+
         return self.rendered_map
 
 if __name__ == "__main__":
+    
     pygame.init()
     screen = pygame.display.set_mode( (1280, 720) )
 
