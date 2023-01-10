@@ -32,12 +32,13 @@ class Game:
 
         self.maxfps = maxfps
 
+
         self.screen = pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("The Master Sword's Return")
         
         self.clock = pygame.time.Clock()
         
-        pygame.key.set_repeat(500, 30)
+        pygame.key.set_repeat(0, 30)
 
         self.eventqueue = []
         self.running = True
