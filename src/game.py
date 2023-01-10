@@ -88,8 +88,6 @@ class Game:
         
         if keys[pygame.K_SPACE]:
             self.eventqueue += [(core.ACTION, core.SHOOT)]
-
-    
     
     def update(self) -> None:
         """Update scores and handle actual game logic."""
@@ -204,13 +202,14 @@ class Game:
         objects += self.infos.render()
         
         # Display
+
         tmp_surface = pygame.surface.Surface((240, 192))
+        tmp_surface.fill((0, 0, 0))
         tmp_surface.blits(objects)
 
-        self.screen.fill((0, 0, 0))
+        scaled_surface = pygame.transform.scale(tmp_surface, (1280, 720))
 
-        self.screen.blit( pygame.transform.scale( tmp_surface, (1280, 720)), (0, 0) )
-
+        self.screen.blit(scaled_surface, (0, 0))
         pygame.display.flip()
     
     def wait(self) -> None:
