@@ -111,7 +111,10 @@ class Game:
         # 3. Update game infos.                                        #
         ################################################################
 
+        # Reset variables
+
         elapsed_time = self.clock.get_time() / 1_000
+        self.player.walking = False
         
         # Handle events
 
@@ -144,9 +147,6 @@ class Game:
                 
                 elif info == core.DOWN:
                     self.player.move_down(elapsed_time=elapsed_time)
-                
-                else:
-                    self.player.stop()
                 
             elif key == core.VIEW:
 

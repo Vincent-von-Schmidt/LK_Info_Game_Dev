@@ -162,11 +162,6 @@ class Sprite:
         
         return dis
     
-    def stop(self):
-        """Stop the player."""
-
-        self.walking = False
-    
     def update(self, elapsed_time: float):
         
         # Movement
@@ -180,7 +175,7 @@ class Sprite:
         if self.step_idx > self.step_max:
             self.step_idx = 1
         
-        if not self.walking:
+        if self.walking == False:
             self.step_idx = 0
 
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
