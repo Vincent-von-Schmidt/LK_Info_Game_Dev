@@ -27,11 +27,9 @@ class Game:
         self.map = map.Room()
         self.bullets_list = []
 
-
         # Pygame
 
         self.maxfps = maxfps
-
 
         self.screen = pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("The Master Sword's Return")
@@ -56,7 +54,6 @@ class Game:
         events = pygame.event.get()
 
         for event in events:
-            
             if event.type == pygame.QUIT:
                 self.running = False
             
