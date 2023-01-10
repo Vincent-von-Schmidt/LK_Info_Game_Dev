@@ -82,11 +82,9 @@ class Game:
                     self.eventqueue += [(core.VIEW, core.DOWN)]
                 
                 elif event.key == pygame.K_SPACE:
-                    self.eventqueue += [(core.VIEW, core.RESET)]
-
-                elif event.key == pygame.K_SPACE: 
-                    self.eventqueue += [(core.ACTION, core.SHOOT)]
                     
+                    self.eventqueue += [(core.VIEW, core.RESET)]
+                    self.eventqueue += [(core.ACTION, core.SHOOT)]
     
     def update(self) -> None:
         """Update scores and handle actual game logic."""
