@@ -11,21 +11,21 @@ class Room:
         self.surface.fill( (0, 0, 0) )
 
         # textures
-        # self.textures: dict = {
-        #     "wall_north" : pygame.image.load("./assets/wall_north.png"),
-        #     "wall_east" : pygame.image.load("./assets/wall_east.png"),
-        #     "wall_south" : pygame.imgae.load("./assets/wall_south.png"),
-        #     "wall_west" : pygame.image.load("./assets/wall_west.png"),
-        #     "ground" : pygame.image.load("./assets/ground.png"),
-        # }
-
         self.textures: dict = {
-            "wall_north" : pygame.surface.Surface( (16, 24) ),
-            "wall_east" : pygame.surface.Surface( (24, 16) ),
-            "wall_south" : pygame.surface.Surface( (16, 24) ),
-            "wall_west" : pygame.surface.Surface( (24, 16) ),
-            "ground" : pygame.surface.Surface( (16, 16) ),
+            "wall_north" : pygame.image.load("./assets/wall_north.png"),
+            "wall_east" : pygame.image.load("./assets/wall_east.png"),
+            "wall_south" : pygame.image.load("./assets/wall_south.png"),
+            "wall_west" : pygame.image.load("./assets/wall_west.png"),
+            "ground" : pygame.image.load("./assets/ground.png"),
         }
+
+        # self.textures: dict = {
+        #     "wall_north" : pygame.surface.Surface( (16, 24) ),
+        #     "wall_east" : pygame.surface.Surface( (24, 16) ),
+        #     "wall_south" : pygame.surface.Surface( (16, 24) ),
+        #     "wall_west" : pygame.surface.Surface( (24, 16) ),
+        #     "ground" : pygame.surface.Surface( (16, 16) ),
+        # }
 
         self.tilemap: list = []
         
@@ -45,12 +45,22 @@ class Room:
 
     def render( self ) -> pygame.surface.Surface:
 
-        for row in range( len( self.tilemap ) ):
-            for column in range( len( self.tilemap[row] ) ):
-                self.surface.blit( self.tilemap, self.surface )
+        for row_index, row in enumerate( self.tilemap ):
+            for column_index, column in enumerate( row ):
+                self.surface.blit( column, ( column_index * 14, row_index * 10 ) )
 
         return self.surface
 
 if __name__ == "__main__":
-    test = Room()
+    pygame.init()
+    screen = pygame.display.set_mode( (240, 176) )
 
+    map = Room()
+
+    while True:
+        for event in pygame.event.get():
+            if event == pygame.QUIT: pygame.quit()
+
+        screen.blit( map.render(), (0, 0) )
+
+        pygame.display.flip()
