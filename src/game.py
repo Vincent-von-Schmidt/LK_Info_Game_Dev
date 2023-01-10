@@ -121,7 +121,19 @@ class Game:
 
             if key == core.MOVE:
 
-                if info == core.LEFT:
+                if info == core.DOWN_LEFT:
+                    self.player.move_down_left(elapsed_time=elapsed_time)
+                
+                elif info == core.DOWN_RIGHT:
+                    self.player.move_down_right(elapsed_time=elapsed_time)
+                
+                elif info == core.UP_LEFT:
+                    self.player.move_up_left(elapsed_time=elapsed_time)
+                
+                elif info == core.UP_RIGHT:
+                    self.player.move_up_right(elapsed_time=elapsed_time)
+
+                elif info == core.LEFT:
                     self.player.move_left(elapsed_time=elapsed_time)
                 
                 elif info == core.RIGHT:
