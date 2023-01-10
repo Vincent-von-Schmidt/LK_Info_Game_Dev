@@ -3,7 +3,7 @@ import pygame
 import core
 import sprites.player as player
 import infos
-import map.background as background
+import map.gen as map
 import sprites.player as player
 import sprites.bullets as bullets
 
@@ -24,7 +24,7 @@ class Game:
 
         self.player = player.Player()
         self.infos = infos.Infos()
-        self.background = background.Background()
+        self.map = map.Room()
         self.bullets_list = []
 
 
@@ -32,7 +32,7 @@ class Game:
 
         self.maxfps = maxfps
 
-        self.screen = pygame.display.set_mode((640, 480))
+        self.screen = pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("The Master Sword's Return")
         
         self.clock = pygame.time.Clock()
@@ -194,7 +194,7 @@ class Game:
 
         objects = []
 
-        objects += self.background.render()
+        objects += self.map.get_map()
         for bullet in self.bullets_list: 
             objects += bullet.render()
         objects += self.player.render()
