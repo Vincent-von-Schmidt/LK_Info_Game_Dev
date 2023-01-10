@@ -25,6 +25,8 @@ class Game:
         self.player = player.Player()
         self.infos = infos.Infos()
         self.background = background.Background()
+        self.bullets_list = []
+
 
         # Pygame
 
@@ -149,16 +151,23 @@ class Game:
 
                     self.background.move_left(pixel=x_dis)
                     self.background.move_up(pixel=y_dis)
-                    
+
             elif key == core.ACTION: 
 
                 if info == core.SHOOT: 
-                    player.bullets_group.add(player.shoot)
+                    self.bullets_list += [(bullets.Bullets(self.player.x, self.player.y))]
+
         
         # Check collisions
         
         # TODO
         ...
+
+        #Bulltes
+        for bullet in self.bullets_list: 
+            bullet.update()
+            if bullet.end == True: 
+                self.bullets_list.remove(bullet)
 
         # Update infos
         
@@ -186,6 +195,9 @@ class Game:
         objects += self.background.render()
         objects += self.player.render()
         objects += self.infos.render()
+        
+        for bullet in self.bullets_list: 
+            objects += bullet.render()
         
         # Display
 
