@@ -1,5 +1,7 @@
 import pygame
 
+import map.tiles as tiles
+
 
 class Room:
     """A class to generate the room."""
@@ -15,56 +17,60 @@ class Room:
         self.rendered_map = None
 
         # Textures
-
         self.textures: dict = {
-            "wall_north" :  pygame.image.load("./assets/map/wall_north.png"),
-            "wall_east" :  pygame.image.load("./assets/map/wall_east.png"),
-            "wall_south" :  pygame.image.load("./assets/map/wall_south.png"),
-            "wall_west" :  pygame.image.load("./assets/map/wall_west.png"),
-            "ground" :  pygame.image.load("./assets/map/ground.png"),
-            "edge": pygame.image.load("./assets/map/edge.png"),
-            "dor": pygame.surface.Surface((16, 16)), # TODO -> tmp, extra object required
+            "wall_north": tiles.Tile( texture = "./assets/map/wall_north.png", collision = True ),
+            "wall_east": tiles.Tile( texture = "./assets/map/wall_east.png", collision = True ),
+            "wall_south": tiles.Tile( texture = "./assets/map/wall_south.png", collision = True ),
+            "wall_west": tiles.Tile( texture = "./assets/map/wall_west.png", collision = True ),
+            "ground": tiles.Tile( texture = "./assets/map/ground.png" ),
+            "edge": tiles.Tile( texture = "./assets/map/edge.png" ),
         }
 
         self.tilemap: list = []
         
         # First row
-
         self.tilemap.append( tmp := [] )
-        tmp.append( self.textures["edge"] )
-        for _ in range ( 13 ): tmp.append( self.textures["wall_north"] )
-        tmp.append( self.textures["edge"] )
+        tmp.append( self.textures["edge"].surface )
+        for _ in range ( 13 ): tmp.append( self.textures["wall_north"].surface )
+        tmp.append( self.textures["edge"].surface )
 
         # Between
-
         for _ in range( 8 ):
-
             self.tilemap.append( tmp := [] )
-            tmp.append( self.textures["wall_west"] )
-            for _ in range( 13 ): tmp.append( self.textures["ground"] )
-            tmp.append( self.textures["wall_east"] )
+            tmp.append( self.textures["wall_west"].surface )
+            for _ in range( 13 ): tmp.append( self.textures["ground"].surface )
+            tmp.append( self.textures["wall_east"].surface )
 
         # Last row
-
         self.tilemap.append( tmp := [] )
-        tmp.append( self.textures["edge"] )
-        for _ in range( 13 ): tmp.append( self.textures["wall_south"] )
-        tmp.append( self.textures["edge"] )
+        tmp.append( self.textures["edge"].surface )
+        for _ in range( 13 ): tmp.append( self.textures["wall_south"].surface )
+        tmp.append( self.textures["edge"].surface )
 
-        print( f"{self.tilemap = }" )
+        # TODO -> remove debug
+        # print( f"{self.tilemap = }" )
 
         # Render map
 
         self.__render()
 
     def __render( self ) -> None: # -> pygame.surface.Surface:
+        """Render the map. -> Draws the tiles on the map surface."""
+
         for row_index, row in enumerate( self.tilemap ):
             for column_index, tile in enumerate( row ):
-                self.surface.blit( tile, ( column_index * tile.get_width(), row_index * tile.get_height() ) )
+                self.surface.blit(
+                    source = tile,
+                    dest = (
+                        column_index * tile.get_width(),
+                        row_index * tile.get_height() 
+                    ) 
+                )
 
+        # save rendered map, set draw offset -> x = 0, y = 32
         self.rendered_map = [(self.surface, (0, 32))] 
 
-    def get_map( self ) -> None:
+    def get_map( self ) -> list[tuple[pygame.surface.Surface, tuple[int, ...]]] | None:
         """Get the generated map."""
 
         return self.rendered_map
