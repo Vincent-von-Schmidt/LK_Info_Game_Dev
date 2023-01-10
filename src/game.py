@@ -90,8 +90,6 @@ class Game:
         
         if keys[pygame.K_SPACE]:
             self.eventqueue += [(core.ACTION, core.SHOOT)]
-        
-        print(self.eventqueue)
     
     def update(self) -> None:
         """Update scores and handle actual game logic."""
@@ -113,9 +111,13 @@ class Game:
 
             key, info = event
 
+            # Window
+
             if key == core.APP:
                 if info == core.QUIT:
                     self.running = False
+                
+            # Movement
 
             elif key == core.MOVE:
 
@@ -142,6 +144,8 @@ class Game:
                 
                 elif info == core.DOWN:
                     self.player.move_down(elapsed_time=elapsed_time)
+            
+            # Actions
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
@@ -172,23 +176,23 @@ class Game:
             if bullet.end == True: 
                 self.bullets_list.remove(bullet)
             
-        # Player movement
+        # Player
 
         self.player.update(elapsed_time)
 
-        # overlay -> TODO: player info
-        self.infos.update_hearts(3)
-
-        # Update infos
+        # Infos
         
         curr_millis = pygame.time.get_ticks()
         curr_minutes, curr_millis = divmod(curr_millis, 60_000)
         curr_seconds, curr_millis = divmod(curr_millis, 1_000)
+        self.infos.set_time(curr_minutes, curr_seconds)
 
         curr_fps = self.clock.get_fps()
-
-        self.infos.set_time(curr_minutes, curr_seconds)
         self.infos.set_fps(curr_fps)
+
+        self.infos.update_hearts(3) # Player info
+        # TODO
+        ...
     
     def render(self) -> None:
         """Render the seen image."""

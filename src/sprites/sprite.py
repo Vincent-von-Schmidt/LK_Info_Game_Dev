@@ -166,8 +166,6 @@ class Sprite:
         dis += self.move_down(pixel=dis1, still=True)
         dis += self.move_right(pixel=dis1, still=True)
 
-        print(dis)
-
         if not still:
             self.pos = core.RIGHT
 
