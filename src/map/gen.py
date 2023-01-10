@@ -7,12 +7,12 @@ class Room:
         entrance: list = [False, False, False, False],
     ) -> None:
 
-        self.surface: pygame.surface.Surface = pygame.surface.Surface( (240, 176) ) # 14 * 10
+        self.surface: pygame.surface.Surface = pygame.surface.Surface( (240, 160) ) # 14 * 10
         self.surface.fill( (0, 0, 0) )
 
         self.rendered_map = None
 
-        # textures -> .png, ( x, y )
+        # textures
         self.textures: dict = {
             "wall_north" :  pygame.image.load("./assets/map/wall_north.png"),
             "wall_east" :  pygame.image.load("./assets/map/wall_east.png"),
@@ -20,6 +20,7 @@ class Room:
             "wall_west" :  pygame.image.load("./assets/map/wall_west.png"),
             "ground" :  pygame.image.load("./assets/map/ground.png"),
             "edge": pygame.image.load("./assets/map/edge.png"),
+            "dor": pygame.surface.Surface((16, 16)), # TODO -> tmp, extra object required
         }
 
         self.tilemap: list = []
@@ -54,7 +55,7 @@ class Room:
             for column_index, tile in enumerate( row ):
                 self.surface.blit( tile, ( column_index * tile.get_width(), row_index * tile.get_height() ) )
 
-        self.rendered_map = [(pygame.transform.scale(self.surface, (1280, 720)), (0, 65))] 
+        self.rendered_map = [(pygame.transform.scale(self.surface, (1280, 720)), (0, 0))] 
 
     def get_map( self ):
         return self.rendered_map
