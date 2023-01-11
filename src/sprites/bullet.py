@@ -121,24 +121,6 @@ class Bullet:
     
     def update_sprite(self, elapsed_time: float) -> None:
         """Updates the players movement."""
-        
-        # Movement
-
-        if self.walking:
-            self.step_last += elapsed_time
-
-        while self.step_last >= self.step_change:
-
-            self.step_idx += 1
-            self.step_last -= self.step_change
-        
-        if self.step_idx > self.step_max:
-            self.step_idx = 1
-        
-        if self.walking == False:
-            self.step_idx = 0
-    
-    def update_sprite(self, elapsed_time: float):
         ...
     
     def _render(self) -> pygame.surface.Surface:
