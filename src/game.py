@@ -3,7 +3,7 @@ import pygame
 import core
 import sprites.player as player
 import infos
-import map.gen as map
+import map.tiles as map
 import sprites.player as player
 import sprites.bullets as bullets
 
@@ -23,8 +23,9 @@ class Game:
         # Objects
 
         self.player = player.Player()
+        self.bullets_list = []
         self.infos = infos.Infos()
-        self.map = map.Room()
+        self.map = map.TilesMap()
         self.entities = []
         self.NEUTRAL = []
         self.MAP = []
@@ -90,6 +91,13 @@ class Game:
         
         elif keys[pygame.K_s]:
             self.eventqueue += [(core.MOVE, core.DOWN)]
+
+        # TODO -> remove -> test map change
+        elif keys[pygame.K_n]:
+            self.map.load_height_map( "./assets/map/heightmaps/test.json" )
+
+        elif keys[pygame.K_m]:
+            self.map.load_height_map( "./assets/map/heightmaps/blank.json" )
         
         # Actions
         
@@ -210,7 +218,6 @@ class Game:
 
         
         # TODO
-        ...
 
         # Bullets
 

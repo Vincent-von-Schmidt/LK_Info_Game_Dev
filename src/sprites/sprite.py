@@ -206,7 +206,7 @@ class Sprite:
             self.shooting = False
 
 
-    def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
+    def render(self) -> list[tuple[pygame.surface.Surface, tuple[float, ...]]] | None:
         """Render the sprite graphic."""
 
         # Movement
