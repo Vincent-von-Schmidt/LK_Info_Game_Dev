@@ -35,7 +35,7 @@ class Player:
         self.step_max = 3 - 1 # Num
         self.step_last = 0 # Time
         self.step_idx = 0 # Index
-        self.walking = False
+        self.step_stop = True # Bool
 
     def move_up(self, elapsed_time: float = 0) -> float:
         """Move the sprite up."""
@@ -48,7 +48,7 @@ class Player:
         self.y -= dis
 
         self.dir = core.UP
-        self.walking = True
+        self.step_stop = False
 
         return dis
     
@@ -63,7 +63,7 @@ class Player:
         self.y += dis
         
         self.dir = core.DOWN
-        self.walking = True
+        self.step_stop = False
 
         return dis
     
@@ -78,7 +78,7 @@ class Player:
         self.x -= dis
 
         self.dir = core.LEFT
-        self.walking = True
+        self.step_stop = False
 
         return dis
     
@@ -93,7 +93,7 @@ class Player:
         self.x += dis
 
         self.dir = core.RIGHT
-        self.walking = True
+        self.step_stop = False
 
         return dis
     
@@ -106,7 +106,7 @@ class Player:
         self.x += dis
 
         self.dir = core.RIGHT
-        self.walking = True
+        self.step_stop = False
         
         return 2*dis
 
@@ -119,7 +119,7 @@ class Player:
         self.x -= dis
 
         self.dir = core.LEFT
-        self.walking = True
+        self.step_stop = False
         
         return 2*dis
     
@@ -132,7 +132,7 @@ class Player:
         self.x -= dis
     
         self.dir = core.LEFT
-        self.walking = True
+        self.step_stop = False
         
         return 2*dis
     
@@ -145,7 +145,7 @@ class Player:
         self.x += dis
 
         self.dir = core.RIGHT
-        self.walking = True
+        self.step_stop = False
         
         return 2*dis
     
@@ -154,7 +154,7 @@ class Player:
         
         # Movement
 
-        if self.walking:
+        if not self.step_stop:
             self.step_last += elapsed_time
 
         while self.step_last >= self.step_change:
@@ -163,10 +163,12 @@ class Player:
             self.step_last -= self.step_change
         
         if self.step_idx > self.step_max:
-            self.step_idx = 1
+            self.step_idx = 0 # 1
         
-        if self.walking == False:
+        if self.step_stop:
             self.step_idx = 0
+        
+        self.step_stop = True
 
     def _render(self) -> pygame.surface.Surface:
         """Render the sprite graphic."""

@@ -118,7 +118,6 @@ class Game:
         # Reset variables
 
         elapsed_time = self.clock.get_time() / 1_000
-        self.player.walking = False
         
         # Handle events
         
