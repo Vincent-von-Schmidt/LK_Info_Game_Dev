@@ -27,6 +27,7 @@ class Game:
         self.infos = infos.Infos()
         self.map = map.TilesMap()
         self.entities = []
+        #Lists for collision (killed entities replaced with 'None')
         self.NEUTRAL = []
         self.MAP = []
         self.FRIEND = []
@@ -189,32 +190,64 @@ class Game:
         check if projectile blocked
         handle projectile block
         """
-        """
+        #"""
+        #Player hit
         l = []
         l = self.ENEMY + self.FAUNA
         r = []
         for el in l: r.append(el.rect)
         n = self.player.rect.collidecollidelist(r)
-        c = []
         for el in n:
-            c.append(l[el])
             self.player.update_health(-0.5)
             died = self.player.check_health()
             if died:
-                killer = c[-1]
+                killer = l[el]
         
-        l = self.ENEMY + self.MAP
+        #Enemy hit
+        l = self.FRIEND + self. FAUNA
         r = []
         for el in l: r.append(el.rect)
-        n = self.player.rect.collidecollidelist(r)
-        for el in n:
-            self.player.revert(l[el])
+        for en in self.ENEMY:
+            if type(en) == objects.bullet.Bullet:
+                continue
+            r_n = r
+            r_n.pop(en.id)
+            n = en.rect.collidecollidelist(r)
+            for el in n:
+                en.update_health(-0.5)
+                k = en.check_health()
+                if k:
+                    self.infos.update_kills(1)
         
-        l = self.FRIEND + self. FAUNA
+        #Projectile block
+        l = self.ENEMY + self.FAUNA + self.MAP + [self.player]
+        r = []
+        for el in l: r.append(el.rect)
+        for en in self.ENEMY + self.FRIEND:
+            if type(en) != objects.bullet.Bullet:
+                continue
+            r_n = r
+            r_n.pop(en.id)
+            n = en.rect.collidecollidelist(r)
+            for el in n:
+                en.revert(l[el])
+        
+        #Player/Enemy block
+        l = self.ENEMY + self.MAP + [self.player]
+        r = []
+        for el in l: r.append(el.rect)
+        for en in self.ENEMY + [self.player]:
+            if type(en) == objects.bullet.Bullet:
+                continue
+            r_n = r
+            r_n.pop(en.id)
+            n = en.rect.collidecollidelist(r)
+            for el in n:
+                en.revert(l[el])
 
         
 
-        """
+        #"""
 
         
         # TODO
