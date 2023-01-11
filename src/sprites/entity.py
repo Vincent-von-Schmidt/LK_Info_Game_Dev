@@ -13,7 +13,7 @@ class Entity:
         self.id = Entity.max_id
         self.x = kwargs["x"]
         self.y = kwargs["y"]
-        self.rect = [0,0,0,0]
+        self.rect = pygame.Rect(0,0,0,0)
         self.fac = kwargs["fac"]
     
     def init_rect(self, w, h) -> None:

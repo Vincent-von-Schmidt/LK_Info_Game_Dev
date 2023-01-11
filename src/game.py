@@ -26,6 +26,11 @@ class Game:
         self.infos = infos.Infos()
         self.map = map.Room()
         self.entities = []
+        self.NEUTRAL = []
+        self.MAP = []
+        self.FRIEND = []
+        self.ENEMY = []
+        self.FAUNA = []
 
         # Pygame
 
@@ -145,24 +150,64 @@ class Game:
                 elif info == core.DOWN:
                     self.player.move_down(elapsed_time=elapsed_time)
             
-            # Actions
+            # Actions (vielleicht for das Movement und im Movement schauen ob geschossen wird)
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
                     if not self.player.walking:
                         if self.player.shooting:
                     
-                            self.bullets_list += [(
-                                bullets.Bullets(
-                                    self.player.x,
-                                    self.player.y,
-                                    self.player.pos
-                                )
-                            )]
+                            self.entities.append(bullets.Bullets(
+                                self.player.x,
+                                self.player.y,
+                                self.player.pos
+                            ))
 
-                            self.player.attack_last -= self.player.attack_block
+                            self.player.attack_last = 0
 
         # Check collisions
+        """
+        (check if schield is hit)
+        (remember schielded)
+        check if Player is hit
+        handle Player hit
+        check if Player is blocked
+        handle Player block
+        (vielleicht erst block dann hit um durch die Wand hitten zu vermeiden)
+        check if enemy is hit
+        handle enemy hit
+        check if enemy blocked
+        handle enemy block
+        check if projectile blocked
+        handle projectile block
+        """
+        """
+        l = []
+        l = self.ENEMY + self.FAUNA
+        r = []
+        for el in l: r.append(el.rect)
+        n = self.player.rect.collidecollidelist(r)
+        c = []
+        for el in n:
+            c.append(l[el])
+            self.player.update_health(-0.5)
+            died = self.player.check_health()
+            if died:
+                killer = c[-1]
+        
+        l = self.ENEMY + self.MAP
+        r = []
+        for el in l: r.append(el.rect)
+        n = self.player.rect.collidecollidelist(r)
+        for el in n:
+            self.player.revert(l[el])
+        
+        l = self.FRIEND + self. FAUNA
+
+        
+
+        """
+
         
         # TODO
         ...

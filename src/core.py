@@ -24,5 +24,6 @@ MAP = "map"
 FRIEND = "friend"
 ENEMY = "enemy"
 FAUNA = "fauna"
+SPECIAL = "special"
 
 QUIT = "quit"
