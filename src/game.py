@@ -190,7 +190,7 @@ class Game:
         curr_fps = self.clock.get_fps()
         self.infos.set_fps(curr_fps)
 
-        self.infos.update_hearts(3) # Player info
+        self.infos.update_hearts(self.player.health) # Player info
         # TODO
         ...
     

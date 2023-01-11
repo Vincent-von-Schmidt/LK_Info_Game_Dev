@@ -25,6 +25,8 @@ class Sprite:
         self.walking = False
         self.shooting = True
         self.attack_last = 0 # Time
+        self.max_health = 0
+        self.health = 0
 
     def move_up(
         self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
