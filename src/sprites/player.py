@@ -1,7 +1,7 @@
 import pygame
 
 import core
-import entity
+import sprites.entity as entity
 import sprites.sprite as sprite
 
 class Player(sprite.Sprite):
