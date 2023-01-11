@@ -18,7 +18,7 @@ class Tile:
 
 
 class TilesMap:
-    def __init__( self, heightmap: str = "./test.json" ) -> None:
+    def __init__( self, heightmap: str = "./assets/map/heightmaps/test.json" ) -> None:
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (240, 160) )
 
         self.tiles: dict = {
@@ -37,11 +37,14 @@ class TilesMap:
         output: list = []
 
         for i in content:
+
+            output.append( tmp := [] )
+
             for bin in i:
                 
                 match bin:
-                    case 0: output.append( self.tiles["ground"] )
-                    case 1: output.append( self.tiles["block"] )
+                    case 0: tmp.append( self.tiles["ground"] )
+                    case 1: tmp.append( self.tiles["block"] )
                     case _: raise FileExistsError( "File not in binary." )
 
         return output
@@ -58,7 +61,8 @@ class TilesMap:
 
         # between
         with open( heightmap, "r" ) as file:
-            content: list = map( self.__map_tiles_to_binary, json.loads(file.read()) )
+            # content: list = map( self.__map_tiles_to_binary, json.loads(file.read()) )
+            content: list = self.__map_tiles_to_binary( json.loads(file.read()) )
 
         for i in range( 8 ):
             tile_construct.append( tmp := [] )
@@ -93,4 +97,15 @@ class TilesMap:
 
 
 if __name__ == "__main__":
+    pygame.init()
+    screen = pygame.display.set_mode( (1280, 720) )
+
     map: TilesMap = TilesMap()
+
+    while True:
+        for event in pygame.event.get():
+            if event == pygame.QUIT: pygame.quit()
+
+        screen.blits( map.get_map() )
+
+        pygame.display.flip()
