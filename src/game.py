@@ -4,7 +4,6 @@ import core
 import objects.bullet
 import objects.player
 import infos
-import map.gen
 import map.tiles
 
 
@@ -23,7 +22,6 @@ class Game:
 
         self.player = objects.player.Player(x=100, y=100, fac=core.FRIEND)
         self.infos = infos.Infos()
-        self.map = map.gen.Room()
         self.bullets_list = []
         self.infos = infos.Infos()
         self.map = map.tiles.TilesMap( door_north = True, door_south = True )

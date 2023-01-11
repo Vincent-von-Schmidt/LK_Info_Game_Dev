@@ -85,7 +85,6 @@ class TilesMap:
 
         # between
         with open( heightmap, "r" ) as file:
-            # content: list = map( self.__map_tiles_to_binary, json.loads(file.read()) )
             content: list = self.__map_tiles_to_binary( json.loads(file.read()) )
 
         for i in range( 8 ):
