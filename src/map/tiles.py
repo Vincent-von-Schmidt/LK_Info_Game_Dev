@@ -111,15 +111,24 @@ class TilesMap:
     def __render( self, constuct: list ) -> None:
         """Render the map. -> Draws the tiles on the map surface."""
 
+        tmp_height: int = 0
+
         for row_index, row in enumerate( constuct ):
+
+            tmp_width: int = 0
+
             for column_index, tile in enumerate( row ):
+                
                 self.surface.blit(
                     source = tile.surface,
                     dest = (
-                        column_index * tile.surface.get_width(),
-                        row_index * tile.surface.get_height() 
+                        column_index * tmp_width,
+                        row_index * tmp_height 
                     ) 
                 )
+
+                tmp_height: int = tile.surface.get_height()
+                tmp_width: int = tile.surface.get_width()
 
     def get_map( self ) -> list:
         # offset: x = 0, y = 32
