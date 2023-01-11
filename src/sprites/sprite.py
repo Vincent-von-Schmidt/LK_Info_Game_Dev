@@ -14,6 +14,8 @@ class Sprite:
         self.pos = kwargs["pos"]
         self.x = kwargs["x"]
         self.y = kwargs["y"]
+        self.max_health = kwargs["max_health"]
+        self.health = kwargs["health"]
 
         self.images_up = kwargs["images_up"]
         self.images_down = kwargs["images_down"]
@@ -25,8 +27,6 @@ class Sprite:
         self.walking = False
         self.shooting = True
         self.attack_last = 0 # Time
-        self.max_health = 0
-        self.health = 0
 
     def move_up(
         self, elapsed_time: float = 0, pixel: float = 0, still: bool = False
