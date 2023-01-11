@@ -18,7 +18,7 @@ class Tile:
 
 
 class TilesMap:
-    def __init__( self, heightmap: str = "./assets/map/heightmaps/test.json" ) -> None:
+    def __init__( self, heightmap: str = "./assets/map/heightmaps/blank.json" ) -> None:
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (240, 160) )
 
         self.tiles: dict = {
