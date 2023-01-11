@@ -23,6 +23,7 @@ class Game:
         # Objects
 
         self.player = player.Player()
+        self.bullets_list = []
         self.infos = infos.Infos()
         self.map = map.TilesMap()
         self.entities = []
