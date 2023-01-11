@@ -194,13 +194,13 @@ class Game:
         check if projectile blocked
         handle projectile block
         """
-        #"""
+        """
         #Player hit
         l = []
         l = self.ENEMY + self.FAUNA
         r = []
         for el in l: r.append(el.rect)
-        n = self.player.rect.collidecollidelist(r)
+        n = self.player.rect.collidelistall(r)
         for el in n:
             self.player.update_health(-0.5)
             died = self.player.check_health()
@@ -216,7 +216,7 @@ class Game:
                 continue
             r_n = r
             r_n.pop(en.id)
-            n = en.rect.collidecollidelist(r)
+            n = en.rect.collidelistall(r)
             for el in n:
                 en.update_health(-0.5)
                 k = en.check_health()
@@ -232,7 +232,7 @@ class Game:
                 continue
             r_n = r
             r_n.pop(en.id)
-            n = en.rect.collidecollidelist(r)
+            n = en.rect.collidelistall(r)
             for el in n:
                 en.revert(l[el])
         
@@ -245,13 +245,13 @@ class Game:
                 continue
             r_n = r
             r_n.pop(en.id)
-            n = en.rect.collidecollidelist(r)
+            n = en.rect.collidelistall(r)
             for el in n:
                 en.revert(l[el])
 
         
 
-        #"""
+        """
 
         
         # TODO
