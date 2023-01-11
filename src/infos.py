@@ -71,7 +71,7 @@ class Infos:
             if (live - (2-i)) == 1:
                 self.hearts.append((self.heart_full, (48 + (2 - i)*16, 3)))
             
-            elif (live - (3-i)) == 0.5:
+            elif (live - (2-i)) == 0.5:
                 self.hearts.append((self.heart_half, (48 + (2 - i)*16, 3)))
             
             else:
