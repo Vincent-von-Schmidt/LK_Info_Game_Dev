@@ -29,7 +29,7 @@ class TilesMap:
 
     ) -> None:
 
-        self.surface: pygame.surface.Surface = pygame.surface.Surface( (240, 160) )
+        self.surface: pygame.surface.Surface = pygame.surface.Surface( (256, 176) )
 
         self.tiles: dict = {
             "wall_north": Tile( texture = "./assets/map/wall_north.png", collision = True ),
@@ -37,10 +37,21 @@ class TilesMap:
             "wall_south": Tile( texture = "./assets/map/wall_south.png", collision = True ),
             "wall_west": Tile( texture = "./assets/map/wall_west.png", collision = True ),
             "ground": Tile( texture = "./assets/map/ground.png" ),
-            "edge": Tile( texture = "./assets/map/edge.png" ),
+            "edge_north_east": Tile( texture = "./assets/map/edge_north_east.png" ),
+            "edge_north_west": Tile( texture = "./assets/map/edge_north_west.png" ),
+            "edge_south_west": Tile( texture = "./assets/map/edge_south_west.png" ),
+            "edge_south_east": Tile( texture = "./assets/map/edge_south_east.png" ),
             "block": Tile( texture = "./assets/map/block.png", collision = True ),
-            "door_north": Tile( texture = "./assets/map/door_north.png" ),
-            "door_south": Tile( texture = "./assets/map/door_south.png" ),
+            # "door_north": Tile( texture = "./assets/map/door_north.png" ),
+            # "door_south": Tile( texture = "./assets/map/door_south.png" ),
+            "door_closed_north": Tile( texture = "./assets/map/door_north_closed.png" ),
+            "door_closed_east": Tile( texture = "./assets/map/door_east_closed.png" ),
+            "door_closed_south": Tile( texture = "./assets/map/door_south_closed.png" ),
+            "door_closed_west": Tile( texture = "./assets/map/door_west_closed.png" ),
+            "door_open_north": Tile( texture = "./assets/map/door_north_open.png" ),
+            "door_open_east": Tile( texture = "./assets/map/door_east_open.png" ),
+            "door_open_south": Tile( texture = "./assets/map/door_south_open.png" ),
+            "door_open_west": Tile( texture = "./assets/map/door_west_open.png" ),
         }
 
         self.door_north: bool = door_north
@@ -72,16 +83,16 @@ class TilesMap:
 
         # first row
         tile_construct.append( tmp := [] )
-        tmp.append( self.tiles["edge"] )
+        tmp.append( self.tiles["edge_north_west"] )
 
         if not self.door_north:
             for _ in range( 13 ): tmp.append( self.tiles["wall_north"] )
         else: 
             for _ in range( 5 ): tmp.append( self.tiles["wall_north"] )
-            tmp.append( self.tiles["door_north"] )
+            # tmp.append( self.tiles["door_north"] )
             for _ in range( 5 ): tmp.append( self.tiles["wall_north"] )
 
-        tmp.append( self.tiles["edge"] )
+        tmp.append( self.tiles["edge_north_east"] )
 
         # between
         with open( heightmap, "r" ) as file:
@@ -95,16 +106,16 @@ class TilesMap:
         
         # last row
         tile_construct.append( tmp := [] )
-        tmp.append( self.tiles["edge"] )
+        tmp.append( self.tiles["edge_south_west"] )
 
         if not self.door_south:
             for _ in range( 13 ): tmp.append( self.tiles["wall_south"] )
         else: 
             for _ in range( 5 ): tmp.append( self.tiles["wall_south"] )
-            tmp.append( self.tiles["door_south"] )
+            # tmp.append( self.tiles["door_south"] )
             for _ in range( 5 ): tmp.append( self.tiles["wall_south"] )
 
-        tmp.append( self.tiles["edge"] )
+        tmp.append( self.tiles["edge_south_east"] )
 
         self.__render(tile_construct)
 
@@ -132,12 +143,13 @@ class TilesMap:
 
     def get_map( self ) -> list:
         # offset: x = 0, y = 32
-        return [(self.surface, (0, 32))]
+        # return [(self.surface, (0, 32))]
+        return [(pygame.transform.scale(self.surface, (1024, 832)), (0, 0))]
 
 
 if __name__ == "__main__":
     pygame.init()
-    screen = pygame.display.set_mode( (1280, 720) )
+    screen = pygame.display.set_mode( (1024, 832) )
 
     map: TilesMap = TilesMap()
 
