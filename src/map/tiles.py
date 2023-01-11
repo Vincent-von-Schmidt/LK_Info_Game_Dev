@@ -29,6 +29,7 @@ class TilesMap:
 
     ) -> None:
 
+        # -> main - radio : 256, 208
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (256, 176) )
 
         self.tiles: dict = {
@@ -89,7 +90,7 @@ class TilesMap:
             for _ in range( 13 ): tmp.append( self.tiles["wall_north"] )
         else: 
             for _ in range( 5 ): tmp.append( self.tiles["wall_north"] )
-            # tmp.append( self.tiles["door_north"] )
+            tmp.append( self.tiles["door_open_north"] )
             for _ in range( 5 ): tmp.append( self.tiles["wall_north"] )
 
         tmp.append( self.tiles["edge_north_east"] )
@@ -112,7 +113,7 @@ class TilesMap:
             for _ in range( 13 ): tmp.append( self.tiles["wall_south"] )
         else: 
             for _ in range( 5 ): tmp.append( self.tiles["wall_south"] )
-            # tmp.append( self.tiles["door_south"] )
+            tmp.append( self.tiles["door_open_south"] )
             for _ in range( 5 ): tmp.append( self.tiles["wall_south"] )
 
         tmp.append( self.tiles["edge_south_east"] )
@@ -151,7 +152,7 @@ if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode( (1024, 832) )
 
-    map: TilesMap = TilesMap()
+    map: TilesMap = TilesMap( door_north=True )
 
     while True:
         for event in pygame.event.get():
