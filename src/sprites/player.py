@@ -23,7 +23,7 @@ class Player(sprite.Sprite):
             change = 0.2, # Seconds
             attack_block = 1,
             max_health = 3,
-            health = 3,
+            health = 1.5,
             images_up = (
                 pygame.image.load("./assets/player/player_up_0.png"),
                 pygame.image.load("./assets/player/player_up_1.png"),
