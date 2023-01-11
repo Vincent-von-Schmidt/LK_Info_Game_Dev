@@ -134,28 +134,28 @@ class Game:
             elif key == core.MOVE:
 
                 if info == core.DOWN_LEFT:
-                    self.player.move_down_left(elapsed_time=elapsed_time)
+                    self.player.move_down_left(elapsed_time)
                 
                 elif info == core.DOWN_RIGHT:
-                    self.player.move_down_right(elapsed_time=elapsed_time)
+                    self.player.move_down_right(elapsed_time)
                 
                 elif info == core.UP_LEFT:
-                    self.player.move_up_left(elapsed_time=elapsed_time)
+                    self.player.move_up_left(elapsed_time)
                 
                 elif info == core.UP_RIGHT:
-                    self.player.move_up_right(elapsed_time=elapsed_time)
+                    self.player.move_up_right(elapsed_time)
 
                 elif info == core.LEFT:
-                    self.player.move_left(elapsed_time=elapsed_time)
+                    self.player.move_left(elapsed_time)
                 
                 elif info == core.RIGHT:
-                    self.player.move_right(elapsed_time=elapsed_time)
+                    self.player.move_right(elapsed_time)
 
                 elif info == core.UP:
-                    self.player.move_up(elapsed_time=elapsed_time)
+                    self.player.move_up(elapsed_time)
                 
                 elif info == core.DOWN:
-                    self.player.move_down(elapsed_time=elapsed_time)
+                    self.player.move_down(elapsed_time)
             
             # Actions (vielleicht for das Movement und im Movement schauen ob geschossen wird)
 

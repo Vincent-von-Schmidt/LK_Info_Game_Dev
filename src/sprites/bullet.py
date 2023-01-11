@@ -15,7 +15,7 @@ class Bullet:
         self.image_up = pygame.image.load("./assets/bullets/arrow_up.png")
         self.image_down = pygame.image.load("./assets/bullets/arrow_down.png")
     
-    def move_up(self, elapsed_time: float = 0) -> float:
+    def move_up(self, elapsed_time: float) -> float:
         """Move the sprite up."""
 
         ################################################################
@@ -29,7 +29,7 @@ class Bullet:
 
         return dis
     
-    def move_down(self, elapsed_time: float = 0) -> float:
+    def move_down(self, elapsed_time: float) -> float:
         """Move the sprite down."""
 
         ################################################################
@@ -43,7 +43,7 @@ class Bullet:
 
         return dis
     
-    def move_left(self, elapsed_time: float = 0) -> float:
+    def move_left(self, elapsed_time: float) -> float:
         """Move the sprite left."""
 
         ################################################################
@@ -57,7 +57,7 @@ class Bullet:
 
         return dis
     
-    def move_right(self, elapsed_time: float = 0) -> float:
+    def move_right(self, elapsed_time: float) -> float:
         """Move the sprite right."""
 
         ################################################################
@@ -71,7 +71,7 @@ class Bullet:
 
         return dis
     
-    def move_up_right(self, elapsed_time: float = 0) -> float:
+    def move_up_right(self, elapsed_time: float) -> float:
         """Move the sprite up right."""
 
         dis = self.speed * elapsed_time / 2**0.5
@@ -83,7 +83,7 @@ class Bullet:
         
         return 2*dis
 
-    def move_up_left(self, elapsed_time: float = 0) -> float:
+    def move_up_left(self, elapsed_time: float) -> float:
         """Move the sprite up left."""
 
         dis = self.speed * elapsed_time / 2**0.5
@@ -95,7 +95,7 @@ class Bullet:
         
         return 2*dis
     
-    def move_down_left(self, elapsed_time: float = 0) -> float:
+    def move_down_left(self, elapsed_time: float) -> float:
         """Move the sprite down left."""
 
         dis = self.speed * elapsed_time / 2**0.5
@@ -107,7 +107,7 @@ class Bullet:
         
         return 2*dis
     
-    def move_down_right(self, elapsed_time: float = 0) -> float:
+    def move_down_right(self, elapsed_time: float) -> float:
         """Move the sprite down right."""
 
         dis = self.speed * elapsed_time / 2**0.5
