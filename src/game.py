@@ -1,12 +1,10 @@
 import pygame
 
 import core
-import sprites.player as player
+import objects.bullet
+import objects.player
 import infos
-import map.gen as map
-import sprites.player as player
-import sprites.bullets as bullets
-
+import map.gen
 
 
 class Game:
@@ -22,9 +20,9 @@ class Game:
 
         # Objects
 
-        self.player = player.Player()
+        self.player = objects.player.Player(x=100, y=100, fac=core.FRIEND)
         self.infos = infos.Infos()
-        self.map = map.Room()
+        self.map = map.gen.Room()
         self.bullets_list = []
 
         # Pygame
@@ -149,18 +147,19 @@ class Game:
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
-                    if not self.player.walking:
-                        if self.player.shooting:
-                    
-                            self.bullets_list += [(
-                                bullets.Bullets(
-                                    self.player.x,
-                                    self.player.y,
-                                    self.player.pos
-                                )
-                            )]
+                    if self.player.shooting:
+                
+                        self.bullets_list += [(
+                            objects.bullet.Bullet(
+                                x=self.player.x,
+                                y=self.player.y,
+                                dir=self.player.dir,
+                                speed=1000,
+                                fac=core.FRIEND
+                            )
+                        )]
 
-                            self.player.attack_last -= self.player.attack_block
+                        self.player.attack_last = 0
 
         # Check collisions
         
@@ -171,6 +170,7 @@ class Game:
 
         for bullet in self.bullets_list: 
             
+            bullet.update_sprite(elapsed_time)
             bullet.update(elapsed_time)
             
             if bullet.end == True: 
@@ -178,6 +178,7 @@ class Game:
             
         # Player
 
+        self.player.update_sprite(elapsed_time)
         self.player.update(elapsed_time)
 
         # Infos
