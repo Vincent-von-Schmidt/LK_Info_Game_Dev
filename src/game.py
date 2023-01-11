@@ -275,12 +275,13 @@ class Game:
         curr_millis = pygame.time.get_ticks()
         curr_minutes, curr_millis = divmod(curr_millis, 60_000)
         curr_seconds, curr_millis = divmod(curr_millis, 1_000)
-        self.infos.set_time(curr_minutes, curr_seconds)
+        self.infos.update_time(curr_minutes, curr_seconds)
 
         curr_fps = self.clock.get_fps()
-        self.infos.set_fps(curr_fps)
+        self.infos.update_fps(curr_fps)
 
-        self.infos.update_hearts(self.player.health) # Player info
+        curr_health = self.player.health
+        self.infos.update_hearts(curr_health) # Player info
         # TODO
         ...
     

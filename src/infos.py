@@ -33,7 +33,7 @@ class Infos:
         self.heart_empty = pygame.image.load("./assets/hotbar/heart_empty.png")
         self.skull = pygame.image.load("./assets/hotbar/skull.png")
     
-    def set_time(self, minute: int, second: int) -> None:
+    def update_time(self, minute: int, second: int) -> None:
         """Set the time of the info bar."""
 
         ################################################################
@@ -42,7 +42,7 @@ class Infos:
 
         self.time = minute, second
     
-    def set_fps(self, fps: float) -> None:
+    def update_fps(self, fps: float) -> None:
         """Set the fps of the info bar."""
 
         ################################################################
