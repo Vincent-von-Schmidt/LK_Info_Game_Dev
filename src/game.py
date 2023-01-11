@@ -3,7 +3,7 @@ import pygame
 import core
 import sprites.player as player
 import infos
-import map.gen as map
+import map.tiles as map
 import sprites.player as player
 import sprites.bullets as bullets
 
@@ -24,7 +24,7 @@ class Game:
 
         self.player = player.Player()
         self.infos = infos.Infos()
-        self.map = map.Room()
+        self.map = map.TilesMap()
         self.entities = []
 
         # Pygame
