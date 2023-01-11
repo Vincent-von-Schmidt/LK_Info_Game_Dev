@@ -66,20 +66,21 @@ class Infos:
 
         self.live = hearts
         self.hearts.clear()
+
         for i in range (3):
             
             if (hearts-1) >= 0:
+                
                 self.hearts.append((self.heart_full, (48 + (i)*16, 3)))
                 hearts -= 1
             
             elif (hearts-1) == -0.5:
+                
                 self.hearts.append((self.heart_half, (48 + (i)*16, 3)))
                 hearts -= 0.5
             
             else:
                 self.hearts.append((self.heart_empty, (48 + (i)*16, 3)))
-            
-            
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         """Render the info graphic."""
