@@ -26,7 +26,7 @@ class Game:
         self.map = map.gen.Room()
         self.bullets_list = []
         self.infos = infos.Infos()
-        self.map = map.tiles.TilesMap()
+        self.map = map.tiles.TilesMap( door_north = True, door_south = True )
         self.entities = []
         #Lists for collision (killed entities replaced with 'None')
         self.NEUTRAL = []

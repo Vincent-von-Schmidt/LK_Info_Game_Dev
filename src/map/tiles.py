@@ -18,7 +18,17 @@ class Tile:
 
 
 class TilesMap:
-    def __init__( self, heightmap: str = "./assets/map/heightmaps/blank.json" ) -> None:
+    def __init__( 
+
+        self,
+        heightmap: str = "./assets/map/heightmaps/blank.json",
+        door_north: bool = False,
+        door_east: bool = False,
+        door_south: bool = False,
+        door_west: bool = False,
+
+    ) -> None:
+
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (240, 160) )
 
         self.tiles: dict = {
@@ -29,7 +39,14 @@ class TilesMap:
             "ground": Tile( texture = "./assets/map/ground.png" ),
             "edge": Tile( texture = "./assets/map/edge.png" ),
             "block": Tile( texture = "./assets/map/block.png", collision = True ),
+            "door_north": Tile( texture = "./assets/map/door_north.png" ),
+            "door_south": Tile( texture = "./assets/map/door_south.png" ),
         }
+
+        self.door_north: bool = door_north
+        self.door_east: bool = door_east
+        self.door_south: bool = door_south
+        self.door_west: bool = door_west
 
         self.load_height_map(heightmap)
 
@@ -56,7 +73,14 @@ class TilesMap:
         # first row
         tile_construct.append( tmp := [] )
         tmp.append( self.tiles["edge"] )
-        for _ in range( 13 ): tmp.append( self.tiles["wall_north"] )
+
+        if not self.door_north:
+            for _ in range( 13 ): tmp.append( self.tiles["wall_north"] )
+        else: 
+            for _ in range( 5 ): tmp.append( self.tiles["wall_north"] )
+            tmp.append( self.tiles["door_north"] )
+            for _ in range( 5 ): tmp.append( self.tiles["wall_north"] )
+
         tmp.append( self.tiles["edge"] )
 
         # between
@@ -73,7 +97,14 @@ class TilesMap:
         # last row
         tile_construct.append( tmp := [] )
         tmp.append( self.tiles["edge"] )
-        for _ in range( 13 ): tmp.append( self.tiles["wall_south"] )
+
+        if not self.door_south:
+            for _ in range( 13 ): tmp.append( self.tiles["wall_south"] )
+        else: 
+            for _ in range( 5 ): tmp.append( self.tiles["wall_south"] )
+            tmp.append( self.tiles["door_south"] )
+            for _ in range( 5 ): tmp.append( self.tiles["wall_south"] )
+
         tmp.append( self.tiles["edge"] )
 
         self.__render(tile_construct)
