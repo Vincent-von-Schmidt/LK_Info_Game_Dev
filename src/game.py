@@ -25,7 +25,7 @@ class Game:
         self.player = player.Player()
         self.infos = infos.Infos()
         self.map = map.Room()
-        self.bullets_list = []
+        self.entities = []
 
         # Pygame
 
