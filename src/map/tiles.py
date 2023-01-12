@@ -27,6 +27,35 @@ class Tile:
         elif "block" in self.texture: self.type: str = core.WALL
         elif "edge" in self.texture: self.type: str = core.WALL
 
+    def set_texture( self, path: str ) -> None:
+        self.texture: str = path
+        self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
+
+
+class Door(Tile):
+    def __init__( self,
+
+            open: bool = True,
+            facing: str = "north"
+
+    ) -> None:
+
+        self.facing: str = facing
+        self.set_state( open )
+
+    def __set_tile( self ) -> None:
+        super().__init__(
+            texture = f"./assets/map/door/{self.state}/{self.facing}.png"
+        )
+
+    def get_state( self ) -> str:
+        return self.state
+
+    def set_state( self, open: bool ) -> None:
+
+        self.state: str = "open" if open else "closed"
+        self.__set_tile()
+
 
 class TilesMap:
     def __init__( 
@@ -56,14 +85,14 @@ class TilesMap:
             "edge_south_west": Tile( texture = "./assets/map/edge/south_west.png" ),
             "edge_south_east": Tile( texture = "./assets/map/edge/south_east.png" ),
             "block": Tile( texture = "./assets/map/block.png", collision = True ),
-            "door_closed_north": Tile( texture = "./assets/map/door/closed/north.png" ),
-            "door_closed_east": Tile( texture = "./assets/map/door/closed/east.png" ),
-            "door_closed_south": Tile( texture = "./assets/map/door/closed/south.png" ),
-            "door_closed_west": Tile( texture = "./assets/map/door/closed/west.png" ),
-            "door_open_north": Tile( texture = "./assets/map/door/open/north.png" ),
-            "door_open_east": Tile( texture = "./assets/map/door/open/east.png" ),
-            "door_open_south": Tile( texture = "./assets/map/door/open/south.png" ),
-            "door_open_west": Tile( texture = "./assets/map/door/open/west.png" ),
+            "door_closed_north": Door( open = False, facing = "north" ),
+            "door_closed_east": Door( open = False, facing = "east" ),
+            "door_closed_south": Door( open = False, facing = "south" ),
+            "door_closed_west": Door( open = False, facing = "west" ),
+            "door_open_north": Door( open = True, facing = "north" ),
+            "door_open_east": Door( open = True, facing = "east" ),
+            "door_open_south": Door( open = True, facing = "south" ),
+            "door_open_west": Door( open = True, facing = "west" ),
         }
 
         self.door_north: bool = door_north
