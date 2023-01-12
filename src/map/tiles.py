@@ -13,7 +13,8 @@ class Tile:
 
     ) -> None:
         
-        self.surface: pygame.surface.Surface = pygame.image.load( texture )
+        self.texture: str = texture
+        self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
         self.collision: bool = collision
 
 
@@ -123,24 +124,33 @@ class TilesMap:
     def __render( self, constuct: list ) -> None:
         """Render the map. -> Draws the tiles on the map surface."""
 
-        tmp_height: int = 0
+        tmp_height: list = [0]
 
         for row_index, row in enumerate( constuct ):
 
-            tmp_width: int = 0
+            tmp_width: list = [0]
+            tmp_tile: Tile | None = None
 
             for column_index, tile in enumerate( row ):
                 
                 self.surface.blit(
                     source = tile.surface,
                     dest = (
-                        column_index * tmp_width,
-                        row_index * tmp_height 
+                        # column_index * tmp_width,
+                        # row_index * tmp_height 
+                        sum( tmp_width ),
+                        sum( tmp_height )
                     ) 
                 )
 
-                tmp_height: int = tile.surface.get_height()
-                tmp_width: int = tile.surface.get_width()
+                print( f"{tmp_height = }, {tmp_width = }, {row_index = }, {column_index = }, {tile.texture = }" )
+
+                tmp_width.append( tile.surface.get_width() )
+
+                tmp_tile: Tile | None = tile
+
+            tmp_height.append( tmp_tile.surface.get_height() )
+
 
     def get_map( self ) -> list:
         # offset: x = 0, y = 32
@@ -152,7 +162,7 @@ if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode( (1024, 832) )
 
-    map: TilesMap = TilesMap( door_north=True )
+    map: TilesMap = TilesMap( door_north=False )
 
     while True:
         for event in pygame.event.get():
