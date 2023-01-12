@@ -71,7 +71,7 @@ class TilesMap:
 
         # -> main - radio : 256, 208
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (272, 176) )
-
+        self.heightmap: str = heightmap
         self.tile_construct: list = []
 
         self.tiles: dict = {
@@ -100,10 +100,24 @@ class TilesMap:
         self.door_south: bool | str = door_south
         self.door_west: bool | str = door_west
 
-        self.load_height_map(heightmap)
+        self.load_height_map( self.heightmap )
 
-    def set_door_state( self, **kwargs ) -> None:
-        print(kwargs)
+    def set_door_state( 
+
+        self,
+        north: str = "open",
+        east: str = "open",
+        south: str = "open",
+        west: str = "open"
+
+    ) -> None:
+
+        if self.door_north: self.door_north = north
+        if self.door_east: self.door_east = east
+        if self.door_south: self.door_south = south
+        if self.door_west: self.door_west = west
+
+        self.load_height_map( self.heightmap )
 
     def __map_tiles_to_binary( self, content: list ) -> list:
         output: list = []
@@ -122,6 +136,9 @@ class TilesMap:
         return output
 
     def load_height_map( self, heightmap: str ) -> None:
+
+        # save the new heightmap
+        self.heightmap: str = heightmap
         
         tile_construct: list = []
 
@@ -268,6 +285,7 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode( (1280, 720) )
 
     map: TilesMap = TilesMap( door_north=True, door_south=True )
+    map.set_door_state()
 
     while True:
         for event in pygame.event.get():

@@ -113,6 +113,12 @@ class Game:
 
         elif keys[pygame.K_m]:
             self.map.load_height_map( "./assets/map/heightmaps/blank.json" )
+
+        elif keys[pygame.K_j]:
+            self.map.set_door_state( north = "closed", south = "open" )
+
+        elif keys[pygame.K_k]:
+            self.map.set_door_state( north = "open", south = "closed" )
         
         # Actions
         
