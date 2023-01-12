@@ -30,8 +30,6 @@ class Game:
             change = 0.2
         )
         self.infos = infos.Infos()
-        self.bullets_list = []
-        self.infos = infos.Infos()
         self.map = map.tiles.TilesMap( door_north = True, door_south = True )
         self.archer = objects.archer.Archer(
             x=100,
@@ -47,6 +45,9 @@ class Game:
         self.FRIEND = []
         self.ENEMY = []
         self.FAUNA = []
+
+        self.entities.append(self.player)
+        self.entities.append(self.archer)
 
         # Pygame
 
@@ -178,15 +179,13 @@ class Game:
                 if info == core.SHOOT:
                     if self.player.shooting:
                 
-                        self.bullets_list += [(
-                            objects.bullet.Bullet(
+                        self.entities += objects.bullet.Bullet(
                                 x=self.player.x,
                                 y=self.player.y,
                                 dir=self.player.dir,
                                 speed=100,
                                 fac=core.FRIEND
                             )
-                        )]
 
                         self.player.attack_last = 0
 
