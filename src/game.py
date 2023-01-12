@@ -321,10 +321,8 @@ class Game:
         objects = []
 
         objects += self.map.get_map()
-        for bullet in self.bullets_list: 
-            objects += bullet.render()
-        objects += self.archer.render()
-        objects += self.player.render()
+        for en in self.entities: 
+            objects += en.render()
         objects += self.infos.render()
         
         # Display
