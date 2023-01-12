@@ -2,6 +2,9 @@ from dataclasses import dataclass
 import json
 import pygame
 
+import entity
+import core
+
 
 @dataclass
 class Tile:
@@ -169,6 +172,51 @@ class TilesMap:
 
     def get_tile_map( self ) -> list:
         return self.tile_construct
+
+    def get_tile_entities( self ) -> list:
+
+        entity_list = []
+        hard = ["./assets/map/wall/north.png", "./assets/map/wall/east.png", "./assets/map/wall/south.png", "./assets/map/wall/west.png", "./assets/map/edge/north_east.png", "./assets/map/edge/north_west.png", "./assets/map/edge/south_west.png", "./assets/map/edge/south_east.png", "./assets/map/block.png"]
+        medium = ["./assets/map/door/closed/north.png", "./assets/map/door/closed/east.png", "./assets/map/door/closed/south.png", "./assets/map/door/closed/west.png", "./assets/map/door/open/north.png", "./assets/map/door/open/east.png", "./assets/map/door/open/south.png", "./assets/map/door/open/west.png"]
+        soft = ["./assets/map/ground.png"]
+
+        tmp_height: list = [0]
+
+        for row in self.tile_construct:
+
+            tmp_width: list = [0]
+
+            tmp_tile: Tile | None = None
+
+            for tile in row:
+                
+                width = tile.surface.get_width()
+                height = tile.surface.get_height()
+                if tile.texture in hard: fac = core.MAP
+                elif tile.texture in medium: fac = core.SPECIAL
+                elif tile.texture in soft: fac = core.NEUTRAL
+                else:
+                    print(tile)
+                    raise TypeError("Tile not defined by CORE")
+
+                entity_list.append(
+                    entity.Entity(
+                        x = sum( tmp_width ),
+                        y = sum( tmp_height ) + 32,
+                        fac = fac
+                    )
+                )
+                entity_list[-1].w = width
+                entity_list[-1].h = height
+                entity_list[-1].init_rect()
+                print(entity_list[-1].rect)
+
+                tmp_width.append( tile.surface.get_width() )
+
+                tmp_tile: Tile | None = tile
+
+            tmp_height.append( tmp_tile.surface.get_height() )
+        return entity_list
 
 if __name__ == "__main__":
     pygame.init()

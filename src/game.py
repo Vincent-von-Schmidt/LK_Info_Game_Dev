@@ -6,6 +6,7 @@ import objects.player
 import objects.archer
 import infos
 import map.tiles
+import entity
 
 
 class Game:
@@ -44,6 +45,7 @@ class Game:
         self.MAP = []
 
         self.entities.append(self.player)
+        self.entities += self.map.get_tile_entities()
         self.entities.append(self.archer)
 
         # Pygame
@@ -204,8 +206,8 @@ class Game:
             if en.fac == core.ENEMY or en.fac == core.FAUNA:
                 r_n.append(r[en.id])
                 l.append(en)
-        print(self.player.rect)
-        print(r_n)
+        #print(self.player.rect)
+        #print(r_n)
         n = self.player.rect.collidelistall(r_n)
         for el in n:
             self.player.update_health(-0.5)
@@ -287,6 +289,8 @@ class Game:
         # Update Entitties
 
         for en in self.entities:
+            if type(en) == entity.Entity:
+                continue
             en.update_sprite(elapsed_time)
             en.update(elapsed_time)
 
@@ -318,7 +322,9 @@ class Game:
         objects = []
 
         objects += self.map.get_map()
-        for en in self.entities: 
+        for en in self.entities:
+            if type(en) == entity.Entity:
+                continue
             objects += en.render()
         objects += self.infos.render()
         
