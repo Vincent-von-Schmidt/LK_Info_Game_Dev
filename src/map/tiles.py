@@ -47,6 +47,9 @@ class Door(Tile):
         super().__init__(
             texture = f"./assets/map/door/{self.state}/{self.facing}.png"
         )
+        # super().__init__(
+        #     texture="./assets/map/door/open/test.png"
+        # )
 
     def get_state( self ) -> str:
         return self.state
