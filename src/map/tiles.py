@@ -111,7 +111,7 @@ class TilesMap:
         
         # last row ----------------------------------------------
         tile_construct.append( tmp := [] )
-        tmp.append( self.tiles["edge_south_east"] )
+        tmp.append( self.tiles["edge_south_west"] )
 
         if not self.door_south:
             for _ in range( 14 ): tmp.append( self.tiles["wall_south"] )
@@ -120,7 +120,7 @@ class TilesMap:
             tmp.append( self.tiles["door_closed_south"] )
             for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
 
-        tmp.append( self.tiles["edge_south_west"] )
+        tmp.append( self.tiles["edge_south_east"] )
 
         self.__render(tile_construct)
 
