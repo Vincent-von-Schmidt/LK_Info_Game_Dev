@@ -10,8 +10,7 @@ class Archer:
     
     def update_sprite(self, elapsed_time: float) -> None:
         """Update the archer animation."""
-
         ...
-    
+
     def _render(self) -> pygame.surface.Surface:
         return pygame.surface.Surface()
