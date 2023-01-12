@@ -179,13 +179,13 @@ class Game:
                 if info == core.SHOOT:
                     if self.player.shooting:
                 
-                        self.entities += objects.bullet.Bullet(
+                        self.entities.append(objects.bullet.Bullet(
                                 x=self.player.x,
                                 y=self.player.y,
                                 dir=self.player.dir,
                                 speed=100,
                                 fac=core.FRIEND
-                            )
+                            ))
 
                         self.player.attack_last = 0
 
@@ -205,7 +205,7 @@ class Game:
         check if projectile blocked
         handle projectile block
         """
-        #"""
+        """
         #Player hit
         l = []
         for en in self.entities:
@@ -280,7 +280,7 @@ class Game:
 
         
 
-        #"""
+        """
 
         
         # TODO
