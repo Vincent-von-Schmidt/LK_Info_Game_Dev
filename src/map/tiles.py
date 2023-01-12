@@ -44,8 +44,6 @@ class TilesMap:
             "edge_south_west": Tile( texture = "./assets/map/edge/south_west.png" ),
             "edge_south_east": Tile( texture = "./assets/map/edge/south_east.png" ),
             "block": Tile( texture = "./assets/map/block.png", collision = True ),
-            # "door_north": Tile( texture = "./assets/map/door_north.png" ),
-            # "door_south": Tile( texture = "./assets/map/door_south.png" ),
             "door_closed_north": Tile( texture = "./assets/map/door/closed/north.png" ),
             "door_closed_east": Tile( texture = "./assets/map/door/closed/east.png" ),
             "door_closed_south": Tile( texture = "./assets/map/door/closed/south.png" ),
@@ -163,13 +161,10 @@ class TilesMap:
     def get_map( self ) -> list:
         # offset: x = 0, y = 32
         return [(self.surface, (0, 32))]
-        # return [(self.surface, (0, 0))]
-        # return [(pygame.transform.scale(self.surface, (1280, 720)), (0, 0))]
 
 
 if __name__ == "__main__":
     pygame.init()
-    # screen = pygame.display.set_mode( (1024, 832) )
     screen = pygame.display.set_mode( (1280, 720) )
 
     map: TilesMap = TilesMap( door_north=True, door_south=True )
