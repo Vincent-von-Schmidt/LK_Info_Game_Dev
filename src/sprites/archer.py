@@ -8,6 +8,9 @@ class Archer:
     def __init__(self, **kwargs) -> None:
         ...
     
+    def revert(self, rect):
+        pass
+    
     def update_sprite(self, elapsed_time: float) -> None:
         """Update the archer animation."""
         ...

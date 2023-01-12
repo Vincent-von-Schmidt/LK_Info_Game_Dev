@@ -17,6 +17,10 @@ class Archer(entity.Entity, sprites.player.Player):
 
         self.speed = kwargs["speed"]
         self.dir = kwargs["dir"]
+
+        self.w = self.images_down[0].get_width()
+        self.h = self.images_down[0].get_height()
+        self.init_rect()
         ...
     
     def movement_lane_down(self, elapsed_time):

@@ -40,11 +40,8 @@ class Game:
             change = 0.2
         )
         self.entities = []
-        self.NEUTRAL = []
+
         self.MAP = []
-        self.FRIEND = []
-        self.ENEMY = []
-        self.FAUNA = []
 
         self.entities.append(self.player)
         self.entities.append(self.archer)
@@ -196,7 +193,6 @@ class Game:
 
         # Check collisions
 
-        #"""
         r = []
         for en in self.entities:
             en.update_rect()
@@ -212,6 +208,7 @@ class Game:
         for el in n:
             self.player.update_health(-0.5)
             died = self.player.check_health()
+            print(en, "hit")
             if died:
                 killer = l[n]
         
@@ -233,6 +230,7 @@ class Game:
             except: pass
             for el in n:
                 en.update_health(-0.5)
+                print(en, "hit")
                 if en.check_health():
                     k += 1
         self.infos.update_kills(k)
@@ -253,6 +251,7 @@ class Game:
             try: n.remove(l.index(en))
             except: pass
             if n != []:
+                print(en, "blocked")
                 en.active = False
                 
 
@@ -273,11 +272,10 @@ class Game:
             try: n.remove(l.index(en))
             except: pass
             for el in n:
+                print(en, "blocked")
                 en.revert(r_n[el])
 
         
-
-        #"""
 
         
         # TODO
