@@ -37,7 +37,7 @@ class Bullet(entity.Entity, sprites.bullet.Bullet):
         
         # End flight
         
-        if self.x >= 200:
+        if self.x >= 500:
             self.end = True
         
         elif self.x <= 0: 

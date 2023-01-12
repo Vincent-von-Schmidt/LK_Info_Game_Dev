@@ -168,7 +168,7 @@ class Game:
                                 x=self.player.x,
                                 y=self.player.y,
                                 dir=self.player.dir,
-                                speed=1000,
+                                speed=100,
                                 fac=core.FRIEND
                             )
                         )]
