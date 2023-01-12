@@ -32,9 +32,9 @@ class Game:
         self.infos = infos.Infos()
         self.map = map.tiles.TilesMap( door_north = True, door_south = True )
         self.archer = objects.archer.Archer(
-            x=100,
+            x=200,
             y=100,
-            fac=core.FRIEND,
+            fac=core.ENEMY,
             dir = core.DOWN,
             speed = 30,
             change = 0.2
