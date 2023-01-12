@@ -62,10 +62,10 @@ class TilesMap:
 
         self,
         heightmap: str = "./assets/map/heightmaps/blank.json",
-        door_north: bool = False,
-        door_east: bool = False,
-        door_south: bool = False,
-        door_west: bool = False,
+        door_north: bool | str = False,
+        door_east: bool | str = False,
+        door_south: bool | str = False,
+        door_west: bool | str = False,
 
     ) -> None:
 
@@ -95,12 +95,15 @@ class TilesMap:
             "door_open_west": Door( open = True, facing = "west" ),
         }
 
-        self.door_north: bool = door_north
-        self.door_east: bool = door_east
-        self.door_south: bool = door_south
-        self.door_west: bool = door_west
+        self.door_north: bool | str = door_north
+        self.door_east: bool | str = door_east
+        self.door_south: bool | str = door_south
+        self.door_west: bool | str = door_west
 
         self.load_height_map(heightmap)
+
+    def set_door_state( self, **kwargs ) -> None:
+        print(kwargs)
 
     def __map_tiles_to_binary( self, content: list ) -> list:
         output: list = []
@@ -130,7 +133,12 @@ class TilesMap:
             for _ in range( 14 ): tmp.append( self.tiles["wall_north"] )
         else: 
             for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
-            tmp.append( self.tiles["door_open_north"] )
+
+            # door state
+            match self.door_north:
+                case "open": tmp.append( self.tiles["door_open_north"] )
+                case "closed": tmp.append( self.tiles["door_closed_north"] )
+
             for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
 
         tmp.append( self.tiles["edge_north_east"] )
@@ -156,7 +164,12 @@ class TilesMap:
             for _ in range( 14 ): tmp.append( self.tiles["wall_south"] )
         else: 
             for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
-            tmp.append( self.tiles["door_closed_south"] )
+
+            # door state
+            match self.door_south:
+                case "open": tmp.append( self.tiles["door_open_south"] )
+                case "closed": tmp.append( self.tiles["door_closed_south"] )
+
             for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
 
         tmp.append( self.tiles["edge_south_east"] )
