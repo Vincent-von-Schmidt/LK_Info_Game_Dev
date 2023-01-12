@@ -204,6 +204,8 @@ class Game:
             if en.fac == core.ENEMY or en.fac == core.FAUNA:
                 r_n.append(r[en.id])
                 l.append(en)
+        print(self.player.rect)
+        print(r_n)
         n = self.player.rect.collidelistall(r_n)
         for el in n:
             self.player.update_health(-0.5)
