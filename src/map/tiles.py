@@ -13,7 +13,8 @@ class Tile:
 
     ) -> None:
         
-        self.surface: pygame.surface.Surface = pygame.image.load( texture )
+        self.texture: str = texture
+        self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
         self.collision: bool = collision
 
 
@@ -29,7 +30,8 @@ class TilesMap:
 
     ) -> None:
 
-        self.surface: pygame.surface.Surface = pygame.surface.Surface( (240, 160) )
+        # -> main - radio : 256, 208
+        self.surface: pygame.surface.Surface = pygame.surface.Surface( (272, 176) )
 
         self.tiles: dict = {
             "wall_north": Tile( texture = "./assets/map/wall_north.png", collision = True ),
@@ -37,10 +39,21 @@ class TilesMap:
             "wall_south": Tile( texture = "./assets/map/wall_south.png", collision = True ),
             "wall_west": Tile( texture = "./assets/map/wall_west.png", collision = True ),
             "ground": Tile( texture = "./assets/map/ground.png" ),
-            "edge": Tile( texture = "./assets/map/edge.png" ),
+            "edge_north_east": Tile( texture = "./assets/map/edge_north_east.png" ),
+            "edge_north_west": Tile( texture = "./assets/map/edge_north_west.png" ),
+            "edge_south_west": Tile( texture = "./assets/map/edge_south_west.png" ),
+            "edge_south_east": Tile( texture = "./assets/map/edge_south_east.png" ),
             "block": Tile( texture = "./assets/map/block.png", collision = True ),
-            "door_north": Tile( texture = "./assets/map/door_north.png" ),
-            "door_south": Tile( texture = "./assets/map/door_south.png" ),
+            # "door_north": Tile( texture = "./assets/map/door_north.png" ),
+            # "door_south": Tile( texture = "./assets/map/door_south.png" ),
+            "door_closed_north": Tile( texture = "./assets/map/door_north_closed.png" ),
+            "door_closed_east": Tile( texture = "./assets/map/door_east_closed.png" ),
+            "door_closed_south": Tile( texture = "./assets/map/door_south_closed.png" ),
+            "door_closed_west": Tile( texture = "./assets/map/door_west_closed.png" ),
+            "door_open_north": Tile( texture = "./assets/map/door_north_open.png" ),
+            "door_open_east": Tile( texture = "./assets/map/door_east_open.png" ),
+            "door_open_south": Tile( texture = "./assets/map/door_south_open.png" ),
+            "door_open_west": Tile( texture = "./assets/map/door_west_open.png" ),
         }
 
         self.door_north: bool = door_north
@@ -70,67 +83,96 @@ class TilesMap:
         
         tile_construct: list = []
 
-        # first row
+        # first row ---------------------------------------------
         tile_construct.append( tmp := [] )
-        tmp.append( self.tiles["edge"] )
+        tmp.append( self.tiles["edge_north_west"] )
 
         if not self.door_north:
-            for _ in range( 13 ): tmp.append( self.tiles["wall_north"] )
+            for _ in range( 14 ): tmp.append( self.tiles["wall_north"] )
         else: 
-            for _ in range( 5 ): tmp.append( self.tiles["wall_north"] )
-            tmp.append( self.tiles["door_north"] )
-            for _ in range( 5 ): tmp.append( self.tiles["wall_north"] )
+            for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
+            tmp.append( self.tiles["door_open_north"] )
+            for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
 
-        tmp.append( self.tiles["edge"] )
+        tmp.append( self.tiles["edge_north_east"] )
 
-        # between
+        # between -----------------------------------------------
+
+        # map content of the hightmap to Tiles
         with open( heightmap, "r" ) as file:
             content: list = self.__map_tiles_to_binary( json.loads(file.read()) )
 
+        # append Tiles to list
         for i in range( 8 ):
             tile_construct.append( tmp := [] )
             tmp.append( self.tiles["wall_west"] )
-            for a in range( 13 ): tmp.append( content[i][a] )
+            for a in range( 14 ): tmp.append( content[i][a] )
             tmp.append( self.tiles["wall_east"] )
         
-        # last row
+        # last row ----------------------------------------------
         tile_construct.append( tmp := [] )
-        tmp.append( self.tiles["edge"] )
+        tmp.append( self.tiles["edge_south_east"] )
 
         if not self.door_south:
-            for _ in range( 13 ): tmp.append( self.tiles["wall_south"] )
+            for _ in range( 14 ): tmp.append( self.tiles["wall_south"] )
         else: 
-            for _ in range( 5 ): tmp.append( self.tiles["wall_south"] )
-            tmp.append( self.tiles["door_south"] )
-            for _ in range( 5 ): tmp.append( self.tiles["wall_south"] )
+            for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
+            tmp.append( self.tiles["door_open_south"] )
+            for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
 
-        tmp.append( self.tiles["edge"] )
+        tmp.append( self.tiles["edge_south_west"] )
 
         self.__render(tile_construct)
 
     def __render( self, constuct: list ) -> None:
         """Render the map. -> Draws the tiles on the map surface."""
 
-        for row_index, row in enumerate( constuct ):
-            for column_index, tile in enumerate( row ):
+        # default height for the first row
+        tmp_height: list = [0]
+
+        # for each row
+        for row in constuct:
+
+            # default width for the first column
+            tmp_width: list = [0]
+
+            # tile cache -> tmp_heigt save
+            tmp_tile: Tile | None = None
+
+            # for each column
+            for tile in row:
+                
                 self.surface.blit(
                     source = tile.surface,
                     dest = (
-                        column_index * tile.surface.get_width(),
-                        row_index * tile.surface.get_height() 
+                        sum( tmp_width ),
+                        sum( tmp_height )
                     ) 
                 )
+
+                # save current width for the next column
+                tmp_width.append( tile.surface.get_width() )
+
+                # save the current tile
+                tmp_tile: Tile | None = tile
+
+            # save height of last tile for next row
+            tmp_height.append( tmp_tile.surface.get_height() )
+
 
     def get_map( self ) -> list:
         # offset: x = 0, y = 32
         return [(self.surface, (0, 32))]
+        # return [(self.surface, (0, 0))]
+        # return [(pygame.transform.scale(self.surface, (1280, 720)), (0, 0))]
 
 
 if __name__ == "__main__":
     pygame.init()
+    # screen = pygame.display.set_mode( (1024, 832) )
     screen = pygame.display.set_mode( (1280, 720) )
 
-    map: TilesMap = TilesMap()
+    map: TilesMap = TilesMap( door_north=True, door_south=True )
 
     while True:
         for event in pygame.event.get():
