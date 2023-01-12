@@ -31,7 +31,7 @@ class Game:
             change = 0.2
         )
         self.infos = infos.Infos()
-        self.map = map.tiles.TilesMap( door_north = True, door_south = True )
+        self.map = map.tiles.TilesMap( door_north = "open", door_south = "closed" )
         self.archer = objects.archer.Archer(
             x=200,
             y=100,
@@ -329,6 +329,8 @@ class Game:
         objects += self.infos.render()
         
         # Display
+
+        print( f"{pygame.display.get_surface().get_size() = }" )
 
         orig_surface = pygame.surface.Surface((272, 208))
         orig_surface.fill((0, 0, 0))
