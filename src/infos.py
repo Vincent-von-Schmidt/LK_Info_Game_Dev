@@ -33,7 +33,7 @@ class Infos:
         self.heart_empty = pygame.image.load("./assets/hotbar/heart_empty.png")
         self.skull = pygame.image.load("./assets/hotbar/skull.png")
     
-    def set_time(self, minute: int, second: int) -> None:
+    def update_time(self, minute: int, second: int) -> None:
         """Set the time of the info bar."""
 
         ################################################################
@@ -42,7 +42,7 @@ class Infos:
 
         self.time = minute, second
     
-    def set_fps(self, fps: float) -> None:
+    def update_fps(self, fps: float) -> None:
         """Set the fps of the info bar."""
 
         ################################################################
@@ -61,23 +61,26 @@ class Infos:
 
         self.level = level
     
-    def update_hearts(self, hearts: int) -> None:
+    def update_hearts(self, hearts: float) -> None:
         """Update the health count."""
 
-        live = self.live
-        
+        self.live = hearts
+        self.hearts.clear()
+
         for i in range (3):
             
-            if (live - (2-i)) == 1:
-                self.hearts.append((self.heart_full, (48 + (2 - i)*16, 3)))
+            if (hearts-1) >= 0:
+                
+                self.hearts.append((self.heart_full, (48 + (i)*16, 3)))
+                hearts -= 1
             
-            elif (live - (3-i)) == 0.5:
-                self.hearts.append((self.heart_half, (48 + (2 - i)*16, 3)))
+            elif (hearts-1) == -0.5:
+                
+                self.hearts.append((self.heart_half, (48 + (i)*16, 3)))
+                hearts -= 0.5
             
             else:
-                self.hearts.append((self.heart_empty, (48 + (2 - i)*16, 3)))
-            
-            live -= 1
+                self.hearts.append((self.heart_empty, (48 + (i)*16, 3)))
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         """Render the info graphic."""
