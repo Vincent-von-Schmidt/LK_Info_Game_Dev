@@ -17,6 +17,8 @@ class Entity:
 
         self.rect = pygame.Rect(0, 0, 0, 0)
         self.fac = kwargs["fac"]
+
+        self.active = True
     
     def init_rect(self, w, h) -> None:
         
