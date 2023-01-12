@@ -209,7 +209,6 @@ class TilesMap:
                 entity_list[-1].w = width
                 entity_list[-1].h = height
                 entity_list[-1].init_rect()
-                print(entity_list[-1].rect)
 
                 tmp_width.append( tile.surface.get_width() )
 
