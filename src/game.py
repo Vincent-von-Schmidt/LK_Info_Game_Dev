@@ -191,6 +191,14 @@ class Game:
                                 fac=core.FRIEND
                             ))
 
+                        self.entities.append(objects.bullet.Bullet(
+                                x=self.archer.x,
+                                y=self.archer.y,
+                                dir=self.archer.dir,
+                                speed=100,
+                                fac=core.ENEMY
+                            ))
+
                         self.player.attack_last = 0
 
         # Check collisions
@@ -220,7 +228,7 @@ class Game:
         l = []
         r_n = []
         for en in self.entities:
-            if (en.fac == core.FRIEND or en.fac == core.FAUNA) and en != self.player:
+            if (en.fac == core.FRIEND or en.fac == core.FAUNA) and en != self.player and type(en) == objects.bullet.Bullet:
                 r_n.append(r[en.id])
                 l.append(en)
         enemies = []
@@ -255,9 +263,11 @@ class Game:
             print(n)
             try: n.remove(l.index(en))
             except: pass
-            if n != []:
-                print(en, "blocked")
-                en.active = False
+            for i in n:
+                if l[i].fac != en.fac:
+                    print(en, "blocked")
+                    en.active = False
+                    break
                 
 
         
