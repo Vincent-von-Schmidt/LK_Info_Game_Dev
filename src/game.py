@@ -32,9 +32,9 @@ class Game:
         self.infos = infos.Infos()
         self.map = map.tiles.TilesMap( door_north = True, door_south = True )
         self.archer = objects.archer.Archer(
-            x=100,
+            x=200,
             y=100,
-            fac=core.FRIEND,
+            fac=core.ENEMY,
             dir = core.DOWN,
             speed = 30,
             change = 0.2
@@ -179,13 +179,13 @@ class Game:
                 if info == core.SHOOT:
                     if self.player.shooting:
                 
-                        self.entities += objects.bullet.Bullet(
+                        self.entities.append(objects.bullet.Bullet(
                                 x=self.player.x,
                                 y=self.player.y,
                                 dir=self.player.dir,
                                 speed=100,
                                 fac=core.FRIEND
-                            )
+                            ))
 
                         self.player.attack_last = 0
 
@@ -208,49 +208,65 @@ class Game:
         """
         #Player hit
         l = []
-        l = self.ENEMY + self.FAUNA
+        for en in self.entities:
+            if en.fac == core.ENEMY or en.fac == core.FAUNA:
+                l.append(en)
         r = []
-        for el in l: r.append(el.rect)
+        for en in l: r.append(en.rect)
         n = self.player.rect.collidelistall(r)
         for el in n:
             self.player.update_health(-0.5)
             died = self.player.check_health()
             if died:
-                killer = l[el]
+                killer = l[n]
         
         #Enemy hit
-        l = self.FRIEND + self. FAUNA
+        l = []
+        for en in self.entities:
+            if (en.fac == core.FRIEND or en.fac == core.FAUNA) and en != self.player:
+                l.append(en)
         r = []
         for el in l: r.append(el.rect)
-        for en in self.ENEMY:
-            if type(en) == objects.bullet.Bullet:
-                continue
+        enemies = []
+        for en in self.entities:
+            if en.fac == core.ENEMY and type(en) == objects.bullet.Bullet:
+                enemies.append(en)
+        k = 0
+        for en in enemies:
             r_n = r
             r_n.pop(en.id)
             n = en.rect.collidelistall(r)
             for el in n:
                 en.update_health(-0.5)
-                k = en.check_health()
-                if k:
-                    self.infos.update_kills(1)
+                if en.check_health():
+                    k += 1
+        self.infos.update_kills(k)
         
         #Projectile block
-        l = self.ENEMY + self.FAUNA + self.MAP + [self.player]
+        l = []
+        for en in self.entities:
+            if en.fac == core.ENEMY or en.fac == core.FAUNA or en.fac == core.MAP or en == self.player:
+                l.append(en)
         r = []
         for el in l: r.append(el.rect)
-        for en in self.ENEMY + self.FRIEND:
-            if type(en) != objects.bullet.Bullet:
-                continue
+        bullets = []
+        for en in self.entities:
+            if type(en) == objects.bullet.Bullet:
+                bullets.append(en)
+        for en in bullets:
             r_n = r
             r_n.pop(en.id)
             n = en.rect.collidelistall(r)
             if n != []:
-                en.end = True
+                en.active = False
                 
 
         
         #Player/Enemy block
-        l = self.ENEMY + self.MAP + [self.player]
+        l = []
+        for en in self.entities:
+            if (en.fac == core.ENEMY or en.fac == core.MAP or en == self.player) and type(en) != objects.bullet.Bullet:
+                l.append(en)
         r = []
         for el in l: r.append(el.rect)
         for en in self.ENEMY + [self.player]:
@@ -269,25 +285,13 @@ class Game:
         
         # TODO
 
-        # Bullets
+        # Check Health
 
-        for bullet in self.bullets_list: 
-            
-            bullet.update_sprite(elapsed_time)
-            bullet.update(elapsed_time)
-            
-            if bullet.end == True: 
-                self.bullets_list.remove(bullet)
-            
-        # Archer
+        # Update Entitties
 
-        self.archer.update_sprite(elapsed_time)
-        self.archer.update(elapsed_time)
-            
-        # Player
-
-        self.player.update_sprite(elapsed_time)
-        self.player.update(elapsed_time)
+        for en in self.entities:
+            en.update_sprite(elapsed_time)
+            en.update(elapsed_time)
 
         # Infos
         
@@ -317,10 +321,8 @@ class Game:
         objects = []
 
         objects += self.map.get_map()
-        for bullet in self.bullets_list: 
-            objects += bullet.render()
-        objects += self.archer.render()
-        objects += self.player.render()
+        for en in self.entities: 
+            objects += en.render()
         objects += self.infos.render()
         
         # Display
