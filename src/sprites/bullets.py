@@ -31,6 +31,8 @@ class Bullets:
 
     def update(self, elapsed_time):
 
+        # Movement
+
         v = elapsed_time * self.vel
         
         if self.dir == core.RIGHT:
@@ -43,7 +45,14 @@ class Bullets:
             self.rect_up.y -= 5 
 
         elif self.dir == core.DOWN:
-            self.rect_down.y += 5 
+            self.rect_down.y += 5
+
+    
+             
+            
+        
+        
+
 
     def kill(self): 
         
