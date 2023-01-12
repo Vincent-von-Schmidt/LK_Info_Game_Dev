@@ -124,14 +124,20 @@ class TilesMap:
     def __render( self, constuct: list ) -> None:
         """Render the map. -> Draws the tiles on the map surface."""
 
+        # default height for the first row
         tmp_height: list = [0]
 
-        for row_index, row in enumerate( constuct ):
+        # for each row
+        for row in constuct:
 
+            # default width for the first column
             tmp_width: list = [0]
+
+            # tile cache -> tmp_heigt save
             tmp_tile: Tile | None = None
 
-            for column_index, tile in enumerate( row ):
+            # for each column
+            for tile in row:
                 
                 self.surface.blit(
                     source = tile.surface,
@@ -141,13 +147,13 @@ class TilesMap:
                     ) 
                 )
 
-                print( f"{tmp_height = }, {tmp_width = }, {row_index = }, {column_index = }, {tile.texture = }" )
-
+                # save current width for the next column
                 tmp_width.append( tile.surface.get_width() )
 
                 # save the current tile
                 tmp_tile: Tile | None = tile
 
+            # save height of last tile for next row
             tmp_height.append( tmp_tile.surface.get_height() )
 
 
