@@ -195,22 +195,8 @@ class Game:
                         self.player.attack_last = 0
 
         # Check collisions
-        """
-        (check if schield is hit)
-        (remember schielded)
-        check if Player is hit
-        handle Player hit
-        check if Player is blocked
-        handle Player block
-        (vielleicht erst block dann hit um durch die Wand hitten zu vermeiden)
-        check if enemy is hit
-        handle enemy hit
-        check if enemy blocked
-        handle enemy block
-        check if projectile blocked
-        handle projectile block
-        """
-        """
+
+        #"""
         r = []
         for en in self.entities:
             en.update_rect()
@@ -243,7 +229,8 @@ class Game:
         k = 0
         for en in enemies:
             n = en.rect.collidelistall(r_n)
-            n.remove(l.index(en))
+            try: n.remove(l.index(en))
+            except: pass
             for el in n:
                 en.update_health(-0.5)
                 if en.check_health():
@@ -263,7 +250,8 @@ class Game:
                 bullets.append(en)
         for en in bullets:
             n = en.rect.collidelistall(r_n)
-            n.remove(l.index(en))
+            try: n.remove(l.index(en))
+            except: pass
             if n != []:
                 en.active = False
                 
@@ -282,13 +270,14 @@ class Game:
                 mobs.append(en)
         for en in mobs:
             n = en.rect.collidelistall(r_n)
-            n.remove(l.index(en))
+            try: n.remove(l.index(en))
+            except: pass
             for el in n:
                 en.revert(r_n[el])
 
         
 
-        """
+        #"""
 
         
         # TODO
