@@ -33,6 +33,8 @@ class TilesMap:
         # -> main - radio : 256, 208
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (272, 176) )
 
+        self.tile_construct: list = []
+
         self.tiles: dict = {
             "wall_north": Tile( texture = "./assets/map/wall/north.png", collision = True ),
             "wall_east": Tile( texture = "./assets/map/wall/east.png", collision = True ),
@@ -44,8 +46,6 @@ class TilesMap:
             "edge_south_west": Tile( texture = "./assets/map/edge/south_west.png" ),
             "edge_south_east": Tile( texture = "./assets/map/edge/south_east.png" ),
             "block": Tile( texture = "./assets/map/block.png", collision = True ),
-            # "door_north": Tile( texture = "./assets/map/door_north.png" ),
-            # "door_south": Tile( texture = "./assets/map/door_south.png" ),
             "door_closed_north": Tile( texture = "./assets/map/door/closed/north.png" ),
             "door_closed_east": Tile( texture = "./assets/map/door/closed/east.png" ),
             "door_closed_south": Tile( texture = "./assets/map/door/closed/south.png" ),
@@ -124,6 +124,9 @@ class TilesMap:
 
         self.__render(tile_construct)
 
+        # save tile_construct
+        self.tile_construct: list = tile_construct
+
     def __render( self, constuct: list ) -> None:
         """Render the map. -> Draws the tiles on the map surface."""
 
@@ -163,13 +166,12 @@ class TilesMap:
     def get_map( self ) -> list:
         # offset: x = 0, y = 32
         return [(self.surface, (0, 32))]
-        # return [(self.surface, (0, 0))]
-        # return [(pygame.transform.scale(self.surface, (1280, 720)), (0, 0))]
 
+    def get_tile_map( self ) -> list:
+        return self.tile_construct
 
 if __name__ == "__main__":
     pygame.init()
-    # screen = pygame.display.set_mode( (1024, 832) )
     screen = pygame.display.set_mode( (1280, 720) )
 
     map: TilesMap = TilesMap( door_north=True, door_south=True )
