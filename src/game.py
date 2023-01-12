@@ -132,6 +132,11 @@ class Game:
         # Reset variables
 
         elapsed_time = self.clock.get_time() / 1_000
+
+        id = 0
+        for en in self.entities:
+            en.id = id
+            id += 1
         
         # Handle events
         
@@ -206,14 +211,18 @@ class Game:
         handle projectile block
         """
         """
+        r = []
+        for en in self.entities:
+            en.update_rect()
+            r.append(en.rect)
         #Player hit
         l = []
+        r_n = []
         for en in self.entities:
             if en.fac == core.ENEMY or en.fac == core.FAUNA:
+                r_n.append(r[en.id])
                 l.append(en)
-        r = []
-        for en in l: r.append(en.rect)
-        n = self.player.rect.collidelistall(r)
+        n = self.player.rect.collidelistall(r_n)
         for el in n:
             self.player.update_health(-0.5)
             died = self.player.check_health()
@@ -222,20 +231,19 @@ class Game:
         
         #Enemy hit
         l = []
+        r_n = []
         for en in self.entities:
             if (en.fac == core.FRIEND or en.fac == core.FAUNA) and en != self.player:
+                r_n.append(r[en.id])
                 l.append(en)
-        r = []
-        for el in l: r.append(el.rect)
         enemies = []
         for en in self.entities:
             if en.fac == core.ENEMY and type(en) == objects.bullet.Bullet:
                 enemies.append(en)
         k = 0
         for en in enemies:
-            r_n = r
-            r_n.pop(en.id)
-            n = en.rect.collidelistall(r)
+            n = en.rect.collidelistall(r_n)
+            n.remove(l.index(en))
             for el in n:
                 en.update_health(-0.5)
                 if en.check_health():
@@ -244,19 +252,18 @@ class Game:
         
         #Projectile block
         l = []
+        r_n = []
         for en in self.entities:
             if en.fac == core.ENEMY or en.fac == core.FAUNA or en.fac == core.MAP or en == self.player:
+                r_n.append(r[en.id])
                 l.append(en)
-        r = []
-        for el in l: r.append(el.rect)
         bullets = []
         for en in self.entities:
             if type(en) == objects.bullet.Bullet:
                 bullets.append(en)
         for en in bullets:
-            r_n = r
-            r_n.pop(en.id)
-            n = en.rect.collidelistall(r)
+            n = en.rect.collidelistall(r_n)
+            n.remove(l.index(en))
             if n != []:
                 en.active = False
                 
@@ -264,19 +271,20 @@ class Game:
         
         #Player/Enemy block
         l = []
+        r_n = []
         for en in self.entities:
             if (en.fac == core.ENEMY or en.fac == core.MAP or en == self.player) and type(en) != objects.bullet.Bullet:
+                r_n.append(r[en.id])
                 l.append(en)
-        r = []
-        for el in l: r.append(el.rect)
-        for en in self.ENEMY + [self.player]:
-            if type(en) == objects.bullet.Bullet:
-                continue
-            r_n = r
-            r_n.pop(en.id)
-            n = en.rect.collidelistall(r)
+        mobs = []
+        for en in self.entities:
+            if (en.fac == core.ENEMY and type(en) != objects.bullet.Bullet) or en == self.player:
+                mobs.append(en)
+        for en in mobs:
+            n = en.rect.collidelistall(r_n)
+            n.remove(l.index(en))
             for el in n:
-                en.revert(l[el])
+                en.revert(r_n[el])
 
         
 
