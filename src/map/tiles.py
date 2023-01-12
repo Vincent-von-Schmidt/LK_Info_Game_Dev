@@ -108,7 +108,7 @@ class TilesMap:
         
         # last row
         tile_construct.append( tmp := [] )
-        tmp.append( self.tiles["edge_south_west"] )
+        tmp.append( self.tiles["edge_south_east"] )
 
         if not self.door_south:
             for _ in range( 13 ): tmp.append( self.tiles["wall_south"] )
@@ -117,7 +117,7 @@ class TilesMap:
             tmp.append( self.tiles["door_open_south"] )
             for _ in range( 5 ): tmp.append( self.tiles["wall_south"] )
 
-        tmp.append( self.tiles["edge_south_east"] )
+        tmp.append( self.tiles["edge_south_west"] )
 
         self.__render(tile_construct)
 
@@ -136,8 +136,6 @@ class TilesMap:
                 self.surface.blit(
                     source = tile.surface,
                     dest = (
-                        # column_index * tmp_width,
-                        # row_index * tmp_height 
                         sum( tmp_width ),
                         sum( tmp_height )
                     ) 
@@ -147,6 +145,7 @@ class TilesMap:
 
                 tmp_width.append( tile.surface.get_width() )
 
+                # save the current tile
                 tmp_tile: Tile | None = tile
 
             tmp_height.append( tmp_tile.surface.get_height() )
@@ -162,7 +161,7 @@ if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode( (1024, 832) )
 
-    map: TilesMap = TilesMap( door_north=False )
+    map: TilesMap = TilesMap( door_north=True )
 
     while True:
         for event in pygame.event.get():
