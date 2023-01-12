@@ -18,6 +18,10 @@ RESET = "reset"
 
 SHOOT = "bullets"
 
+WALL = "wall"
+GROUND = "ground"
+DOOR = "door"
+
 #Factions
 NEUTRAL = "neutral"
 MAP = "map"
