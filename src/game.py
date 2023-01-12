@@ -53,7 +53,7 @@ class Game:
 
         self.maxfps = maxfps
 
-        self.screen = pygame.display.set_mode((1280, 720))
+        self.screen = pygame.display.set_mode((816, 624))
         pygame.display.set_caption("The Master Sword's Return")
         
         self.clock = pygame.time.Clock()
@@ -339,7 +339,7 @@ class Game:
         orig_surface.fill((0, 0, 0))
         orig_surface.blits(objects)
 
-        scld_surface = pygame.transform.scale(orig_surface, (1280, 720))
+        scld_surface = pygame.transform.scale(orig_surface, (816, 624))
 
         self.screen.blit(scld_surface, (0, 0))
         pygame.display.flip()
