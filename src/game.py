@@ -346,8 +346,6 @@ class Game:
         
         # Display
 
-        print( f"{pygame.display.get_surface().get_size() = }" )
-
         orig_surface = pygame.surface.Surface((272, 208))
         orig_surface.fill((0, 0, 0))
         orig_surface.blits(objects)
