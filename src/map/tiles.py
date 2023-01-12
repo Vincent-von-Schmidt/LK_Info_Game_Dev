@@ -21,11 +21,11 @@ class Tile:
         self.collision: bool = collision
 
         # type definition
-        if "wall" in self.texture: self.type: str = "block"
-        elif "door" in self.texture: self.type: str = "door"
-        elif "ground" in self.texture: self.type: str = "ground"
-        elif "block" in self.texture: self.type: str = "block"
-        elif "edge" in self.texture: self.type: str = "block"
+        if "wall" in self.texture: self.type: str = core.WALL
+        elif "door" in self.texture: self.type: str = core.DOOR
+        elif "ground" in self.texture: self.type: str = core.GROUND
+        elif "block" in self.texture: self.type: str = core.WALL
+        elif "edge" in self.texture: self.type: str = core.WALL
 
     def set_texture( self, path: str ) -> None:
         self.texture: str = path
@@ -213,9 +213,6 @@ class TilesMap:
     def get_tile_entities( self ) -> list:
 
         entity_list = []
-        hard = ["./assets/map/wall/north.png", "./assets/map/wall/east.png", "./assets/map/wall/south.png", "./assets/map/wall/west.png", "./assets/map/edge/north_east.png", "./assets/map/edge/north_west.png", "./assets/map/edge/south_west.png", "./assets/map/edge/south_east.png", "./assets/map/block.png"]
-        medium = ["./assets/map/door/closed/north.png", "./assets/map/door/closed/east.png", "./assets/map/door/closed/south.png", "./assets/map/door/closed/west.png", "./assets/map/door/open/north.png", "./assets/map/door/open/east.png", "./assets/map/door/open/south.png", "./assets/map/door/open/west.png"]
-        soft = ["./assets/map/ground.png"]
 
         tmp_height: list = [0]
 
@@ -229,9 +226,9 @@ class TilesMap:
                 
                 width = tile.surface.get_width()
                 height = tile.surface.get_height()
-                if tile.texture in hard: fac = core.MAP
-                elif tile.texture in medium: fac = core.SPECIAL
-                elif tile.texture in soft: fac = core.NEUTRAL
+                if tile.type == core.WALL: fac = core.MAP
+                elif tile.type == core.DOOR: fac = core.SPECIAL
+                elif tile.type == core.GROUND: fac = core.NEUTRAL
                 else:
                     print(tile)
                     raise TypeError("Tile not defined by CORE")
