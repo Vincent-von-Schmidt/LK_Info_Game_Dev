@@ -134,6 +134,7 @@ class TilesMap:
         else: 
             for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
 
+            # door state
             match self.door_north:
                 case "open": tmp.append( self.tiles["door_open_north"] )
                 case "closed": tmp.append( self.tiles["door_closed_north"] )
@@ -164,6 +165,7 @@ class TilesMap:
         else: 
             for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
 
+            # door state
             match self.door_south:
                 case "open": tmp.append( self.tiles["door_open_south"] )
                 case "closed": tmp.append( self.tiles["door_closed_south"] )
