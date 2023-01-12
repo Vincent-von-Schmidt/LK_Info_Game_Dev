@@ -26,7 +26,6 @@ class Game:
         self.infos = infos.Infos()
         self.map = map.tiles.TilesMap( door_north = True, door_south = True )
         self.entities = []
-        #Lists for collision (killed entities replaced with 'None')
         self.NEUTRAL = []
         self.MAP = []
         self.FRIEND = []
@@ -230,8 +229,10 @@ class Game:
             r_n = r
             r_n.pop(en.id)
             n = en.rect.collidelistall(r)
-            for el in n:
-                en.revert(l[el])
+            if n != []:
+                en.end = True
+                
+
         
         #Player/Enemy block
         l = self.ENEMY + self.MAP + [self.player]
