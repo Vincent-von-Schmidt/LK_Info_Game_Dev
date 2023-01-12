@@ -117,7 +117,7 @@ class TilesMap:
             for _ in range( 14 ): tmp.append( self.tiles["wall_south"] )
         else: 
             for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
-            tmp.append( self.tiles["door_open_south"] )
+            tmp.append( self.tiles["door_closed_south"] )
             for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
 
         tmp.append( self.tiles["edge_south_west"] )
