@@ -149,6 +149,9 @@ class Player:
         
         return 2*dis
     
+    def revert(self, rect):
+        pass
+    
     def update_sprite(self, elapsed_time: float) -> None:
         """Updates the players movement."""
         
