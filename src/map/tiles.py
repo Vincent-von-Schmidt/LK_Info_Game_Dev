@@ -20,6 +20,13 @@ class Tile:
         self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
         self.collision: bool = collision
 
+        # type definition
+        if "wall" in self.texture: self.type: str = "block"
+        elif "door" in self.texture: self.type: str = "door"
+        elif "ground" in self.texture: self.type: str = "ground"
+        elif "block" in self.texture: self.type: str = "block"
+        elif "edge" in self.texture: self.type: str = "block"
+
 
 class TilesMap:
     def __init__( 
