@@ -27,6 +27,36 @@ class Tile:
         elif "block" in self.texture: self.type: str = "block"
         elif "edge" in self.texture: self.type: str = "block"
 
+    def set_texture( self, path: str ) -> None:
+        self.texture: str = path
+        self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
+
+
+class Door(Tile):
+    def __init__( self,
+
+            open: bool = True,
+            facing: str = "north"
+
+    ) -> None:
+
+        self.facing: str = facing
+        self.set_state( open )
+
+
+    def __set_tile( self ) -> None:
+        super().__init__(
+            texture = f"./assets/map/door/{self.state}/{self.facing}.png"
+        )
+
+    def get_state( self ) -> str:
+        return self.state
+
+    def set_state( self, open: bool ) -> None:
+
+        self.state: str = "open" if open else "closed"
+        self.__set_tile()
+
 
 class TilesMap:
     def __init__( 
