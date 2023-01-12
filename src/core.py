@@ -2,6 +2,7 @@
 
 MOVE = "move"
 ACTION = "action"
+APP = "app"
 
 # Event infos
 
@@ -14,4 +15,15 @@ UP_RIGHT = "up_right"
 DOWN_LEFT = "down_left"
 DOWN_RIGHT = "down_right"
 RESET = "reset"
+
 SHOOT = "bullets"
+
+#Factions
+NEUTRAL = "neutral"
+MAP = "map"
+FRIEND = "friend"
+ENEMY = "enemy"
+FAUNA = "fauna"
+SPECIAL = "special"
+
+QUIT = "quit"
