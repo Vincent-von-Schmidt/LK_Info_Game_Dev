@@ -3,6 +3,7 @@ import pygame
 import core
 import objects.bullet
 import objects.player
+import objects.archer
 import infos
 import map.tiles
 
@@ -20,11 +21,26 @@ class Game:
 
         # Objects
 
-        self.player = objects.player.Player(x=100, y=100, fac=core.FRIEND)
+        self.player = objects.player.Player(
+            x=100,
+            y=100,
+            fac=core.FRIEND,
+            dir = core.DOWN,
+            speed = 30,
+            change = 0.2
+        )
         self.infos = infos.Infos()
         self.bullets_list = []
         self.infos = infos.Infos()
         self.map = map.tiles.TilesMap( door_north = True, door_south = True )
+        self.archer = objects.archer.Archer(
+            x=100,
+            y=100,
+            fac=core.FRIEND,
+            dir = core.DOWN,
+            speed = 30,
+            change = 0.2
+        )
         self.entities = []
         #Lists for collision (killed entities replaced with 'None')
         self.NEUTRAL = []
@@ -263,6 +279,11 @@ class Game:
             if bullet.end == True: 
                 self.bullets_list.remove(bullet)
             
+        # Archer
+
+        self.archer.update_sprite(elapsed_time)
+        self.archer.update(elapsed_time)
+            
         # Player
 
         self.player.update_sprite(elapsed_time)
@@ -298,6 +319,7 @@ class Game:
         objects += self.map.get_map()
         for bullet in self.bullets_list: 
             objects += bullet.render()
+        objects += self.archer.render()
         objects += self.player.render()
         objects += self.infos.render()
         

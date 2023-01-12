@@ -17,13 +17,7 @@ class Player(entity.Entity, sprites.player.Player):
         # Sprite
 
         entity.Entity.__init__(self, **kwargs)
-        sprites.player.Player.__init__(
-            self,
-            dir = core.DOWN,
-            speed = 30,
-            change = 0.2,
-            **kwargs,
-        )
+        sprites.player.Player.__init__(self, **kwargs)
 
         # Properties
 
