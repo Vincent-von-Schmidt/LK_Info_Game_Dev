@@ -220,7 +220,7 @@ class Game:
         for el in n:
             self.player.update_health(-0.5)
             died = self.player.check_health()
-            print(en, "hit")
+            print(self.player, "hit")
             if died:
                 killer = l[n]
         
@@ -260,12 +260,11 @@ class Game:
                 bullets.append(en)
         for en in bullets:
             n = en.rect.collidelistall(r_n)
-            print(n)
             try: n.remove(l.index(en))
             except: pass
             for i in n:
                 if l[i].fac != en.fac:
-                    print(en, "blocked")
+                    #print(en, "blocked")
                     en.active = False
                     break
                 
