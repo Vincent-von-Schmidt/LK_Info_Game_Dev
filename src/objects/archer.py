@@ -23,6 +23,16 @@ class Archer(entity.Entity, sprites.player.Player):
         self.init_rect()
         ...
     
+    def update_health(self, health: float) -> None:
+        """Update the archer's health."""
+
+        return None
+    
+    def check_health(self) -> None:
+        """Check the archer's health."""
+
+        return None
+    
     def movement_lane_down(self, elapsed_time):
         self.move_down()
         dis = self.speed * elapsed_time
