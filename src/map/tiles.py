@@ -83,7 +83,7 @@ class TilesMap:
         
         tile_construct: list = []
 
-        # first row
+        # first row ---------------------------------------------
         tile_construct.append( tmp := [] )
         tmp.append( self.tiles["edge_north_west"] )
 
@@ -96,17 +96,20 @@ class TilesMap:
 
         tmp.append( self.tiles["edge_north_east"] )
 
-        # between
+        # between -----------------------------------------------
+
+        # map content of the hightmap to Tiles
         with open( heightmap, "r" ) as file:
             content: list = self.__map_tiles_to_binary( json.loads(file.read()) )
 
+        # append Tiles to list
         for i in range( 8 ):
             tile_construct.append( tmp := [] )
             tmp.append( self.tiles["wall_west"] )
             for a in range( 13 ): tmp.append( content[i][a] )
             tmp.append( self.tiles["wall_east"] )
         
-        # last row
+        # last row ----------------------------------------------
         tile_construct.append( tmp := [] )
         tmp.append( self.tiles["edge_south_east"] )
 
