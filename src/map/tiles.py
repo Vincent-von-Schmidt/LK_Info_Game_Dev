@@ -43,7 +43,6 @@ class Door(Tile):
         self.facing: str = facing
         self.set_state( open )
 
-
     def __set_tile( self ) -> None:
         super().__init__(
             texture = f"./assets/map/door/{self.state}/{self.facing}.png"
