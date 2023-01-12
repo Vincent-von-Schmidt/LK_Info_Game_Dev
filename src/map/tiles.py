@@ -33,6 +33,8 @@ class TilesMap:
         # -> main - radio : 256, 208
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (272, 176) )
 
+        self.tile_construct: list = []
+
         self.tiles: dict = {
             "wall_north": Tile( texture = "./assets/map/wall/north.png", collision = True ),
             "wall_east": Tile( texture = "./assets/map/wall/east.png", collision = True ),
@@ -122,6 +124,9 @@ class TilesMap:
 
         self.__render(tile_construct)
 
+        # save tile_construct
+        self.tile_construct: list = tile_construct
+
     def __render( self, constuct: list ) -> None:
         """Render the map. -> Draws the tiles on the map surface."""
 
@@ -162,6 +167,8 @@ class TilesMap:
         # offset: x = 0, y = 32
         return [(self.surface, (0, 32))]
 
+    def get_tile_map( self ) -> list:
+        return self.tile_construct
 
 if __name__ == "__main__":
     pygame.init()
