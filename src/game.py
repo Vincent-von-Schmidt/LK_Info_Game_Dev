@@ -339,7 +339,7 @@ class Game:
 
         objects += self.map.get_map()
         for en in self.entities:
-            if type(en) == entity.Entity:
+            if isinstance(en, entity.Entity):
                 continue
             objects += en.render()
         objects += self.infos.render()
