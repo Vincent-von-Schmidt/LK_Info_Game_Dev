@@ -24,15 +24,15 @@ class Entity:
     
     def init_rect(self) -> None:
         
-        self.rect[0] = self.x
-        self.rect[1] = self.y
-        self.rect[2] = self.w
-        self.rect[3] = self.h
+        self.rect.x = self.x
+        self.rect.y = self.y
+        self.rect.w = self.w
+        self.rect.h = self.h
     
     def update_rect(self) -> None:
 
-        self.rect[0] = self.x
-        self.rect[1] = self.y
+        self.rect.x = self.x
+        self.rect.y = self.y
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         return [(self._render(), (self.x, self.y))]
