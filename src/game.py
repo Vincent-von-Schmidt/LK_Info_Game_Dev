@@ -38,7 +38,7 @@ class Game:
             y=100,
             fac=core.ENEMY,
             dir = core.DOWN,
-            speed = 30,
+            speed = 50,
             change = 0.2
         )
         self.entities = []
@@ -201,7 +201,7 @@ class Game:
                         self.entities.append(objects.bullet.Bullet(
                                 x=self.archer.x,
                                 y=self.archer.y,
-                                dir=self.archer.dir,
+                                dir= core.LEFT, #self.archer.dir,
                                 speed=100,
                                 fac=core.ENEMY
                             ))

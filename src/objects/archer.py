@@ -37,7 +37,7 @@ class Archer(entity.Entity, sprites.player.Player):
         self.move_down()
         dis = self.speed * elapsed_time
         self.y += dis
-        if self.y >= 150: 
+        if self.y >= 170: 
             self.dir = core.UP
             return
             
@@ -50,10 +50,6 @@ class Archer(entity.Entity, sprites.player.Player):
             self.dir = core.DOWN
             return
         ...
-
-        
-
-
 
 
     def update(self, elapsed_time: float):
