@@ -229,7 +229,7 @@ class Game:
             died = self.player.check_health()
             print(self.player, "hit")
             if died:
-                killer = l[n]
+                killer = l[el]
         
         #Enemy hit
         l = []
@@ -301,8 +301,6 @@ class Game:
         
         # TODO
 
-        # Check Health
-
         # Update Entitties
 
         for en in self.entities:
@@ -310,6 +308,13 @@ class Game:
                 continue
             en.update_sprite(elapsed_time)
             en.update(elapsed_time)
+        
+        # Inactive entities
+
+        for en in self.entities:
+            if not en.active:
+                entity.Entity.max_id -= 1
+                self.entities.remove(en)
 
         # Infos
         

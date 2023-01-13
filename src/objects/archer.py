@@ -23,19 +23,30 @@ class Archer(entity.Entity, sprites.player.Player):
         self.init_rect()
         
         self.goal = core.DOWN
+        self.health = 3
     
     def update_health(self, health: float) -> None:
         """Update the archer's health."""
 
-        return None
+        self.health += health
     
-    def check_health(self) -> None:
+    def check_health(self) -> bool:
         """Check the archer's health."""
 
-        return None
+        if self.health <= 0:
+            return True
+        
+        return False
 
     def update(self, elapsed_time: float):
         """Update archer stats."""
+
+        # Health check
+
+        if self.check_health():
+
+            self.active = False
+            return
 
         # Walk
 
@@ -45,7 +56,7 @@ class Archer(entity.Entity, sprites.player.Player):
         elif self.goal == core.UP:
             self.move_up(elapsed_time)
         
-        # Check
+        # Map check
         
         if self.y >= 150:
             self.goal = core.UP
