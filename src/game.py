@@ -212,9 +212,9 @@ class Game:
 
         r = []
         for en in self.entities:
-            en.update_rect()
             r.append(en.rect)
-        #Player hit
+        
+        # Player hit
         l = []
         r_n = []
         for en in self.entities:
@@ -271,10 +271,8 @@ class Game:
                 if l[i].fac != en.fac:
                     en.active = False
                     break
-                
 
-        
-        #Player/Enemy block
+        # Player/Enemy block
         l = []
         r_n = []
         for en in self.entities:
@@ -292,9 +290,6 @@ class Game:
             for el in n:
                 en.revert(r_n[el])
 
-        
-
-        
         # TODO
 
         # Update Entitties

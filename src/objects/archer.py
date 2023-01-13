@@ -18,7 +18,6 @@ class Archer(entity.Entity, sprites.archer.Archer):
 
         self.w = self.images_down[0].get_width()
         self.h = self.images_down[0].get_height()
-        self.init_rect()
         
         self.goal = core.DOWN
         self.health = 3

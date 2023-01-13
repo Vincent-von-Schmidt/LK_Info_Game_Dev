@@ -18,7 +18,6 @@ class Bullet(entity.Entity, sprites.bullet.Bullet):
 
         self.w = self.image_down.get_width()
         self.h = self.image_down.get_height()
-        self.init_rect()
 
         self.end = False
 

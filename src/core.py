@@ -1,10 +1,10 @@
-# Event keys
+# Events
 
 MOVE = "move"
 ACTION = "action"
 APP = "app"
 
-# Event infos
+# Directions
 
 UP = "up"
 DOWN = "down"
@@ -14,15 +14,17 @@ UP_LEFT = "up_down"
 UP_RIGHT = "up_right"
 DOWN_LEFT = "down_left"
 DOWN_RIGHT = "down_right"
-RESET = "reset"
 
 SHOOT = "bullets"
+
+# Map
 
 WALL = "wall"
 GROUND = "ground"
 DOOR = "door"
 
-#Factions
+# Factions
+
 NEUTRAL = "neutral"
 MAP = "map"
 FRIEND = "friend"

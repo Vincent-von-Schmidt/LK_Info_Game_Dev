@@ -23,7 +23,6 @@ class Player(entity.Entity, sprites.player.Player):
 
         self.w = self.images_down[0].get_width()
         self.h = self.images_down[0].get_height()
-        self.init_rect()
 
         # Properties
 

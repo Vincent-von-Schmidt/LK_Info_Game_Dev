@@ -170,7 +170,6 @@ class Archer:
         elif tmp_rect.contains(tmp_right) and not tmp_rect.contains(tmp_up) and not tmp_rect.contains(tmp_down): 
             dis = -self.rect.x - self.rect.w + rect.x
             self.x += dis
-        self.update_rect()
     
     def update_sprite(self, elapsed_time: float) -> None:
         """Update the archer animation."""
