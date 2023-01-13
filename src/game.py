@@ -45,7 +45,7 @@ class Game:
         self.MAP = []
 
         self.entities.append(self.player)
-        self.entities += self.map.get_tile_entities()
+        self.entities += self.map.get_entity_list()
         self.entities.append(self.archer)
 
         # Pygame

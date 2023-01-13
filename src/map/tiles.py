@@ -75,6 +75,7 @@ class TilesMap:
         # -> main - radio : 256, 208
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (272, 176) )
         self.heightmap: str = heightmap
+        self.entity_list: list = []
         self.tile_construct: list = []
 
         self.tiles: dict = {
@@ -217,6 +218,7 @@ class TilesMap:
             # for each column
             for tile in row:
                 
+                # map draw
                 self.surface.blit(
                     source = tile.surface,
                     dest = (
@@ -224,6 +226,25 @@ class TilesMap:
                         sum( tmp_height )
                     ) 
                 )
+
+                # entity list -> collision
+                if tile.type == core.WALL: fac = core.MAP
+                elif tile.type == core.DOOR: fac = core.SPECIAL
+                elif tile.type == core.GROUND: fac = core.NEUTRAL
+                else:
+                    print(tile)
+                    raise TypeError("Tile not defined by CORE")
+
+                self.entity_list.append(
+                    entity.Entity(
+                        x = sum( tmp_width ),
+                        y = sum( tmp_height ) + 32,
+                        fac = fac
+                    )
+                )
+                self.entity_list[-1].w = tile.surface.get_width()
+                self.entity_list[-1].h = tile.surface.get_height()
+                self.entity_list[-1].init_rect()
 
                 # save current width for the next column
                 tmp_width.append( tile.surface.get_width() )
@@ -242,46 +263,9 @@ class TilesMap:
     def get_tile_map( self ) -> list:
         return self.tile_construct
 
-    def get_tile_entities( self ) -> list:
+    def get_entity_list( self ) -> list:
+        return self.entity_list
 
-        entity_list = []
-
-        tmp_height: list = [0]
-
-        for row in self.tile_construct:
-
-            tmp_width: list = [0]
-
-            tmp_tile: Tile | None = None
-
-            for tile in row:
-                
-                width = tile.surface.get_width()
-                height = tile.surface.get_height()
-                if tile.type == core.WALL: fac = core.MAP
-                elif tile.type == core.DOOR: fac = core.SPECIAL
-                elif tile.type == core.GROUND: fac = core.NEUTRAL
-                else:
-                    print(tile)
-                    raise TypeError("Tile not defined by CORE")
-
-                entity_list.append(
-                    entity.Entity(
-                        x = sum( tmp_width ),
-                        y = sum( tmp_height ) + 32,
-                        fac = fac
-                    )
-                )
-                entity_list[-1].w = width
-                entity_list[-1].h = height
-                entity_list[-1].init_rect()
-
-                tmp_width.append( tile.surface.get_width() )
-
-                tmp_tile: Tile | None = tile
-
-            tmp_height.append( tmp_tile.surface.get_height() )
-        return entity_list
 
 if __name__ == "__main__":
     pygame.init()
