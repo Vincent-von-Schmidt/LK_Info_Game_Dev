@@ -19,6 +19,12 @@ class Player(entity.Entity, sprites.player.Player):
         entity.Entity.__init__(self, **kwargs)
         sprites.player.Player.__init__(self, **kwargs)
 
+        # Hitbox
+
+        self.w = self.images_down[0].get_width()
+        self.h = self.images_down[0].get_height()
+        self.init_rect()
+
         # Properties
 
         self.attack_block = 1

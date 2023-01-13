@@ -17,7 +17,21 @@ class Archer(entity.Entity, sprites.player.Player):
 
         self.speed = kwargs["speed"]
         self.dir = kwargs["dir"]
+
+        self.w = self.images_down[0].get_width()
+        self.h = self.images_down[0].get_height()
+        self.init_rect()
         ...
+    
+    def update_health(self, health: float) -> None:
+        """Update the archer's health."""
+
+        return None
+    
+    def check_health(self) -> None:
+        """Check the archer's health."""
+
+        return None
     
     def movement_lane_down(self, elapsed_time):
         self.move_down()

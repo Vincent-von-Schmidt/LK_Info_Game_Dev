@@ -19,9 +19,9 @@ class Infos:
 
         self.fps = 0
         self.time = (0, 0)
-        self.kills = 15
-        self.level = 3
-        self.live = 1.5
+        self.kills = 0
+        self.level = 0
+        self.live = 0
         self.hearts = []
 
         self.background = pygame.image.load("./assets/hotbar/hotbar_background.png")
@@ -97,22 +97,22 @@ class Infos:
             f"{self.fps:.0f} FPS", False, (255, 255, 255)
         )
 
-        levelsurface = self.font.render(f"{self.level:.0f} LVL", False, (255, 255, 255))
+        levelsurface = self.font.render("LVL " + f"{self.level:.0f}", False, (255, 255, 255))
 
         killsurface = self.font.render(f"{self.kills:.0f}", False, (255, 255, 255))
 
         return [
             (self.background, (0, 0)),
             (timesurface, (10, 2)),
-            (fpssurface, (200, 2)),
+            (fpssurface, (230, 2)),
             (levelsurface, (10, 15)),
-            (killsurface, (50, 15)),
+            (killsurface, (50, 17)),
             (self.skull, (72, 15)),
             self.hearts[0],
             self.hearts[1],
             self.hearts[2],
-            (self.border, (96, 2)),
-            (self.border, (125, 2)),
-            (self.sword, (100, 7)),
-            (self.bow, (130, 8))
+            (self.border, (109, 2)),
+            (self.border, (138, 2)),
+            (self.sword, (113, 7)),
+            (self.bow, (143, 8))
         ]
