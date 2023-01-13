@@ -21,7 +21,8 @@ class Game:
         ################################################################
 
         # Objects
-
+        self.bullets_list = []
+        
         self.player = objects.player.Player(
             x=100,
             y=100,
@@ -37,7 +38,7 @@ class Game:
             y=100,
             fac=core.ENEMY,
             dir = core.DOWN,
-            speed = 30,
+            speed = 50,
             change = 0.2
         )
         self.entities = []
@@ -200,7 +201,7 @@ class Game:
                         self.entities.append(objects.bullet.Bullet(
                                 x=self.archer.x,
                                 y=self.archer.y,
-                                dir=self.archer.dir,
+                                dir= core.LEFT, #self.archer.dir,
                                 speed=100,
                                 fac=core.ENEMY
                             ))
@@ -228,7 +229,7 @@ class Game:
             died = self.player.check_health()
             print(self.player, "hit")
             if died:
-                killer = l[n]
+                killer = l[el]
         
         #Enemy hit
         l = []
@@ -300,8 +301,6 @@ class Game:
         
         # TODO
 
-        # Check Health
-
         # Update Entitties
 
         for en in self.entities:
@@ -309,6 +308,13 @@ class Game:
                 continue
             en.update_sprite(elapsed_time)
             en.update(elapsed_time)
+        
+        # Inactive entities
+
+        for en in self.entities:
+            if not en.active:
+                entity.Entity.max_id -= 1
+                self.entities.remove(en)
 
         # Infos
         

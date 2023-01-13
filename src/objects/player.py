@@ -31,9 +31,18 @@ class Player(entity.Entity, sprites.player.Player):
         self.shooting = True
         self.attack_last = 0 # Time
         self.max_health = 3
-        self.health = 1.5
+        self.health = 3
 
     def update(self, elapsed_time: float):
+
+        # Health check
+
+        if self.check_health():
+
+            self.active = False
+            return
+        
+        # Attack block
 
         self.attack_last += elapsed_time
 
@@ -46,9 +55,12 @@ class Player(entity.Entity, sprites.player.Player):
     def update_health(self, health: float) -> None:
         """Update the player's health."""
 
-        return None
+        self.health += health
     
-    def check_health(self) -> None:
+    def check_health(self) -> bool:
         """Check the player's health."""
 
-        return None
+        if self.health <= 0:
+            return True
+        
+        return False
