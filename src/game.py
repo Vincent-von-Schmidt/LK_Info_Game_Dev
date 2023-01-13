@@ -244,7 +244,7 @@ class Game:
         for en in enemies:
             n = en.rect.collidelistall(r_n)
             try: n.remove(l.index(en))
-            except: pass
+            except: pass # TODO -> not valild -> remove
             for el in n:
                 en.update_health(-0.5)
                 if en.check_health():
