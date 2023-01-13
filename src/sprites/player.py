@@ -152,11 +152,12 @@ class Player:
     def revert(self, rect):
         """Handles the collision"""
         
+        f = 6
         tmp_up = [self.rect.x, self.rect.y, self.rect.w, 1]
         tmp_down = [self.rect.x, self.rect.y + self.rect.h, self.rect.w, -1]
         tmp_left = [self.rect.x, self.rect.y, 1, self.rect.h]
         tmp_right = [self.rect.x + self.rect.w, self.rect.y, -1, self.rect.h]
-        tmp_rect = pygame.Rect(rect.x - self.rect.w/2, rect.y - self.rect.h/2, rect.w + self.rect.w, rect.h + self.rect.h)
+        tmp_rect = pygame.Rect(rect.x - self.rect.w/2 - f, rect.y - self.rect.h/2 - f, rect.w + self.rect.w + 2*f, rect.h + self.rect.h + 2*f)
         if tmp_rect.contains(tmp_up) and not tmp_rect.contains(tmp_left) and not tmp_rect.contains(tmp_right): 
             dis = rect.y + rect.h - self.rect.y
             self.y += dis
