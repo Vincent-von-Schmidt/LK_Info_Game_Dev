@@ -221,14 +221,12 @@ class Game:
             if en.fac == core.ENEMY or en.fac == core.FAUNA:
                 r_n.append(r[en.id])
                 l.append(en)
-        #print(self.player.rect)
-        #print(r_n)
         n = self.player.rect.collidelistall(r_n)
         for el in n:
             self.player.update_health(-0.5)
             died = self.player.check_health()
-            print(self.player, "hit")
             if died:
+                self.player.active = False
                 killer = l[el]
         
         #Enemy hit
@@ -249,8 +247,8 @@ class Game:
             except: pass
             for el in n:
                 en.update_health(-0.5)
-                print(en, "hit")
                 if en.check_health():
+                    en.active = False
                     k += 1
         self.infos.update_kills(k)
         
@@ -271,7 +269,6 @@ class Game:
             except: pass
             for i in n:
                 if l[i].fac != en.fac:
-                    #print(en, "blocked")
                     en.active = False
                     break
                 
@@ -293,7 +290,6 @@ class Game:
             try: n.remove(l.index(en))
             except: pass
             for el in n:
-                #print(en, "blocked")
                 en.revert(r_n[el])
 
         
