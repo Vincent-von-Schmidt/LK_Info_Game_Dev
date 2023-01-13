@@ -21,7 +21,8 @@ class Archer(entity.Entity, sprites.player.Player):
         self.w = self.images_down[0].get_width()
         self.h = self.images_down[0].get_height()
         self.init_rect()
-        ...
+        
+        self.goal = core.DOWN
     
     def update_health(self, health: float) -> None:
         """Update the archer's health."""
@@ -32,35 +33,22 @@ class Archer(entity.Entity, sprites.player.Player):
         """Check the archer's health."""
 
         return None
-    
-    def movement_lane_down(self, elapsed_time):
-        self.move_down()
-        dis = self.speed * elapsed_time
-        self.y += dis
-        if self.y >= 150: 
-            self.dir = core.UP
-            return
-            
-
-    def movement_lane_up(self, elapsed_time):
-        self.move_up()
-        dis = self.speed * elapsed_time
-        self.y -= dis
-        if self.y <= 50:
-            self.dir = core.DOWN
-            return
-        ...
-
-        
-
-
-
 
     def update(self, elapsed_time: float):
         """Update archer stats."""
-        if self.dir == core.DOWN:
-            self.movement_lane_down(elapsed_time)
 
-        elif self.dir == core.UP: 
-            self.movement_lane_up(elapsed_time)
-        ...
+        # Walk
+
+        if self.goal == core.DOWN:
+            self.move_down(elapsed_time)
+
+        elif self.goal == core.UP:
+            self.move_up(elapsed_time)
+        
+        # Check
+        
+        if self.y >= 150:
+            self.goal = core.UP
+        
+        elif self.y <= 70:
+            self.goal = core.DOWN
