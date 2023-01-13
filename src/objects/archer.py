@@ -3,17 +3,15 @@ import pygame
 import core
 import entity
 import sprites.archer
-import sprites.player # Debug
 
 
-class Archer(entity.Entity, sprites.player.Player):
+class Archer(entity.Entity, sprites.archer.Archer):
     """Enemy archer class."""
 
     def __init__(self, **kwargs):
         
         entity.Entity.__init__(self, **kwargs)
-        # sprites.archer.Archer.__init__(kwargs)
-        sprites.player.Player.__init__(self, **kwargs)
+        sprites.archer.Archer.__init__(self, **kwargs)
 
         self.speed = kwargs["speed"]
         self.dir = kwargs["dir"]

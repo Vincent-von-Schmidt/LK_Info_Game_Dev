@@ -37,10 +37,140 @@ class Archer:
             pygame.image.load("./assets/archer/archer_right_1.png"),
             pygame.image.load("./assets/archer/archer_right_2.png")
         )
-        ...
+    
+    def move_up(self, elapsed_time: float = 0) -> float:
+        """Move the sprite up."""
+
+        ################################################################
+        # 1. Change the player position.                               #
+        ################################################################
+
+        dis = self.step_speed * elapsed_time
+        self.y -= dis
+
+        self.dir = core.UP
+        self.step_stop = False
+
+        return dis
+    
+    def move_down(self, elapsed_time: float = 0) -> float:
+        """Move the sprite down."""
+
+        ################################################################
+        # 1. Change the player position.                               #
+        ################################################################
+
+        dis = self.step_speed * elapsed_time
+        self.y += dis
+        
+        self.dir = core.DOWN
+        self.step_stop = False
+
+        return dis
+    
+    def move_left(self, elapsed_time: float = 0) -> float:
+        """Move the sprite left."""
+
+        ################################################################
+        # 1. Change the player position.                               #
+        ################################################################
+
+        dis = self.step_speed * elapsed_time
+        self.x -= dis
+
+        self.dir = core.LEFT
+        self.step_stop = False
+
+        return dis
+    
+    def move_right(self, elapsed_time: float = 0) -> float:
+        """Move the sprite right."""
+
+        ################################################################
+        # 1. Change the player position.                               #
+        ################################################################
+
+        dis = self.step_speed * elapsed_time
+        self.x += dis
+
+        self.dir = core.RIGHT
+        self.step_stop = False
+
+        return dis
+    
+    def move_up_right(self, elapsed_time: float = 0) -> float:
+        """Move the sprite up right."""
+
+        dis = self.step_speed * elapsed_time / 2**0.5
+
+        self.y -= dis
+        self.x += dis
+
+        self.dir = core.RIGHT
+        self.step_stop = False
+        
+        return 2*dis
+
+    def move_up_left(self, elapsed_time: float = 0) -> float:
+        """Move the sprite up left."""
+
+        dis = self.step_speed * elapsed_time / 2**0.5
+
+        self.y -= dis
+        self.x -= dis
+
+        self.dir = core.LEFT
+        self.step_stop = False
+        
+        return 2*dis
+    
+    def move_down_left(self, elapsed_time: float = 0) -> float:
+        """Move the sprite down left."""
+
+        dis = self.step_speed * elapsed_time / 2**0.5
+
+        self.y += dis
+        self.x -= dis
+    
+        self.dir = core.LEFT
+        self.step_stop = False
+        
+        return 2*dis
+    
+    def move_down_right(self, elapsed_time: float = 0) -> float:
+        """Move the sprite down right."""
+
+        dis = self.step_speed * elapsed_time / 2**0.5
+
+        self.y += dis
+        self.x += dis
+
+        self.dir = core.RIGHT
+        self.step_stop = False
+        
+        return 2*dis
     
     def revert(self, rect):
-        pass
+        """Handles the collision"""
+        
+        tmp_up = [self.rect.x, self.rect.y, self.rect.w, 1]
+        tmp_down = [self.rect.x, self.rect.y + self.rect.h, self.rect.w, -1]
+        tmp_left = [self.rect.x, self.rect.y, 1, self.rect.h]
+        tmp_right = [self.rect.x + self.rect.w, self.rect.y, -1, self.rect.h]
+        tmp_rect = pygame.Rect(rect.x - self.rect.w/2, rect.y - self.rect.h/2, rect.w + self.rect.w, rect.h + self.rect.h)
+        if tmp_rect.contains(tmp_up) and not tmp_rect.contains(tmp_left) and not tmp_rect.contains(tmp_right): 
+            dis = rect.y + rect.h - self.rect.y
+            self.y += dis
+        elif tmp_rect.contains(tmp_down) and not tmp_rect.contains(tmp_left) and not tmp_rect.contains(tmp_right): 
+            dis = -self.rect.y - self.rect.h + rect.y
+            self.y += dis
+        elif tmp_rect.contains(tmp_left) and not tmp_rect.contains(tmp_up) and not tmp_rect.contains(tmp_down): 
+            dis = rect.x + rect.w - self.rect.x
+            self.x += dis
+        elif tmp_rect.contains(tmp_right) and not tmp_rect.contains(tmp_up) and not tmp_rect.contains(tmp_down): 
+            dis = -self.rect.x - self.rect.w + rect.x
+            self.x += dis
+        self.update_rect()
     
     def update_sprite(self, elapsed_time: float) -> None:
         """Update the archer animation."""
@@ -60,9 +190,12 @@ class Archer:
             self.step_idx = 0
         
         self.step_stop = True
-        ...
 
     def _render(self) -> pygame.surface.Surface:
+        """Render the sprite graphic."""
+
+        # Movement
+
         if self.dir == core.RIGHT:
             return self.images_right[self.step_idx]
         
@@ -70,9 +203,7 @@ class Archer:
             return self.images_left[self.step_idx]
         
         elif self.dir == core.UP:
-            print("oben!!!!")
             return self.images_up[self.step_idx]
         
         elif self.dir == core.DOWN:
             return self.images_down[self.step_idx]
-        #return pygame.surface.Surface()
