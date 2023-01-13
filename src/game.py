@@ -20,7 +20,8 @@ class Game:
         ################################################################
 
         # Objects
-
+        self.bullets_list = []
+        
         self.player = objects.player.Player(
             x=100,
             y=100,
