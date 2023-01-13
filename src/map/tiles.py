@@ -234,7 +234,11 @@ class TilesMap:
                     case _:
                         print(tile)
                         raise TypeError("Tile not defined by CORE")
-
+                
+                if "north" in tile.texture and not "edge" in tile.texture:
+                    h_dif = 12
+                else: 
+                    h_dif = 0
                 self.entity_list.append(
                     entity.Entity(
                         x = sum( tmp_width ),
@@ -243,7 +247,7 @@ class TilesMap:
                     )
                 )
                 self.entity_list[-1].w = tile.surface.get_width()
-                self.entity_list[-1].h = tile.surface.get_height()
+                self.entity_list[-1].h = tile.surface.get_height() - h_dif
                 self.entity_list[-1].init_rect()
 
                 # save current width for the next column
