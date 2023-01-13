@@ -16,8 +16,7 @@ class Tile:
 
     ) -> None:
         
-        self.texture: str = texture
-        self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
+        self.set_texture( path = texture )
         self.collision: bool = collision
 
         # type definition
@@ -228,12 +227,13 @@ class TilesMap:
                 )
 
                 # entity list -> collision
-                if tile.type == core.WALL: fac = core.MAP
-                elif tile.type == core.DOOR: fac = core.SPECIAL
-                elif tile.type == core.GROUND: fac = core.NEUTRAL
-                else:
-                    print(tile)
-                    raise TypeError("Tile not defined by CORE")
+                match tile.type:
+                    case core.WALL: fac = core.MAP
+                    case core.DOOR: fac = core.SPECIAL
+                    case core.GROUND: fac = core.NEUTRAL
+                    case _:
+                        print(tile)
+                        raise TypeError("Tile not defined by CORE")
 
                 self.entity_list.append(
                     entity.Entity(
