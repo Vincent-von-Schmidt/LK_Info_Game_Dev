@@ -35,8 +35,8 @@ class Game:
         self.map = map.tiles.TilesMap(
             door_north = "open",
             door_south = "closed",
-            door_east = "open",
-            door_west = "closed"
+            door_east = False,
+            door_west = "closed",
         )
         self.archer = objects.archer.Archer(
             x=200,
