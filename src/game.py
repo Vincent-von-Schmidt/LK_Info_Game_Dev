@@ -32,7 +32,12 @@ class Game:
             change = 0.2
         )
         self.infos = infos.Infos()
-        self.map = map.tiles.TilesMap( door_north = "open", door_south = "closed" )
+        self.map = map.tiles.TilesMap(
+            door_north = "open",
+            door_south = "closed",
+            door_east = "open",
+            door_west = "closed"
+        )
         self.archer = objects.archer.Archer(
             x=200,
             y=100,
@@ -116,10 +121,20 @@ class Game:
             self.map.load_height_map( "./assets/map/heightmaps/blank.json" )
 
         elif keys[pygame.K_j]:
-            self.map.set_door_state( north = "closed", south = "open" )
+            self.map.set_door_state(
+                north = "closed",
+                south = "open",
+                west = "open",
+                east = "closed"
+            )
 
         elif keys[pygame.K_k]:
-            self.map.set_door_state( north = "open", south = "closed" )
+            self.map.set_door_state(
+                north = "open",
+                south = "closed",
+                west = "closed",
+                east = "open"
+            )
         
         # Actions
         
