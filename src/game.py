@@ -335,8 +335,10 @@ class Game:
         # Update Entitties
 
         for en in self.entities:
+            
             if type(en) == entity.Entity:
                 continue
+            
             en.update_sprite(elapsed_time)
             en.update(elapsed_time)
         
@@ -344,6 +346,7 @@ class Game:
 
         for en in self.entities:
             if not en.active:
+                
                 entity.Entity.max_id -= 1
                 self.entities.remove(en)
 
@@ -359,8 +362,6 @@ class Game:
 
         curr_health = self.player.health
         self.infos.update_hearts(curr_health) # Player info
-        # TODO
-        ...
     
     def render(self) -> None:
         """Render the seen image."""
