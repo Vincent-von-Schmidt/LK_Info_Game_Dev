@@ -225,87 +225,112 @@ class Game:
 
         # Check collisions
 
-        r = []
-        for en in self.entities:
-            r.append(en.rect)
-        
-        # Player hit
-        l = []
-        r_n = []
-        for en in self.entities:
-            if en.fac == core.ENEMY or en.fac == core.FAUNA:
-                r_n.append(r[en.id])
-                l.append(en)
-        n = self.player.rect.collidelistall(r_n)
-        for el in n:
-            self.player.update_health(-0.5)
-            died = self.player.check_health()
-            if died:
-                self.player.active = False
-                killer = l[el]
-        
-        #Enemy hit
-        l = []
-        r_n = []
-        for en in self.entities:
-            if (en.fac == core.FRIEND or en.fac == core.FAUNA) and en != self.player and type(en) == objects.bullet.Bullet:
-                r_n.append(r[en.id])
-                l.append(en)
-        enemies = []
-        for en in self.entities:
-            if en.fac == core.ENEMY and type(en) != objects.bullet.Bullet:
-                enemies.append(en)
-        k = 0
-        for en in enemies:
-            n = en.rect.collidelistall(r_n)
-            try: n.remove(l.index(en))
-            except: pass # TODO -> not valild -> remove
-            for el in n:
-                en.update_health(-0.5)
-                if en.check_health():
-                    en.active = False
-                    k += 1
-        self.infos.update_kills(k)
-        
-        #Projectile block
-        l = []
-        r_n = []
-        for en in self.entities:
-            if (en.fac == core.ENEMY or en.fac == core.FAUNA or en.fac == core.MAP or en == self.player) and type(en) != objects.bullet.Bullet:
-                r_n.append(r[en.id])
-                l.append(en)
-        bullets = []
-        for en in self.entities:
-            if type(en) == objects.bullet.Bullet:
-                bullets.append(en)
-        for en in bullets:
-            n = en.rect.collidelistall(r_n)
-            try: n.remove(l.index(en))
-            except: pass
-            for i in n:
-                if l[i].fac != en.fac:
-                    en.active = False
-                    break
+        for entity1 in self.entities:
+            for entity2 in self.entities:
 
-        # Player/Enemy block
-        l = []
-        r_n = []
-        for en in self.entities:
-            if (en.fac == core.ENEMY or en.fac == core.MAP or en == self.player) and type(en) != objects.bullet.Bullet:
-                r_n.append(r[en.id])
-                l.append(en)
-        mobs = []
-        for en in self.entities:
-            if (en.fac == core.ENEMY and type(en) != objects.bullet.Bullet) or en == self.player:
-                mobs.append(en)
-        for en in mobs:
-            n = en.rect.collidelistall(r_n)
-            try: n.remove(l.index(en))
-            except: pass
-            for el in n:
-                en.revert(r_n[el])
+                entity1: entity.Entity
+                entity2: entity.Entity
 
-        # TODO
+                # Exklusion
+
+                if entity1 is entity2: # Same entities
+                    continue
+
+                if not entity1.fac == core.FRIEND:
+                    continue
+
+                if not entity2.fac in (core.ENEMY, core.MAP):
+                    continue
+
+                if not entity1.rect.colliderect(entity2.rect): # Not colliding
+                    continue
+
+                # Inklusion
+
+                if isinstance(entity1, objects.player.Player): # Player hit
+                    
+                    if (
+                        isinstance(entity2, objects.bullet.Bullet)
+                        and entity2.fac == core.ENEMY
+                    ):
+
+                        entity1.update_health(-0.5)
+                        entity2.active = False
+                        continue
+                
+                if (
+                    isinstance(entity1, objects.bullet.Bullet)
+                    and entity1.fac == core.FRIEND
+                ): # Enemy hit
+                    if isinstance(entity2, objects.archer.Archer):
+
+                        entity1.active = False
+                        entity2.update_health(-1)
+                        continue
+
+                if isinstance(entity1, objects.player.Player): # Wall hit
+                    if entity2.fac == core.MAP:
+
+                        tmp_up = [
+                            entity1.x, entity1.y,
+                            entity1.w, 1
+                        ]
+                        tmp_down = [
+                            entity1.x, entity1.y + entity1.h,
+                            entity1.w, -1
+                        ]
+                        tmp_left = [
+                            entity1.x, entity1.y,
+                            1, entity1.h
+                        ]
+                        tmp_right = [
+                            entity1.x + entity1.w,
+                            entity1.y, -1, entity1.h
+                        ]
+                        
+                        top_offset = 6
+                        tmp_rect = pygame.Rect(
+                            entity2.x - entity1.w/2 - top_offset,
+                            entity2.y - entity1.h/2 - top_offset,
+                            entity2.w + entity1.w + 2*top_offset,
+                            entity2.h + entity1.h + 2*top_offset
+                        )
+                        
+                        if (
+                            tmp_rect.contains(tmp_up)
+                            and not tmp_rect.contains(tmp_left)
+                            and not tmp_rect.contains(tmp_right)
+                        ):
+                            
+                            dis = entity2.y + entity2.h - entity1.y
+                            entity1.y += dis
+                        
+                        elif (
+                            tmp_rect.contains(tmp_down)
+                            and not tmp_rect.contains(tmp_left)
+                            and not tmp_rect.contains(tmp_right)
+                        ):
+                            
+                            dis = -entity1.y - entity1.h + entity2.y
+                            entity1.y += dis
+                        
+                        elif (
+                            tmp_rect.contains(tmp_left)
+                            and not tmp_rect.contains(tmp_up)
+                            and not tmp_rect.contains(tmp_down)
+                        ):
+                            
+                            dis = entity2.x + entity2.w - entity1.x
+                            entity1.x += dis
+                        
+                        elif (
+                            tmp_rect.contains(tmp_right)
+                            and not tmp_rect.contains(tmp_up)
+                            and not tmp_rect.contains(tmp_down)
+                        ):
+                            
+                            dis = -entity1.x - entity1.w + entity2.x
+                            entity1.x += dis
 
         # Update Entitties
 
