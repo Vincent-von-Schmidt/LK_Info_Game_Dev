@@ -168,9 +168,15 @@ class Game:
         ################################################################
 
         if self.dead:
-            curr_fps = self.clock.get_fps()
-            self.infos.update_fps(curr_fps)
-            return
+            try:
+                if self.eventqueue[0] == (core.APP, core.QUIT):
+                    self.running = False
+                    return
+            except: pass
+            finally:
+                curr_fps = self.clock.get_fps()
+                self.infos.update_fps(curr_fps)
+                return
 
         # Reset variables
 
@@ -192,6 +198,7 @@ class Game:
             if key == core.APP:
                 if info == core.QUIT:
                     self.running = False
+                    return
                 
             # Movement
 
