@@ -294,6 +294,7 @@ class TilesMap:
                 )
                 self.entity_list[-1].w = tile.surface.get_width()
                 self.entity_list[-1].h = tile.surface.get_height() - h_dif
+                self.entity_list[-1].init_rect()
 
                 # save current width for the next column
                 tmp_width.append( tile.surface.get_width() )

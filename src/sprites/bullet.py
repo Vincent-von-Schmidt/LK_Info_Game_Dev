@@ -124,7 +124,7 @@ class Bullet:
         return 2*dis
     
     def update_sprite(self, elapsed_time: float) -> None:
-        """Updates the players movement."""
+        """Updates the bullets movement."""
         ...
     
     def _render(self) -> pygame.surface.Surface:

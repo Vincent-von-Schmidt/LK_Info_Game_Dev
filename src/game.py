@@ -202,27 +202,18 @@ class Game:
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
-                    if self.player.shooting:
-                
-                        self.entities.append(objects.bullet.Bullet(
-                            x=self.player.x,
-                            y=self.player.y,
-                            dir=self.player.dir,
-                            target=self.archer,
-                            speed=100,
-                            fac=core.FRIEND
-                        ))
+                    bullet = self.player.shoot()
+                    if bullet != None:
+                        self.entities.append(bullet)
+                        bullet.init_rect()
 
-                        self.entities.append(objects.bullet.Bullet(
-                            x=self.archer.x,
-                            y=self.archer.y,
-                            target=self.player,
-                            dir=core.LEFT,
-                            speed=100,
-                            fac=core.ENEMY
-                        ))
-
-                        self.player.attack_last = 0
+        # AI Actions
+        for en in self.entities:
+            if type(en) == objects.archer.Archer:
+                bullet = en.action(self.player, elapsed_time)
+                if bullet != None:
+                    self.entities.append(bullet)
+                    bullet.init_rect()
         
         # Update hitboxes
 
@@ -358,7 +349,7 @@ class Game:
             
             if type(en) == entity.Entity: # Map bugfix
                 continue
-            
+            en.update_rect()
             en.update_sprite(elapsed_time)
             en.update(elapsed_time)
         

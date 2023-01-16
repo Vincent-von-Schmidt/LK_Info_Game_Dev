@@ -17,15 +17,16 @@ class Entity:
         self.w = 0
         self.h = 0
 
-        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
+        self.rect = pygame.Rect(0,0,0,0)
 
         self.fac = kwargs["fac"]
         self.active = True
     
-    def update_rect(self) -> None:
-        
+    def init_rect(self):
+        self.rect.x, self.rect.y, self.rect.w, self.rect.h = self.x, self.y, self.w, self.h
+    
+    def update_rect(self):
         self.rect.x, self.rect.y = self.x, self.y
-        self.rect.w, self.rect.h = self.w, self.h
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         return [(self._render(), (self.x, self.y))]
