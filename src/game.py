@@ -224,6 +224,15 @@ class Game:
                         ))
 
                         self.player.attack_last = 0
+        
+        # Update hitboxes
+
+        for en in self.entities:
+
+            if type(en) == entity.Entity: # Map bugfix
+                continue
+
+            en.update_rect()
 
         # Check collisions
 
