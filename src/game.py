@@ -208,6 +208,7 @@ class Game:
                             x=self.player.x,
                             y=self.player.y,
                             dir=self.player.dir,
+                            target=self.archer,
                             speed=100,
                             fac=core.FRIEND
                         ))
@@ -215,7 +216,8 @@ class Game:
                         self.entities.append(objects.bullet.Bullet(
                             x=self.archer.x,
                             y=self.archer.y,
-                            dir= core.LEFT, #self.archer.dir,
+                            target=self.player,
+                            dir=core.LEFT,
                             speed=100,
                             fac=core.ENEMY
                         ))
