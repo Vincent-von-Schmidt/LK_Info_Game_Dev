@@ -21,7 +21,6 @@ class Game:
         ################################################################
 
         # Objects
-        self.bullets_list = []
         
         self.player = objects.player.Player(
             x=100,
@@ -46,9 +45,8 @@ class Game:
             speed = 50,
             change = 0.2
         )
-        self.entities = []
 
-        self.MAP = []
+        self.entities = []
 
         self.entities.append(self.player)
         self.entities += self.map.get_entity_list()
@@ -65,7 +63,6 @@ class Game:
         
         pygame.key.set_repeat(30, 30)
 
-        self.eventqueue = []
         self.running = True
     
     def handle_inputs(self) -> None:
@@ -76,7 +73,7 @@ class Game:
         # 2. Create event queue.                                       #
         ################################################################
 
-        self.eventqueue.clear()
+        self.eventqueue = []
         
         events = pygame.event.get()            
         keys = pygame.key.get_pressed()
@@ -121,6 +118,7 @@ class Game:
             self.map.load_height_map( "./assets/map/heightmaps/blank.json" )
 
         elif keys[pygame.K_j]:
+            
             self.map.set_door_state(
                 north = "closed",
                 south = "open",
@@ -129,6 +127,7 @@ class Game:
             )
 
         elif keys[pygame.K_k]:
+            
             self.map.set_door_state(
                 north = "open",
                 south = "closed",
@@ -211,7 +210,7 @@ class Game:
                                 dir=self.player.dir,
                                 speed=100,
                                 fac=core.FRIEND
-                            ))
+                        ))
 
                         self.entities.append(objects.bullet.Bullet(
                                 x=self.archer.x,
@@ -219,7 +218,7 @@ class Game:
                                 dir= core.LEFT, #self.archer.dir,
                                 speed=100,
                                 fac=core.ENEMY
-                            ))
+                        ))
 
                         self.player.attack_last = 0
 
