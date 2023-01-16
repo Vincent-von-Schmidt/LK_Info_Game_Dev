@@ -14,6 +14,10 @@ class Bullet:
         self.image_left = pygame.image.load("./assets/bullets/arrow_left.png")
         self.image_up = pygame.image.load("./assets/bullets/arrow_up.png")
         self.image_down = pygame.image.load("./assets/bullets/arrow_down.png")
+        self.image_down_left = pygame.image.load("./assets/bullets/arrow_down_left.png")
+        self.image_down_right = pygame.image.load("./assets/bullets/arrow_down_right.png")
+        self.image_up_left = pygame.image.load("./assets/bullets/arrow_up_left.png")
+        self.image_up_right = pygame.image.load("./assets/bullets/arrow_up_right.png")
     
     def move_up(self, elapsed_time: float) -> float:
         """Move the sprite up."""
@@ -79,7 +83,7 @@ class Bullet:
         self.y -= dis
         self.x += dis
 
-        self.dir = core.RIGHT
+        self.dir = core.UP_RIGHT
         
         return 2*dis
 
@@ -91,7 +95,7 @@ class Bullet:
         self.y -= dis
         self.x -= dis
 
-        self.dir = core.LEFT
+        self.dir = core.UP_LEFT
         
         return 2*dis
     
@@ -103,7 +107,7 @@ class Bullet:
         self.y += dis
         self.x -= dis
     
-        self.dir = core.LEFT
+        self.dir = core.DOWN_LEFT
         
         return 2*dis
     
@@ -115,7 +119,7 @@ class Bullet:
         self.y += dis
         self.x += dis
 
-        self.dir = core.RIGHT
+        self.dir = core.DOWN_RIGHT
         
         return 2*dis
     
@@ -137,3 +141,15 @@ class Bullet:
         
         elif self.dir == core.DOWN: 
             return self.image_down
+        
+        elif self.dir == core.DOWN_LEFT:
+            return self.image_down_left
+        
+        elif self.dir == core.DOWN_RIGHT:
+            return self.image_down_right
+        
+        elif self.dir == core.UP_LEFT:
+            return self.image_up_left
+        
+        elif self.dir == core.UP_RIGHT:
+            return self.image_up_right
