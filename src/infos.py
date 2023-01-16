@@ -1,6 +1,8 @@
 import pygame
 
 import core
+import objects.archer
+import objects.bullet
 
 class Infos:
 
@@ -14,8 +16,8 @@ class Infos:
         # Infos
 
         pygame.font.init()
-        # self.font = font = pygame.font.SysFont('Comic Sans MS', 10)
         self.font = pygame.font.SysFont('Arial', 10)
+        self.font2 = pygame.font.SysFont('Arial', 20)
 
         self.fps = 0
         self.time = (0, 0)
@@ -116,3 +118,19 @@ class Infos:
             (self.sword, (113, 7)),
             (self.bow, (143, 8))
         ]
+    
+    def kill_screen(self, killer):
+        match type(killer):
+            case objects.archer.Archer:
+                killer = "Archer"
+            case objects.bullet.Bullet:
+                killer = "Bullet"
+            case _:
+                killer = "Unknown"
+        screen = pygame.surface.Surface((160,120))
+        screen.fill((0,0,0))
+        screen.blit(self.font.render("You were killed by " + killer, False, (255, 255, 255)), (30, 60))
+        screen.blit(self.font2.render("You Died", False, (255, 255, 255)), (30, 20))
+        screen.blit(self.font.render("Press Enter to quit", False, (255, 255, 255)), (30, 80))
+        return [(screen, (50, 50))]
+

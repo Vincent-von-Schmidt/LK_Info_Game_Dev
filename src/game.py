@@ -53,6 +53,9 @@ class Game:
         self.entities += self.map.get_entity_list()
         self.entities.append(self.archer)
 
+        self.dead = False
+        self.killer = None
+
         # Pygame
 
         self.maxfps = maxfps
@@ -65,6 +68,7 @@ class Game:
         pygame.key.set_repeat(30, 30)
 
         self.running = True
+        self.start = False
     
     def handle_inputs(self) -> None:
         """Get the user input and react."""
@@ -84,6 +88,14 @@ class Game:
         for event in events:
             if event.type == pygame.QUIT:
                 self.eventqueue += [(core.APP, core.QUIT)]
+                return
+        
+        if self.dead:
+            if keys[pygame.K_RETURN]:
+                self.running = False
+                return
+            else:
+                return
 
         # Movement
 
@@ -135,6 +147,11 @@ class Game:
                 west = "closed",
                 east = "open"
             )
+
+        elif keys[pygame.K_DELETE]:
+            
+            self.dead = True
+            return
         
         # Actions
         
@@ -149,6 +166,11 @@ class Game:
         # 2. Check collisions.                                         #
         # 3. Update game infos.                                        #
         ################################################################
+
+        if self.dead:
+            curr_fps = self.clock.get_fps()
+            self.infos.update_fps(curr_fps)
+            return
 
         # Reset variables
 
@@ -367,7 +389,8 @@ class Game:
         curr_millis = pygame.time.get_ticks()
         curr_minutes, curr_millis = divmod(curr_millis, 60_000)
         curr_seconds, curr_millis = divmod(curr_millis, 1_000)
-        self.infos.update_time(curr_minutes, curr_seconds)
+        if not self.dead:
+            self.infos.update_time(curr_minutes, curr_seconds)
 
         curr_fps = self.clock.get_fps()
         self.infos.update_fps(curr_fps)
@@ -393,6 +416,8 @@ class Game:
                 continue
             objects += en.render()
         objects += self.infos.render()
+        if self.dead:
+            objects += self.infos.kill_screen(self.killer)
         
         # Display
 
