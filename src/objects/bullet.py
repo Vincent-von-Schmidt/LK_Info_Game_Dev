@@ -18,9 +18,12 @@ class Bullet(entity.Entity, sprites.bullet.Bullet):
         self.dir = kwargs["dir"]
         self.speed = kwargs["speed"]
         # self.target = kwargs["target"]
-
-        self.w = self.image_down.get_width()
-        self.h = self.image_down.get_height()
+        if self.dir == core.RIGHT or self.dir == core.LEFT:
+            self.w = self.image_left.get_width()
+            self.h = self.image_left.get_height()
+        else:
+            self.w = self.image_up.get_width()
+            self.h = self.image_up.get_height()
         self.init_rect()
 
         # self.xl, self.yl = self.x, self.y # Last point
