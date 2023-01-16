@@ -267,6 +267,12 @@ class Game:
                         entity1.active = False
                         entity2.update_health(-1)
                         continue
+                
+                if isinstance(entity1, objects.bullet.Bullet): # Wall hit
+                    if entity2.fac == core.MAP:
+
+                        entity1.active = False
+                        continue
 
                 if isinstance(entity1, objects.player.Player): # Wall hit
                     if entity2.fac == core.MAP:
@@ -304,8 +310,9 @@ class Game:
                             
                             dis = entity2.y + entity2.h - entity1.y
                             entity1.y += dis
+                            continue
                         
-                        elif (
+                        if (
                             tmp_rect.contains(tmp_down)
                             and not tmp_rect.contains(tmp_left)
                             and not tmp_rect.contains(tmp_right)
@@ -313,8 +320,9 @@ class Game:
                             
                             dis = -entity1.y - entity1.h + entity2.y
                             entity1.y += dis
+                            continue
                         
-                        elif (
+                        if (
                             tmp_rect.contains(tmp_left)
                             and not tmp_rect.contains(tmp_up)
                             and not tmp_rect.contains(tmp_down)
@@ -322,8 +330,9 @@ class Game:
                             
                             dis = entity2.x + entity2.w - entity1.x
                             entity1.x += dis
+                            continue
                         
-                        elif (
+                        if (
                             tmp_rect.contains(tmp_right)
                             and not tmp_rect.contains(tmp_up)
                             and not tmp_rect.contains(tmp_down)
@@ -331,6 +340,7 @@ class Game:
                             
                             dis = -entity1.x - entity1.w + entity2.x
                             entity1.x += dis
+                            continue
 
         # Update Entitties
 

@@ -19,8 +19,6 @@ class Bullet(entity.Entity, sprites.bullet.Bullet):
         self.w = self.image_down.get_width()
         self.h = self.image_down.get_height()
 
-        self.end = False
-
     def update(self, elapsed_time: float) -> None:
         """Update the flight of shooten bullets."""
         
@@ -37,17 +35,3 @@ class Bullet(entity.Entity, sprites.bullet.Bullet):
 
         elif self.dir == core.DOWN:
             self.move_down(elapsed_time)
-        
-        # End flight
-        
-        if self.x >= 500:
-            self.end = True
-        
-        elif self.x <= 0: 
-            self.end = True 
-        
-        elif self.y <= 0:
-            self.end = True 
-        
-        elif self.y >= 500: 
-            self.end = True
