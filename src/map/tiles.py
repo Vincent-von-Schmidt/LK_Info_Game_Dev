@@ -177,49 +177,40 @@ class TilesMap:
         with open( heightmap, "r" ) as file:
             content: list = self.__map_tiles_to_binary( json.loads(file.read()) )
 
-        # append Tiles to list
-        if not bool(self.door_east) ^ bool(self.door_west):
-            for i in range( 8 ):
-                tile_construct.append( tmp := [] )
-                tmp.append( self.tiles["wall_west"] )
-                for a in range( 14 ): tmp.append( content[i][a] )
-                tmp.append( self.tiles["wall_east"] )
+        tmp_i: int = 0
+        for i in range( 3 ):
+            tile_construct.append( tmp := [] )
+            tmp.append( self.tiles["wall_west"] )
+            for a in range( 14 ): tmp.append( content[tmp_i][a] )
+            tmp.append( self.tiles["wall_east"] )
 
-        else:
-            tmp_i: int = 0
-            for i in range( 3 ):
-                tile_construct.append( tmp := [] )
-                tmp.append( self.tiles["wall_west"] )
-                for a in range( 14 ): tmp.append( content[tmp_i][a] )
-                tmp.append( self.tiles["wall_east"] )
+            tmp_i += 1
 
-                tmp_i += 1
+        for i in range( 2 ):
+            tile_construct.append( tmp := [] )
 
-            for i in range( 2 ):
-                tile_construct.append( tmp := [] )
+            match self.door_west:
+                case "open": tmp.append( self.tiles[f"door_open_west_{i + 1}"] )
+                case "closed": tmp.append( self.tiles[f"door_closed_west_{i + 1}"] )
+                case _: tmp.append( self.tiles["wall_west"] )
 
-                match self.door_west:
-                    case "open": tmp.append( self.tiles[f"door_open_west_{i + 1}"] )
-                    case "closed": tmp.append( self.tiles[f"door_closed_west_{i + 1}"] )
-                    case _: tmp.append( self.tiles["wall_west"] )
+            for a in range( 14 ): tmp.append( content[tmp_i][a] )
 
-                for a in range( 14 ): tmp.append( content[tmp_i][a] )
+            match self.door_east:
+                case "open": tmp.append( self.tiles[f"door_open_east_{i + 1}"] )
+                case "closed": tmp.append( self.tiles[f"door_closed_east_{i + 1}"] )
+                case _: tmp.append( self.tiles["wall_east"] )
 
-                match self.door_east:
-                    case "open": tmp.append( self.tiles[f"door_open_east_{i + 1}"] )
-                    case "closed": tmp.append( self.tiles[f"door_closed_east_{i + 1}"] )
-                    case _: tmp.append( self.tiles["wall_east"] )
-
-                tmp_i += 1
+            tmp_i += 1
 
 
-            for i in range( 3 ):
-                tile_construct.append( tmp := [] )
-                tmp.append( self.tiles["wall_west"] )
-                for a in range( 14 ): tmp.append( content[tmp_i][a] )
-                tmp.append( self.tiles["wall_east"] )
+        for i in range( 3 ):
+            tile_construct.append( tmp := [] )
+            tmp.append( self.tiles["wall_west"] )
+            for a in range( 14 ): tmp.append( content[tmp_i][a] )
+            tmp.append( self.tiles["wall_east"] )
 
-                tmp_i += 1
+            tmp_i += 1
 
 
         # last row ----------------------------------------------
