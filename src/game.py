@@ -32,9 +32,10 @@ class Game:
         )
         self.infos = infos.Infos()
         self.map = map.tiles.TilesMap(
+            heightmap = "./assets/map/heightmaps/test.json",
             door_north = "open",
             door_south = "closed",
-            door_east = False,
+            door_east = "open",
             door_west = "closed",
         )
         self.archer = objects.archer.Archer(
