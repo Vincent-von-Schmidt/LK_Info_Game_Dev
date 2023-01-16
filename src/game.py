@@ -205,19 +205,19 @@ class Game:
                     if self.player.shooting:
                 
                         self.entities.append(objects.bullet.Bullet(
-                                x=self.player.x,
-                                y=self.player.y,
-                                dir=self.player.dir,
-                                speed=100,
-                                fac=core.FRIEND
+                            x=self.player.x,
+                            y=self.player.y,
+                            dir=self.player.dir,
+                            speed=100,
+                            fac=core.FRIEND
                         ))
 
                         self.entities.append(objects.bullet.Bullet(
-                                x=self.archer.x,
-                                y=self.archer.y,
-                                dir= core.LEFT, #self.archer.dir,
-                                speed=100,
-                                fac=core.ENEMY
+                            x=self.archer.x,
+                            y=self.archer.y,
+                            dir= core.LEFT, #self.archer.dir,
+                            speed=100,
+                            fac=core.ENEMY
                         ))
 
                         self.player.attack_last = 0
@@ -241,7 +241,7 @@ class Game:
                 if not entity2.fac in (core.ENEMY, core.MAP):
                     continue
 
-                if not entity1.rect.colliderect(entity2.rect): # Not colliding
+                if not entity1.rect.colliderect(entity2.rect): # No collision
                     continue
 
                 # Inklusion
@@ -345,7 +345,7 @@ class Game:
 
         for en in self.entities:
             
-            if type(en) == entity.Entity:
+            if type(en) == entity.Entity: # Map bugfix
                 continue
             
             en.update_sprite(elapsed_time)
@@ -386,7 +386,7 @@ class Game:
 
         objects += self.map.get_map()
         for en in self.entities:
-            if type(en) == entity.Entity:
+            if type(en) == entity.Entity: # Map bugfix
                 continue
             objects += en.render()
         objects += self.infos.render()
