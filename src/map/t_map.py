@@ -157,7 +157,7 @@ class TilesMap:
 
         tmp.append( tiles.Edge( "south_east" ))
 
-        self.__render(tile_construct)
+        self.__render( tile_construct )
 
         # save tile_construct
         self.tile_construct: list = tile_construct
@@ -209,3 +209,12 @@ class TilesMap:
 
     def get_tile_map( self ) -> list:
         return self.tile_construct
+
+    def get_entity_map( self ) -> list:
+        output: list = []
+
+        for row in self.tile_construct:
+            for entity in row:
+                output.append( entity )
+
+        return output

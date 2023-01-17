@@ -50,7 +50,7 @@ class Game:
         self.entities = []
 
         self.entities.append(self.player)
-        self.entities += self.map.get_tile_map()
+        self.entities += self.map.get_entity_map()
         self.entities.append(self.archer)
 
         self.dead = False
@@ -386,8 +386,7 @@ class Game:
 
         for en in self.entities:
             
-            if type(en) == entity.Entity: # Map bugfix
-                continue
+            if isinstance( en, entity.Entity ): continue # map bugfix
             en.update_rect()
             en.update_sprite(elapsed_time)
             en.update(elapsed_time)
