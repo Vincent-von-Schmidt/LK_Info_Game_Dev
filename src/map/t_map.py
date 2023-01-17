@@ -185,13 +185,15 @@ class TilesMap:
             # for each column
             for tile in row:
 
-                width: int = sum( tmp_width )
-                height: int = sum( tmp_height )
+                x: int = sum( tmp_width )
+                y: int = sum( tmp_height )
+
+                tile.set_cordinates( x, y )
                 
                 # map draw
                 self.surface.blit(
                     source = tile.surface,
-                    dest = ( width, height ) 
+                    dest = ( x, y ) 
                 )
 
                 # entity list -> collision

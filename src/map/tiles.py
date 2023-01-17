@@ -48,6 +48,11 @@ class Tile( entity.Entity ):
             fac = self.type
         )
 
+    def set_cordinates( self, x: float, y: float) -> None:
+        self.x: float = x
+        self.y: float = y
+        self.set_entitiy( x, y, self.w, self.h )
+
     def set_texture( self, path: str ) -> None:
         self.texture: str = path
         self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
@@ -60,6 +65,13 @@ class Wall( Tile ):
             texture = f"./assets/map/wall/{facing}.png",
             type = core.MAP,
         )
+
+        # special hitbox for the north facing wall
+        if facing == "north":
+            self.set_entitiy(
+                w = self.surface.get_width(),
+                h = self.surface.get_height() - 12
+            )
 
 
 class Edge( Tile ):
