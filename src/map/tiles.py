@@ -157,17 +157,15 @@ class TilesMap:
         tile_construct.append( tmp := [] )
         tmp.append( self.tiles["edge_north_west"] )
 
-        if not self.door_north:
-            for _ in range( 14 ): tmp.append( self.tiles["wall_north"] )
-        else: 
-            for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
+        for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
 
-            # door state
-            match self.door_north:
-                case "open": tmp.append( self.tiles["door_open_north"] )
-                case "closed": tmp.append( self.tiles["door_closed_north"] )
+        # door state
+        match self.door_north:
+            case "open": tmp.append( self.tiles["door_open_north"] )
+            case "closed": tmp.append( self.tiles["door_closed_north"] )
+            case _: tmp.append( self.tiles["wall_north"] )
 
-            for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
+        for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
 
         tmp.append( self.tiles["edge_north_east"] )
 
@@ -217,17 +215,15 @@ class TilesMap:
         tile_construct.append( tmp := [] )
         tmp.append( self.tiles["edge_south_west"] )
 
-        if not self.door_south:
-            for _ in range( 14 ): tmp.append( self.tiles["wall_south"] )
-        else: 
-            for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
+        for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
 
-            # door state
-            match self.door_south:
-                case "open": tmp.append( self.tiles["door_open_south"] )
-                case "closed": tmp.append( self.tiles["door_closed_south"] )
+        # door state
+        match self.door_south:
+            case "open": tmp.append( self.tiles["door_open_south"] )
+            case "closed": tmp.append( self.tiles["door_closed_south"] )
+            case _: tmp.append( self.tiles["wall_south"] )
 
-            for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
+        for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
 
         tmp.append( self.tiles["edge_south_east"] )
 
