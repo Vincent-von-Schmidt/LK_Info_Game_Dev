@@ -198,7 +198,8 @@ class Quadtree:
 
         self.entities.clear()
 
-    def _print(self, __height=0):
+    def print_(self, __height=0):
+        """Prints the collision handler structure."""
 
         # Print entities
 
@@ -206,12 +207,12 @@ class Quadtree:
 
         # Step down
 
-        if self.up_right:
+        if not self.leaf:
 
-            self.up_right._print(__height + 1)
-            self.up_left._print(__height + 1)
-            self.down_right._print(__height + 1)
-            self.down_left._print(__height + 1)
+            self.up_right.print_(__height + 1)
+            self.up_left.print_(__height + 1)
+            self.down_right.print_(__height + 1)
+            self.down_left.print_(__height + 1)
     
     def handle(self, entities: entity.Entity) -> None:
         """Handle collisions in map."""
@@ -371,5 +372,5 @@ if __name__ == "__main__":
 
         if i == 5: break
     
-    collision._print()
+    collision.print_()
     print("--------------------------------------------")
