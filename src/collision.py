@@ -9,7 +9,12 @@ import objects.archer
 class Quadtree:
     """A class for quad tree collision handle."""
 
-    def __init__(self, x, y, w, h, capacity, root: bool = False, **kwargs):
+    def __init__(
+        self,
+        x: float, y: float,
+        w: float, h: float,
+        capacity: int, root: bool = False, **kwargs
+    ):
         
         self.x = x
         self.y = y
