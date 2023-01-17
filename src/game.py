@@ -256,11 +256,11 @@ class Game:
 
         # Check collisions
 
-        for entity1 in self.entities:
-            for entity2 in self.entities:
+        for i in range(len(self.entities)):
+            for j in range(i + 1, len(self.entities)):
 
-                entity1: entity.Entity
-                entity2: entity.Entity
+                entity1: entity.Entity = self.entities[i]
+                entity2: entity.Entity = self.entities[j]
 
                 # Exklusion
 
