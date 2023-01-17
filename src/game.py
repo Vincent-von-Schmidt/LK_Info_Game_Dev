@@ -93,14 +93,19 @@ class Game:
         # Window
 
         for event in events:
+            
             if event.type == pygame.QUIT:
+                
                 self.eventqueue += [(core.APP, core.QUIT)]
                 return
         
         if self.dead:
+            
             if keys[pygame.K_RETURN]:
+                
                 self.running = False
                 return
+            
             else:
                 return
 
@@ -174,17 +179,6 @@ class Game:
         # 3. Update game infos.                                        #
         ################################################################
 
-        if self.dead:
-            try:
-                if self.eventqueue[0] == (core.APP, core.QUIT):
-                    self.running = False
-                    return
-            except: pass
-            finally:
-                curr_fps = self.clock.get_fps()
-                self.infos.update_fps(curr_fps)
-                return
-
         # Reset variables
 
         elapsed_time = self.clock.get_time() / 1_000
@@ -199,6 +193,7 @@ class Game:
 
             if key == core.APP:
                 if info == core.QUIT:
+                    
                     self.running = False
                     return
                 
@@ -234,8 +229,11 @@ class Game:
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
+                    
                     bullet = self.player.shoot()
+                    
                     if bullet != None:
+                        
                         self.entities.append(bullet)
                         bullet.init_rect()
 
