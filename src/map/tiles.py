@@ -11,26 +11,19 @@ class Tile( entity.Entity ):
 
         self, 
         texture: str,
-        collision: bool = False,
+        type: str,
 
     ) -> None:
 
         self.set_texture( path = texture )
-        self.collision: bool = collision
-
-        # type definition
-        if "wall" in self.texture: self.type: str = core.MAP
-        elif "door" in self.texture: self.type: str = core.SPECIAL
-        elif "ground" in self.texture: self.type: str = core.NEUTRAL
-        elif "block" in self.texture: self.type: str = core.MAP
-        elif "edge" in self.texture: self.type: str = core.MAP
+        self.type: str = type
 
         self.x = 0
         self.y = 0
-        self.w = 0
-        self.h = 0
+        self.w = self.surface.get_width()
+        self.h = self.surface.get_height()
 
-        self.set_entitiy()
+        self.set_entitiy( self.x, self.y, self.w, self.h )
 
     def set_entitiy(
 
@@ -60,12 +53,49 @@ class Tile( entity.Entity ):
         self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
 
 
-class Door(Tile):
-    def __init__( self,
+class Wall( Tile ):
+    def __init__( self, facing: str ) -> None:
 
-            open: bool = True,
-            facing: str = "north",
-            split: int = 1
+        super().__init__(
+            texture = f"./assets/map/wall/{facing}.png",
+            type = core.MAP,
+        )
+
+
+class Edge( Tile ):
+    def __init__( self, facing: str ) -> None:
+
+        super().__init__(
+            texture = f"./assets/map/edge/{facing}.png",
+            type = core.MAP,
+        )
+
+
+class Ground( Tile ):
+    def __init__( self ) -> None:
+
+        super().__init__(
+            texture = "./assets/map/ground.png",
+            type = core.NEUTRAL,
+        )
+
+
+class Block( Tile ):
+    def __init__( self ) -> None:
+
+        super().__init__(
+            texture = "./assets/map/block.png",
+            type = core.MAP,
+        )
+
+
+class Door( Tile ):
+    def __init__( 
+
+        self,
+        open: bool = True,
+        facing: str = "north",
+        split: int = 1
 
     ) -> None:
 
@@ -81,7 +111,7 @@ class Door(Tile):
         else: 
             texture: str = f"./assets/map/door/{self.state}/{self.facing}.png"
 
-        super().__init__( texture )
+        super().__init__( texture, type = core.SPECIAL )
 
     def get_state( self ) -> str:
         return self.state
