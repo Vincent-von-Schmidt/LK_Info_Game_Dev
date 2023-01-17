@@ -2,65 +2,10 @@ from dataclasses import dataclass
 import json
 import pygame
 
+import map.tiles as tiles
+
 import entity
 import core
-
-
-@dataclass
-class Tile:
-    def __init__(
-
-        self, 
-        texture: str,
-        collision: bool = False,
-
-    ) -> None:
-        
-        self.set_texture( path = texture )
-        self.collision: bool = collision
-
-        # type definition
-        if "wall" in self.texture: self.type: str = core.WALL
-        elif "door" in self.texture: self.type: str = core.DOOR
-        elif "ground" in self.texture: self.type: str = core.GROUND
-        elif "block" in self.texture: self.type: str = core.WALL
-        elif "edge" in self.texture: self.type: str = core.WALL
-
-    def set_texture( self, path: str ) -> None:
-        self.texture: str = path
-        self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
-
-
-class Door(Tile):
-    def __init__( self,
-
-            open: bool = True,
-            facing: str = "north",
-            split: int = 1
-
-    ) -> None:
-
-        self.facing: str = facing
-        self.split: int = split
-        self.set_state( open )
-
-    def __set_tile( self ) -> None:
-
-        if self.facing == "west" or self.facing == "east":
-            texture: str = f"./assets/map/door/{self.state}/{self.facing}_{self.split}.png"
-
-        else: 
-            texture: str = f"./assets/map/door/{self.state}/{self.facing}.png"
-
-        super().__init__( texture )
-
-    def get_state( self ) -> str:
-        return self.state
-
-    def set_state( self, open: bool ) -> None:
-
-        self.state: str = "open" if open else "closed"
-        self.__set_tile()
 
 
 class TilesMap:
@@ -82,28 +27,28 @@ class TilesMap:
         self.tile_construct: list = []
 
         self.tiles: dict = {
-            "wall_north": Tile( texture = "./assets/map/wall/north.png", collision = True ),
-            "wall_east": Tile( texture = "./assets/map/wall/east.png", collision = True ),
-            "wall_south": Tile( texture = "./assets/map/wall/south.png", collision = True ),
-            "wall_west": Tile( texture = "./assets/map/wall/west.png", collision = True ),
-            "ground": Tile( texture = "./assets/map/ground.png" ),
-            "edge_north_east": Tile( texture = "./assets/map/edge/north_east.png" ),
-            "edge_north_west": Tile( texture = "./assets/map/edge/north_west.png" ),
-            "edge_south_west": Tile( texture = "./assets/map/edge/south_west.png" ),
-            "edge_south_east": Tile( texture = "./assets/map/edge/south_east.png" ),
-            "block": Tile( texture = "./assets/map/block.png", collision = True ),
-            "door_closed_north": Door( open = False, facing = "north" ),
-            "door_closed_east_1": Door( open = False, facing = "east", split = 1 ),
-            "door_closed_east_2": Door( open = False, facing = "east", split = 2 ),
-            "door_closed_south": Door( open = False, facing = "south" ),
-            "door_closed_west_1": Door( open = False, facing = "west", split = 1 ),
-            "door_closed_west_2": Door( open = False, facing = "west", split = 2 ),
-            "door_open_north": Door( open = True, facing = "north" ),
-            "door_open_east_1": Door( open = True, facing = "east", split = 1 ),
-            "door_open_east_2": Door( open = True, facing = "east", split = 2 ),
-            "door_open_south": Door( open = True, facing = "south" ),
-            "door_open_west_1": Door( open = True, facing = "west", split = 1 ),
-            "door_open_west_2": Door( open = True, facing = "west", split = 2 ),
+            "wall_north": tiles.Tile( texture = "./assets/map/wall/north.png", collision = True ),
+            "wall_east": tiles.Tile( texture = "./assets/map/wall/east.png", collision = True ),
+            "wall_south": tiles.Tile( texture = "./assets/map/wall/south.png", collision = True ),
+            "wall_west": tiles.Tile( texture = "./assets/map/wall/west.png", collision = True ),
+            "ground": tiles.Tile( texture = "./assets/map/ground.png" ),
+            "edge_north_east": tiles.Tile( texture = "./assets/map/edge/north_east.png" ),
+            "edge_north_west": tiles.Tile( texture = "./assets/map/edge/north_west.png" ),
+            "edge_south_west": tiles.Tile( texture = "./assets/map/edge/south_west.png" ),
+            "edge_south_east": tiles.Tile( texture = "./assets/map/edge/south_east.png" ),
+            "block": tiles.Tile( texture = "./assets/map/block.png", collision = True ),
+            "door_closed_north": tiles.Door( open = False, facing = "north" ),
+            "door_closed_east_1": tiles.Door( open = False, facing = "east", split = 1 ),
+            "door_closed_east_2": tiles.Door( open = False, facing = "east", split = 2 ),
+            "door_closed_south": tiles.Door( open = False, facing = "south" ),
+            "door_closed_west_1": tiles.Door( open = False, facing = "west", split = 1 ),
+            "door_closed_west_2": tiles.Door( open = False, facing = "west", split = 2 ),
+            "door_open_north": tiles.Door( open = True, facing = "north" ),
+            "door_open_east_1": tiles.Door( open = True, facing = "east", split = 1 ),
+            "door_open_east_2": tiles.Door( open = True, facing = "east", split = 2 ),
+            "door_open_south": tiles.Door( open = True, facing = "south" ),
+            "door_open_west_1": tiles.Door( open = True, facing = "west", split = 1 ),
+            "door_open_west_2": tiles.Door( open = True, facing = "west", split = 2 ),
         }
 
         self.door_north: bool | str = door_north
@@ -171,7 +116,7 @@ class TilesMap:
 
         # between -----------------------------------------------
 
-        # map content of the hightmap to Tiles
+        # map content of the hightmap to tiles.Tiles
         with open( heightmap, "r" ) as file:
             content: list = self.__map_tiles_to_binary( json.loads(file.read()) )
 
@@ -245,7 +190,7 @@ class TilesMap:
             tmp_width: list = [0]
 
             # tile cache -> tmp_heigt save
-            tmp_tile: Tile | None = None
+            tmp_tile: tiles.Tile | None = None
 
             # for each column
             for tile in row:
@@ -266,7 +211,7 @@ class TilesMap:
                     case core.GROUND: fac = core.NEUTRAL
                     case _:
                         print(tile)
-                        raise TypeError("Tile not defined by CORE")
+                        raise TypeError("tiles.Tile not defined by CORE")
                 
                 if "north" in tile.texture and not "edge" in tile.texture:
                     h_dif = 12
@@ -287,7 +232,7 @@ class TilesMap:
                 tmp_width.append( tile.surface.get_width() )
 
                 # save the current tile
-                tmp_tile: Tile | None = tile
+                tmp_tile: tiles.Tile | None = tile
 
             # save height of last tile for next row
             tmp_height.append( tmp_tile.surface.get_height() )
