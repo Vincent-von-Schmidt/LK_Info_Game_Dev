@@ -21,9 +21,13 @@ class Quadtree:
         self.entities = []
         self.leaf = True
 
+        self.x = rect.x
+        self.y = rect.y
+        self.w = rect.w
+        self.h = rect.h
+
         # Quadrants calc
 
-        self.rect = rect
         cw = self.rect.w / 2
         ch = self.rect.h / 2
 
@@ -46,6 +50,10 @@ class Quadtree:
         self.up_left = None
         self.down_right = None
         self.down_left = None
+    
+    @property
+    def rect(self): # BUG: pygame rect only int
+        return pygame.Rect(self.x, self.y, self.w, self.h)
     
     def insert(self, en: entity.Entity) -> None:
         """Insert an entity."""
@@ -197,8 +205,13 @@ class Quadtree:
         self.leaf = True
 
         self.entities.clear()
+    
+    def print_(self):
+        """Prints the collision handler structure."""
 
-    def print_(self, __height=0):
+        self._print_()
+
+    def _print_(self, __height=0):
         """Prints the collision handler structure."""
 
         # Print entities
@@ -213,6 +226,39 @@ class Quadtree:
             self.up_left.print_(__height + 1)
             self.down_right.print_(__height + 1)
             self.down_left.print_(__height + 1)
+    
+    def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
+        """Renders a surface of quadrants for debugging."""
+        
+        # Prepare surface
+
+        surface = pygame.Surface( self.rect.size )
+        surface.convert_alpha()
+        surface.fill([0,0,0,0])
+
+        # Draw rectangles
+        
+        return [(self._render(surface), (self.rect.x, self.rect.y))]
+    
+    def _render(self, __surface) -> pygame.Surface:
+        """Renders a surface of quadrants for debugging."""
+
+        # Draw rect
+
+        pygame.draw.rect(
+            __surface, pygame.Color("Red"), self.rect, width=2
+        )
+
+        # Step down
+
+        if not self.leaf:
+
+            self.up_right._render(__surface)
+            self.up_left._render(__surface)
+            self.down_right._render(__surface)
+            self.down_left._render(__surface)
+
+        return __surface    
     
     def handle(self, entities: entity.Entity) -> None:
         """Handle collisions in map."""
