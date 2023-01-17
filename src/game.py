@@ -230,7 +230,7 @@ class Game:
                 elif info == core.DOWN:
                     self.player.move_down(elapsed_time)
             
-            # Actions (vielleicht for das Movement und im Movement schauen ob geschossen wird)
+            # Actions
 
             elif key == core.ACTION:
                 if info == core.SHOOT:
@@ -240,10 +240,14 @@ class Game:
                         bullet.init_rect()
 
         # AI Actions
+
         for en in self.entities:
-            if type(en) == objects.archer.Archer:
+            if isinstance(en, objects.archer.Archer):
+                
                 bullet = en.action(self.player, elapsed_time)
+                
                 if bullet != None:
+                    
                     self.entities.append(bullet)
                     bullet.init_rect()
         
@@ -253,11 +257,6 @@ class Game:
 
         for en in self.entities:
 
-            if type(en) == entity.Entity: # Map bugfix
-                
-                self.collision.insert(en)
-                continue
-
             en.update_rect()
             self.collision.insert(en)
 
@@ -265,14 +264,19 @@ class Game:
 
         self.collision.handle(self.entities)
 
-        # Update Entitties
+        # Update entities
 
         for en in self.entities:
             
-            if type(en) == entity.Entity: # Map bugfix
+            if not isinstance(
+                en, (
+                    objects.archer.Archer,
+                    objects.bullet.Bullet,
+                    objects.player.Player
+                )
+            ):
                 continue
 
-            en.update_rect()
             en.update_sprite(elapsed_time)
             en.update(elapsed_time)
         
@@ -280,8 +284,6 @@ class Game:
 
         for en in self.entities:
             if not en.active:
-                
-                entity.Entity.max_id -= 1
                 self.entities.remove(en)
 
         # Infos
