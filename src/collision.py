@@ -137,25 +137,26 @@ class Quadtree:
     def retrieve(self, en: entity.Entity) -> list[entity.Entity]:
         """Retrieve all possible colliders with an entity."""
 
+        entities = []
+
         if not self.leaf:
 
             if self.rect_up_left.colliderect(en.rect):
-                return self.up_left.retrieve(en)
+                entities += self.up_left.retrieve(en)
             
-            elif self.rect_up_right.colliderect(en.rect):
-                return self.up_right.retrieve(en)
+            if self.rect_up_right.colliderect(en.rect):
+                entities += self.up_right.retrieve(en)
             
-            elif self.rect_down_left.colliderect(en.rect):
-                return self.down_left.retrieve(en)
+            if self.rect_down_left.colliderect(en.rect):
+                entities += self.down_left.retrieve(en)
             
-            elif self.rect_down_right.colliderect(en.rect):
-                return self.down_right.retrieve(en)
-            
-            else:
-                return []
+            if self.rect_down_right.colliderect(en.rect):
+                entities += self.down_right.retrieve(en)
 
         else:
-            return self.entities
+            entities += self.entities
+        
+        return entities
     
     def clear(self) -> None:
         """
