@@ -5,7 +5,7 @@ import objects.bullet
 import objects.player
 import objects.archer
 import infos
-import map.tiles
+import map.t_map
 import entity
 
 
@@ -31,7 +31,7 @@ class Game:
             change = 0.2
         )
         self.infos = infos.Infos()
-        self.map = map.tiles.TilesMap(
+        self.map = map.t_map.TilesMap(
             heightmap = "./assets/map/heightmaps/test.json",
             door_north = "open",
             door_south = "closed",
