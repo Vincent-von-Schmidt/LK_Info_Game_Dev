@@ -15,12 +15,18 @@ class Quadtree:
         
         self.root = root
         self.capacity = capacity
+
+        # Init self
+
         self.entities = []
         self.leaf = True
+
+        # Quadrants calc
 
         self.rect = rect
         cw = self.rect.w / 2
         ch = self.rect.h / 2
+
         self.rect_up_left = pygame.Rect(
             self.rect.x, self.rect.y, cw, ch
         )
@@ -33,6 +39,8 @@ class Quadtree:
         self.rect_down_right = pygame.Rect(
             self.rect.x + cw, self.rect.y + ch, cw, ch
         )
+
+        # Init quadrants
         
         self.up_right = None
         self.up_left = None
@@ -59,10 +67,14 @@ class Quadtree:
                 self.down_right.insert(en)
             
             # Size check
+
+            # TODO
             
             # else:
             #     if not self.root:
             #         self.reconstruct()
+
+        # Split quadrant
 
         else:
 
@@ -74,8 +86,12 @@ class Quadtree:
     def reconstruct(self) -> None:
         """Reconstruct all childs for size reasons."""
 
+        # Deconstruct
+
         entities = self._reconstruct()
         self.capacity = max( len(entities) + 1, self.capacity )
+
+        # Reconstruct
 
         for en in entities:
             self.insert(en)
@@ -110,6 +126,8 @@ class Quadtree:
     
     def split(self) -> None:
         """Split the tree into quad subtrees."""
+
+        # Create quadrants
         
         self.up_left = Quadtree(self.rect_up_left, self.capacity)
         self.up_right = Quadtree(self.rect_up_right, self.capacity)
@@ -117,6 +135,8 @@ class Quadtree:
         self.down_right = Quadtree(self.rect_down_right, self.capacity)
 
         self.leaf = False
+
+        # Pass entities
 
         for en in self.entities:
 
@@ -132,10 +152,14 @@ class Quadtree:
             elif self.rect_down_right.contains(en.rect):
                 self.down_right.insert(en)
         
+        # Clear entities
+        
         self.entities.clear()
 
     def retrieve(self, en: entity.Entity) -> list[entity.Entity]:
         """Retrieve all possible colliders with an entity."""
+    
+        # Collect entities
 
         entities = []
 
@@ -163,6 +187,8 @@ class Quadtree:
         Deletes all subtrees and elements to regenerate the quadrants
         """
 
+        # Clear quadrants / entities
+
         self.up_right = None
         self.up_left = None
         self.down_right = None
@@ -174,7 +200,11 @@ class Quadtree:
 
     def _print(self, __height=0):
 
+        # Print entities
+
         print(__height * "  ", self.entities)
+
+        # Step down
 
         if self.up_right:
 
@@ -187,6 +217,8 @@ class Quadtree:
         """Handle collisions in map."""
 
         for entity1 in entities:
+
+            # Get possibilities
 
             entities2 = self.retrieve(entity1)
 
