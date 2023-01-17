@@ -26,31 +26,6 @@ class TilesMap:
         self.entity_list: list = []
         self.tile_construct: list = []
 
-        self.tiles: dict = {
-            "wall_north": tiles.Tile( texture = "./assets/map/wall/north.png" ),
-            "wall_east": tiles.Tile( texture = "./assets/map/wall/east.png" ),
-            "wall_south": tiles.Tile( texture = "./assets/map/wall/south.png" ),
-            "wall_west": tiles.Tile( texture = "./assets/map/wall/west.png" ),
-            "ground": tiles.Tile( texture = "./assets/map/ground.png" ),
-            "edge_north_east": tiles.Tile( texture = "./assets/map/edge/north_east.png" ),
-            "edge_north_west": tiles.Tile( texture = "./assets/map/edge/north_west.png" ),
-            "edge_south_west": tiles.Tile( texture = "./assets/map/edge/south_west.png" ),
-            "edge_south_east": tiles.Tile( texture = "./assets/map/edge/south_east.png" ),
-            "block": tiles.Tile( texture = "./assets/map/block.png" ),
-            "door_closed_north": tiles.Door( open = False, facing = "north" ),
-            "door_closed_east_1": tiles.Door( open = False, facing = "east", split = 1 ),
-            "door_closed_east_2": tiles.Door( open = False, facing = "east", split = 2 ),
-            "door_closed_south": tiles.Door( open = False, facing = "south" ),
-            "door_closed_west_1": tiles.Door( open = False, facing = "west", split = 1 ),
-            "door_closed_west_2": tiles.Door( open = False, facing = "west", split = 2 ),
-            "door_open_north": tiles.Door( open = True, facing = "north" ),
-            "door_open_east_1": tiles.Door( open = True, facing = "east", split = 1 ),
-            "door_open_east_2": tiles.Door( open = True, facing = "east", split = 2 ),
-            "door_open_south": tiles.Door( open = True, facing = "south" ),
-            "door_open_west_1": tiles.Door( open = True, facing = "west", split = 1 ),
-            "door_open_west_2": tiles.Door( open = True, facing = "west", split = 2 ),
-        }
-
         self.door_north: bool | str = door_north
         self.door_east: bool | str = door_east
         self.door_south: bool | str = door_south
@@ -85,8 +60,8 @@ class TilesMap:
             for bin in i:
                 
                 match bin:
-                    case 0: tmp.append( self.tiles["ground"] )
-                    case 1: tmp.append( self.tiles["block"] )
+                    case 0: tmp.append( tiles.Ground() )
+                    case 1: tmp.append( tiles.Block() )
                     case _: raise FileExistsError( "File not in binary." )
 
         return output
