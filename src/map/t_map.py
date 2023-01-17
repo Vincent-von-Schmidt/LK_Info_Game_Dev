@@ -130,7 +130,6 @@ class TilesMap:
 
             tmp_i += 1
 
-
         for i in range( 3 ):
             tile_construct.append( tmp := [] )
             tmp.append( tiles.Wall( "west" ) )
@@ -138,7 +137,6 @@ class TilesMap:
             tmp.append( tiles.Wall( "east" ) )
 
             tmp_i += 1
-
 
         # last row ----------------------------------------------
         tile_construct.append( tmp := [] )
@@ -201,7 +199,6 @@ class TilesMap:
 
             # save height of last tile for next row
             tmp_height.append( tmp_tile.surface.get_height())
-
 
     def get_map( self ) -> list:
         # offset: x = 0, y = 32
