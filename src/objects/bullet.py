@@ -28,7 +28,7 @@ class Bullet(entity.Entity, sprites.bullet.Bullet):
 
         # self.xl, self.yl = self.x, self.y # Last point
 
-        # # Build flight trajectory
+        # Build flight trajectory
 
         # x1, y1 = self.x, self.y
         # x2, y2 = self.target.x, self.target.y
@@ -40,11 +40,10 @@ class Bullet(entity.Entity, sprites.bullet.Bullet):
         #     (y1-yv) * (x2**2-x1**2) / (y1-y2)
         # )**0.5
 
-        # self.trajectory = lambda x: (a * (x-xv)**2 + yv) # ypos(xpos)
-        # self.derivation = lambda x: (2*a*x - 2*a) # ypos'(xpos)
+        # self.trajectory = lambda x: a * (x-xv)**2 + yv # ypos(xpos)
+        # self.derivation = lambda x: a*(x - xv) + yv # ypos'(xpos)
         # self.distance = lambda x: (
-        #     x * ( 1 + 4*a**2*x**2 )**0.5
-        #     + math.log(  )
+            
         # ) # ydis(xpos)
 
     def update(self, elapsed_time: float) -> None:

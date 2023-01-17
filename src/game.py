@@ -266,11 +266,17 @@ class Game:
 
                 if entity1 is entity2: # Same entities
                     continue
-
-                if not entity1.fac == core.FRIEND:
+            
+                if (
+                    isinstance(entity1, objects.bullet.Bullet)
+                    and isinstance(entity2, objects.bullet.Bullet)
+                ):
                     continue
 
-                if not entity2.fac in (core.ENEMY, core.MAP):
+                if (
+                    entity1.fac == core.MAP
+                    and entity2.fac == core.MAP
+                ):
                     continue
 
                 if not entity1.rect.colliderect(entity2.rect): # No collision
@@ -288,13 +294,13 @@ class Game:
                         entity1.update_health(-0.5)
                         entity2.active = False
                         continue
-                
+
                 if (
                     isinstance(entity1, objects.bullet.Bullet)
                     and entity1.fac == core.FRIEND
                 ): # Enemy hit
                     if isinstance(entity2, objects.archer.Archer):
-
+                        
                         entity1.active = False
                         entity2.update_health(-1)
                         continue
@@ -305,7 +311,10 @@ class Game:
                         entity1.active = False
                         continue
 
-                if isinstance(entity1, objects.player.Player): # Wall hit
+                if isinstance(
+                    entity1,
+                    (objects.player.Player, objects.archer.Archer)
+                ): # Wall hit
                     if entity2.fac == core.MAP:
 
                         tmp_up = [
