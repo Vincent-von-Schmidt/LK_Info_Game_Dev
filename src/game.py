@@ -1,6 +1,7 @@
 import pygame
 
 import core
+import collision
 import objects.bullet
 import objects.player
 import objects.archer
@@ -59,6 +60,12 @@ class Game:
         # Pygame
 
         self.maxfps = maxfps
+        self.collision = collision.Quadtree(
+            x=0, y=0,
+            w=272, h=176,
+            capacity=10,
+            root=True
+        )
 
         self.screen = pygame.display.set_mode((816, 624))
         pygame.display.set_caption("The Master Sword's Return")
@@ -181,11 +188,6 @@ class Game:
         # Reset variables
 
         elapsed_time = self.clock.get_time() / 1_000
-
-        id = 0
-        for en in self.entities:
-            en.id = id
-            id += 1
         
         # Handle events
         
@@ -247,140 +249,21 @@ class Game:
         
         # Update hitboxes
 
+        self.collision.clear()
+
         for en in self.entities:
 
             if type(en) == entity.Entity: # Map bugfix
+                
+                self.collision.insert(en)
                 continue
 
             en.update_rect()
+            self.collision.insert(en)
 
         # Check collisions
 
-        for i in range(len(self.entities)):
-            for j in range(i + 1, len(self.entities)):
-
-                entity1: entity.Entity = self.entities[i]
-                entity2: entity.Entity = self.entities[j]
-
-                # Exklusion
-
-                if entity1 is entity2: # Same entities
-                    continue
-            
-                if (
-                    isinstance(entity1, objects.bullet.Bullet)
-                    and isinstance(entity2, objects.bullet.Bullet)
-                ):
-                    continue
-
-                if (
-                    entity1.fac == core.MAP
-                    and entity2.fac == core.MAP
-                ):
-                    continue
-
-                if not entity1.rect.colliderect(entity2.rect): # No collision
-                    continue
-
-                # Inklusion
-
-                if isinstance(entity1, objects.player.Player): # Player hit
-                    
-                    if (
-                        isinstance(entity2, objects.bullet.Bullet)
-                        and entity2.fac == core.ENEMY
-                    ):
-
-                        entity1.update_health(-0.5)
-                        entity2.active = False
-                        continue
-
-                if (
-                    isinstance(entity1, objects.bullet.Bullet)
-                    and entity1.fac == core.FRIEND
-                ): # Enemy hit
-                    if isinstance(entity2, objects.archer.Archer):
-                        
-                        entity1.active = False
-                        entity2.update_health(-1)
-                        continue
-                
-                if isinstance(entity1, objects.bullet.Bullet): # Wall hit
-                    if entity2.fac == core.MAP:
-
-                        entity1.active = False
-                        continue
-
-                if isinstance(
-                    entity1,
-                    (objects.player.Player, objects.archer.Archer)
-                ): # Wall hit
-                    if entity2.fac == core.MAP:
-
-                        tmp_up = [
-                            entity1.x, entity1.y,
-                            entity1.w, 1
-                        ]
-                        tmp_down = [
-                            entity1.x, entity1.y + entity1.h,
-                            entity1.w, -1
-                        ]
-                        tmp_left = [
-                            entity1.x, entity1.y,
-                            1, entity1.h
-                        ]
-                        tmp_right = [
-                            entity1.x + entity1.w,
-                            entity1.y, -1, entity1.h
-                        ]
-                        
-                        top_offset = 6
-                        tmp_rect = pygame.Rect(
-                            entity2.x - entity1.w/2 - top_offset,
-                            entity2.y - entity1.h/2 - top_offset,
-                            entity2.w + entity1.w + 2*top_offset,
-                            entity2.h + entity1.h + 2*top_offset
-                        )
-                        
-                        if (
-                            tmp_rect.contains(tmp_up)
-                            and not tmp_rect.contains(tmp_left)
-                            and not tmp_rect.contains(tmp_right)
-                        ):
-                            
-                            dis = entity2.y + entity2.h - entity1.y
-                            entity1.y += dis
-                            continue
-                        
-                        if (
-                            tmp_rect.contains(tmp_down)
-                            and not tmp_rect.contains(tmp_left)
-                            and not tmp_rect.contains(tmp_right)
-                        ):
-                            
-                            dis = -entity1.y - entity1.h + entity2.y
-                            entity1.y += dis
-                            continue
-                        
-                        if (
-                            tmp_rect.contains(tmp_left)
-                            and not tmp_rect.contains(tmp_up)
-                            and not tmp_rect.contains(tmp_down)
-                        ):
-                            
-                            dis = entity2.x + entity2.w - entity1.x
-                            entity1.x += dis
-                            continue
-                        
-                        if (
-                            tmp_rect.contains(tmp_right)
-                            and not tmp_rect.contains(tmp_up)
-                            and not tmp_rect.contains(tmp_down)
-                        ):
-                            
-                            dis = -entity1.x - entity1.w + entity2.x
-                            entity1.x += dis
-                            continue
+        self.collision.handle(self.entities)
 
         # Update Entitties
 
@@ -388,6 +271,7 @@ class Game:
             
             if type(en) == entity.Entity: # Map bugfix
                 continue
+
             en.update_rect()
             en.update_sprite(elapsed_time)
             en.update(elapsed_time)
