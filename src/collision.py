@@ -10,53 +10,59 @@ class Quadtree:
     """A class for quad tree collision handle."""
 
     def __init__(
-        self,
-        x: float, y: float,
-        w: float, h: float,
-        capacity: int, root: bool = False, **kwargs
+        self, rect: pygame.Rect, capacity: int, root: bool = False, **kwargs
     ):
         
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
         self.root = root
         self.capacity = capacity
-
         self.entities = []
         self.leaf = True
+
+        self.rect = rect
+        cw = self.rect.w / 2
+        ch = self.rect.h / 2
+        self.rect_up_left = pygame.Rect(
+            self.rect.x, self.rect.y, cw, ch
+        )
+        self.rect_up_right = pygame.Rect(
+            self.rect.x + cw, self.rect.y, cw, ch
+        )
+        self.rect_down_left = pygame.Rect(
+            self.rect.x, self.rect.y + ch, cw, ch
+        )
+        self.rect_down_right = pygame.Rect(
+            self.rect.x + cw, self.rect.y + ch, cw, ch
+        )
         
         self.up_right = None
         self.up_left = None
         self.down_right = None
         self.down_left = None
-
-        self.qx = self.x + self.w / 2
-        self.qy = self.y + self.h / 2
     
     def insert(self, en: entity.Entity) -> None:
         """Insert an entity."""
-
-        # Size check
-
-        # if (en.w > self.w or en.h > self.h) and not self.root:
-        #     self.reconstruct()
 
         # Recursive propagation
 
         if not self.leaf:
             
-            if en.x < self.qx and en.y < self.qy:
+            if self.rect_up_left.contains(en.rect):
                 self.up_left.insert(en)
             
-            elif en.x >= self.qx and en.y < self.qy:
+            elif self.rect_up_right.contains(en.rect):
                 self.up_right.insert(en)
             
-            elif en.x < self.qx and en.y >= self.qy:
+            elif self.rect_down_left.contains(en.rect):
                 self.down_left.insert(en)
             
-            elif en.x >= self.qx and en.y >= self.qy:
+            elif self.rect_down_right.contains(en.rect):
                 self.down_right.insert(en)
+            
+            # Size check
+            
+            # else:
+            #     if not self.root:
+            #         self.reconstruct()
 
         else:
 
@@ -105,37 +111,25 @@ class Quadtree:
     def split(self) -> None:
         """Split the tree into quad subtrees."""
         
-        self.up_left = Quadtree(
-            self.x, self.y,
-            self.qx - self.x, self.qy - self.y, self.capacity
-        )
-        self.up_right = Quadtree(
-            self.qx, self.y,
-            self.x + self.w - self.qx, self.qy - self.y, self.capacity
-        )
-        self.down_left = Quadtree(
-            self.x, self.qy,
-            self.qx - self.x, self.y + self.h - self.qy, self.capacity
-        )
-        self.down_right = Quadtree(
-            self.qx, self.qy,
-            self.x + self.w - self.qx, self.y + self.h - self.qy, self.capacity
-        )
+        self.up_left = Quadtree(self.rect_up_left, self.capacity)
+        self.up_right = Quadtree(self.rect_up_right, self.capacity)
+        self.down_left = Quadtree(self.rect_down_left, self.capacity)
+        self.down_right = Quadtree(self.rect_down_right, self.capacity)
 
         self.leaf = False
 
         for en in self.entities:
 
-            if en.x < self.qx and en.y < self.qy:
+            if self.rect_up_left.contains(en.rect):
                 self.up_left.insert(en)
             
-            elif en.x >= self.qx and en.y < self.qy:
+            elif self.rect_up_right.contains(en.rect):
                 self.up_right.insert(en)
             
-            elif en.x < self.qx and en.y >= self.qy:
+            elif self.rect_down_left.contains(en.rect):
                 self.down_left.insert(en)
             
-            elif en.x >= self.qx and en.y >= self.qy:
+            elif self.rect_down_right.contains(en.rect):
                 self.down_right.insert(en)
         
         self.entities.clear()
@@ -145,17 +139,20 @@ class Quadtree:
 
         if not self.leaf:
 
-            if en.x < self.qx and en.y < self.qy:
+            if self.rect_up_left.colliderect(en.rect):
                 return self.up_left.retrieve(en)
             
-            elif en.x >= self.qx and en.y < self.qy:
+            elif self.rect_up_right.colliderect(en.rect):
                 return self.up_right.retrieve(en)
             
-            elif en.x < self.qx and en.y >= self.qy:
+            elif self.rect_down_left.colliderect(en.rect):
                 return self.down_left.retrieve(en)
             
-            elif en.x >= self.qx and en.y >= self.qy:
+            elif self.rect_down_right.colliderect(en.rect):
                 return self.down_right.retrieve(en)
+            
+            else:
+                return []
 
         else:
             return self.entities

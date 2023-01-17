@@ -61,8 +61,7 @@ class Game:
 
         self.maxfps = maxfps
         self.collision = collision.Quadtree(
-            x=0, y=0,
-            w=272, h=176,
+            pygame.Rect(0, 0, 272, 176),
             capacity=10,
             root=True
         )
