@@ -6,6 +6,7 @@ import objects.player
 import objects.archer
 import infos
 import map.t_map
+import map.tiles
 import entity
 
 
@@ -249,8 +250,7 @@ class Game:
 
         for en in self.entities:
 
-            if type(en) == entity.Entity: # Map bugfix
-                continue
+            if isinstance( en, map.tiles.Tile ): continue # map bugfix
 
             en.update_rect()
 
@@ -386,7 +386,7 @@ class Game:
 
         for en in self.entities:
             
-            if isinstance( en, entity.Entity ): continue # map bugfix
+            if isinstance( en, map.tiles.Tile ): continue # map bugfix
             en.update_rect()
             en.update_sprite(elapsed_time)
             en.update(elapsed_time)
@@ -427,8 +427,7 @@ class Game:
 
         objects += self.map.get_map()
         for en in self.entities:
-            if type(en) == entity.Entity: # Map bugfix
-                continue
+            if isinstance( en, map.tiles.Tile ): continue # map bugfix
             objects += en.render()
         objects += self.infos.render()
         if self.dead:
