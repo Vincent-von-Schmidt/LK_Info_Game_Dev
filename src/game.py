@@ -50,7 +50,7 @@ class Game:
         self.entities = []
 
         self.entities.append(self.player)
-        self.entities += self.map.get_entity_list()
+        self.entities += self.map.get_tile_map()
         self.entities.append(self.archer)
 
         self.dead = False

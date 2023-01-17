@@ -1,11 +1,7 @@
-from dataclasses import dataclass
 import json
 import pygame
 
 import map.tiles as tiles
-
-import entity
-import core
 
 
 class TilesMap:
@@ -23,7 +19,6 @@ class TilesMap:
         # -> main - radio : 256, 208
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (272, 176) )
         self.heightmap: str = heightmap
-        self.entity_list: list = []
         self.tile_construct: list = []
 
         self.door_north: bool | str = door_north
@@ -185,9 +180,11 @@ class TilesMap:
             # for each column
             for tile in row:
 
+                # calc cordinates
                 x: int = sum( tmp_width )
                 y: int = sum( tmp_height )
 
+                # set cordinates of the entity
                 tile.set_cordinates( x, y )
                 
                 # map draw
@@ -196,38 +193,14 @@ class TilesMap:
                     dest = ( x, y ) 
                 )
 
-                # entity list -> collision
-                match tile.type:
-                    case core.WALL: fac = core.MAP
-                    case core.DOOR: fac = core.SPECIAL
-                    case core.GROUND: fac = core.NEUTRAL
-                    case _:
-                        print(tile)
-                        raise TypeError("tiles.Tile not defined by CORE")
-                
-                if "north" in tile.texture and not "edge" in tile.texture:
-                    h_dif = 12
-                else: 
-                    h_dif = 0
-                self.entity_list.append(
-                    entity.Entity(
-                        x = sum( tmp_width ),
-                        y = sum( tmp_height ) + 32,
-                        fac = fac
-                    )
-                )
-                self.entity_list[-1].w = tile.surface.get_width()
-                self.entity_list[-1].h = tile.surface.get_height() - h_dif
-                self.entity_list[-1].init_rect()
-
                 # save current width for the next column
-                tmp_width.append( tile.surface.get_width() )
+                tmp_width.append( tile.surface.get_width())
 
                 # save the current tile
                 tmp_tile: tiles.Tile | None = tile
 
             # save height of last tile for next row
-            tmp_height.append( tmp_tile.surface.get_height() )
+            tmp_height.append( tmp_tile.surface.get_height())
 
 
     def get_map( self ) -> list:
@@ -236,22 +209,3 @@ class TilesMap:
 
     def get_tile_map( self ) -> list:
         return self.tile_construct
-
-    def get_entity_list( self ) -> list:
-        return self.entity_list
-
-
-if __name__ == "__main__":
-    pygame.init()
-    screen = pygame.display.set_mode( (1280, 720) )
-
-    map: TilesMap = TilesMap( door_north=True, door_south=True )
-    map.set_door_state()
-
-    while True:
-        for event in pygame.event.get():
-            if event == pygame.QUIT: pygame.quit()
-
-        screen.blits( map.get_map() )
-
-        pygame.display.flip()
