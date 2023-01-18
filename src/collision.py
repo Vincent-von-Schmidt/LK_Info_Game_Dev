@@ -21,6 +21,7 @@ class Quadtree:
 
         self.entities = []
         self.leaf = True
+        self.fixed = False
 
         self.x = rect.x
         self.y = rect.y
@@ -77,50 +78,31 @@ class Quadtree:
             
             # Size check
             
-            # else:
-            #     self.reconstruct()
+            else:
+                
+                self.destruct()
+                self.entities += [en]
 
-        # Split quadrant
+        # Append entity
 
         else:
 
             self.entities += [en]
 
-            if len(self.entities) > self.capacity:
+            # Split quadrant
+
+            if len(self.entities) > self.capacity and not self.fixed:
                 self.split()
     
-    def reconstruct(self) -> None:
+    def destruct(self) -> None:
         """Reconstruct all childs for size reasons."""
 
-        # Deconstruct
+        # Destruct tree
 
-        entities = self._reconstruct()
+        self.entities = self._destruct()
 
-        if self.root:
-            self.capacity = len(entities) + 1
+        self.fixed = True
 
-        # Reconstruct
-
-        for en in entities:
-            self.insert(en)
-    
-    def _reconstruct(self) -> list[entity.Entity]:
-        """Reconstruct all childs for size reasons."""
-
-        # Collect entities
-
-        entities = []
-
-        if self.leaf:
-            return self.entities
-
-        else:
-
-            entities += self.up_left._reconstruct()
-            entities += self.up_right._reconstruct()
-            entities += self.down_left._reconstruct()
-            entities += self.down_right._reconstruct()
-        
         # Clear subtrees
 
         self.up_right = None
@@ -129,6 +111,22 @@ class Quadtree:
         self.down_left = None
 
         self.leaf = True
+    
+    def _destruct(self) -> list[entity.Entity]:
+        """Reconstruct all childs for size reasons."""
+
+        # Collect entities
+
+        entities = []
+
+        entities += self.entities
+
+        if not self.leaf:
+
+            entities += self.up_left._destruct()
+            entities += self.up_right._destruct()
+            entities += self.down_left._destruct()
+            entities += self.down_right._destruct()
         
         return entities
     
@@ -206,8 +204,11 @@ class Quadtree:
 
         # Print entities
 
-        print(__height * "  ", self.entities)
-
+        indent = __height * "    "
+        
+        print(indent, self.rect)
+        print(indent, self.entities)
+            
         # Step down
 
         if not self.leaf:
@@ -412,7 +413,7 @@ if __name__ == "__main__":
     entities = [
         entity.Entity(x=12, y=234, w=13, h=14, fac=core.FRIEND),
         entity.Entity(x=12, y=54, w=13, h=14, fac=core.ENEMY),
-        entity.Entity(x=12, y=234, w=18, h=14, fac=core.FRIEND),
+        entity.Entity(x=12, y=234, w=18, h=14, fac=core.FRIEND), #
         entity.Entity(x=322, y=1, w=13, h=14, fac=core.FRIEND),
         entity.Entity(x=12, y=3, w=300, h=300, fac=core.ENEMY),
         entity.Entity(x=12, y=234, w=13, h=14, fac=core.FRIEND),
@@ -428,7 +429,12 @@ if __name__ == "__main__":
         
         collision.insert(en)
 
-        if i == 2: break
-    
+        collision.print_()
+        print("--------------------------------------------")
+
+        if i + 1 == 3: break
+
+    collision = Quadtree(pygame.Rect(0, 0, 500, 400), 2, True)
+    collision.split()
+
     collision.print_()
-    print("--------------------------------------------")
