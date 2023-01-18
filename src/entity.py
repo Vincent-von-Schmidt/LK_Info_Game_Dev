@@ -12,12 +12,12 @@ class Entity:
         Entity.max_id += 1
         self.id = Entity.max_id -1
 
-        self.x = kwargs["x"]
-        self.y = kwargs["y"]
-        self.w = 0
-        self.h = 0
+        self.x = kwargs.get("x", 0)
+        self.y = kwargs.get("y", 0)
+        self.w = kwargs.get("w", 0)
+        self.h = kwargs.get("h", 0)
 
-        self.rect = pygame.Rect(0,0,0,0)
+        self.rect = pygame.Rect(0, 0, 0, 0)
 
         self.fac = kwargs["fac"]
         self.active = True
