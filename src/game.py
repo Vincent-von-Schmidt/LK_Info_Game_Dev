@@ -7,6 +7,7 @@ import objects.player
 import objects.archer
 import infos
 import map.t_map
+import map.tiles
 import entity
 
 
@@ -51,7 +52,7 @@ class Game:
         self.entities = []
 
         self.entities.append(self.player)
-        self.entities += self.map.get_entity_list()
+        self.entities += self.map.get_entity_map()
         self.entities.append(self.archer)
 
         self.dead = False
@@ -311,8 +312,7 @@ class Game:
 
         objects += self.map.get_map()
         for en in self.entities:
-            if type(en) == entity.Entity: # Map bugfix
-                continue
+            if isinstance( en, map.tiles.Tile ): continue # map bugfix
             objects += en.render()
         objects += self.infos.render()
         if self.dead:
