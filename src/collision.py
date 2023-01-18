@@ -76,12 +76,12 @@ class Quadtree:
             elif self.rect_down_right.contains(en.rect):
                 self.down_right.insert(en)
             
-            # Size check
+            # # Size check
             
-            else:
+            # else:
                 
-                self.destruct()
-                self.entities += [en]
+            #     self.destruct()
+            #     self.entities += [en]
 
         # Append entity
 
@@ -413,7 +413,7 @@ if __name__ == "__main__":
     entities = [
         entity.Entity(x=12, y=234, w=13, h=14, fac=core.FRIEND),
         entity.Entity(x=12, y=54, w=13, h=14, fac=core.ENEMY),
-        entity.Entity(x=12, y=234, w=18, h=14, fac=core.FRIEND), #
+        entity.Entity(x=12, y=234, w=18, h=14, fac=core.FRIEND),
         entity.Entity(x=322, y=1, w=13, h=14, fac=core.FRIEND),
         entity.Entity(x=12, y=3, w=300, h=300, fac=core.ENEMY),
         entity.Entity(x=12, y=234, w=13, h=14, fac=core.FRIEND),
