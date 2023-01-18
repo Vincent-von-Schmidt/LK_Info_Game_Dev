@@ -2,6 +2,7 @@ import pygame
 
 import entity
 import core
+import map.tiles
 import objects.player
 import objects.archer
 import objects.bullet
@@ -11,17 +12,17 @@ class Quadtree:
     """A class for quad tree collision handle."""
 
     def __init__(
-        self, rect: pygame.Rect, capacity: int, root: bool = False, **kwargs
+        self, rect: pygame.Rect, capacity: int, __root: bool = True, **kwargs
     ):
         
-        self.root = root
+        self.root = __root
         self.capacity = capacity
 
         # Init self
 
         self.entities = []
         self.leaf = True
-        self.fixed = False
+        self.fix = False
 
         self.x = rect.x
         self.y = rect.y
@@ -76,9 +77,9 @@ class Quadtree:
             elif self.rect_down_right.contains(en.rect):
                 self.down_right.insert(en)
             
-            # # Size check
+            # Size check
             
-            # else:
+            # else: # BUG
                 
             #     self.destruct()
             #     self.entities += [en]
@@ -91,17 +92,17 @@ class Quadtree:
 
             # Split quadrant
 
-            if len(self.entities) > self.capacity and not self.fixed:
+            if (not self.fix) and (len(self.entities) > self.capacity):
                 self.split()
     
     def destruct(self) -> None:
         """Reconstruct all childs for size reasons."""
-
+        
         # Destruct tree
 
         self.entities = self._destruct()
 
-        self.fixed = True
+        self.fix = True
 
         # Clear subtrees
 
@@ -117,9 +118,7 @@ class Quadtree:
 
         # Collect entities
 
-        entities = []
-
-        entities += self.entities
+        entities = self.entities
 
         if not self.leaf:
 
@@ -135,10 +134,10 @@ class Quadtree:
 
         # Create quadrants
         
-        self.up_left = Quadtree(self.rect_up_left, self.capacity)
-        self.up_right = Quadtree(self.rect_up_right, self.capacity)
-        self.down_left = Quadtree(self.rect_down_left, self.capacity)
-        self.down_right = Quadtree(self.rect_down_right, self.capacity)
+        self.up_left = Quadtree(self.rect_up_left, self.capacity, False)
+        self.up_right = Quadtree(self.rect_up_right, self.capacity, False)
+        self.down_left = Quadtree(self.rect_down_left, self.capacity, False)
+        self.down_right = Quadtree(self.rect_down_right, self.capacity, False)
 
         self.leaf = False
 
@@ -190,6 +189,7 @@ class Quadtree:
         self.down_right = None
         self.down_left = None
 
+        self.fix = False
         self.leaf = True
 
         self.entities.clear()
@@ -199,7 +199,7 @@ class Quadtree:
 
         self._print_()
 
-    def _print_(self, __height=0):
+    def _print_(self, __height: int = 0):
         """Prints the collision handler structure."""
 
         # Print entities
@@ -207,7 +207,7 @@ class Quadtree:
         indent = __height * "    "
         
         print(indent, self.rect)
-        print(indent, self.entities)
+        print(indent, [en.rect for en in self.entities])
             
         # Step down
 
@@ -217,6 +217,23 @@ class Quadtree:
             self.up_left._print_(__height + 1)
             self.down_right._print_(__height + 1)
             self.down_left._print_(__height + 1)
+    
+    def lenght(self) -> int:
+        """Returns the count of objects managed."""
+
+        lenght = 0
+
+        if not self.leaf:
+
+            lenght += self.up_right.lenght()
+            lenght += self.up_left.lenght()
+            lenght += self.down_right.lenght()
+            lenght += self.down_left.lenght()
+        
+        else:
+            return len(self.entities)
+        
+        return lenght
     
     def render(
         self, en: entity.Entity | None = None
@@ -264,10 +281,10 @@ class Quadtree:
 
         if not self.leaf:
 
-            self.up_right._render(__surface)
-            self.up_left._render(__surface)
-            self.down_right._render(__surface)
-            self.down_left._render(__surface)
+            self.up_right._render(__surface, en)
+            self.up_left._render(__surface, en)
+            self.down_right._render(__surface, en)
+            self.down_left._render(__surface, en)
 
         return __surface    
     
@@ -326,22 +343,18 @@ class Quadtree:
                 # Bullet - Wall
                 
                 if isinstance(entity1, objects.bullet.Bullet):
-                    if entity2.fac == core.MAP:
+                    if entity2.fac == core.MAP: # BUG
 
                         entity1.active = False
                         continue
                 
                 # Player / Archer - Wall
 
-                # TODO -> bug -> entity2 is only fac = core.ENEMY
-
                 if isinstance(
                     entity1,
                     (objects.player.Player, objects.archer.Archer)
                 ):
-                    if entity2.fac == core.MAP:
-                        
-                        # BUG
+                    if entity2.fac == core.MAP: # BUG
 
                         tmp_up = [
                             entity1.x, entity1.y,
@@ -410,16 +423,16 @@ class Quadtree:
 
 if __name__ == "__main__":
 
-    collision = Quadtree(pygame.Rect(0, 0, 500, 400), 2, True)
+    collision = Quadtree(pygame.Rect(0, 0, 500, 400), 2)
 
     entities = [
-        entity.Entity(x=12, y=234, w=13, h=14, fac=core.FRIEND),
-        entity.Entity(x=12, y=54, w=13, h=14, fac=core.ENEMY),
-        entity.Entity(x=12, y=234, w=18, h=14, fac=core.FRIEND),
+        entity.Entity(x=12, y=40, w=13, h=20, fac=core.FRIEND),
+        entity.Entity(x=14, y=54, w=13, h=40, fac=core.ENEMY),
+        entity.Entity(x=18, y=30, w=18, h=14, fac=core.FRIEND),
         entity.Entity(x=322, y=1, w=13, h=14, fac=core.FRIEND),
-        entity.Entity(x=12, y=3, w=300, h=300, fac=core.ENEMY),
-        entity.Entity(x=12, y=234, w=13, h=14, fac=core.FRIEND),
-        entity.Entity(x=12, y=54, w=13, h=14, fac=core.ENEMY),
+        entity.Entity(x=12, y=3, w=15, h=30, fac=core.ENEMY),
+        entity.Entity(x=12, y=7, w=13, h=14, fac=core.FRIEND),
+        entity.Entity(x=12, y=14, w=13, h=14, fac=core.ENEMY),
         entity.Entity(x=12, y=234, w=18, h=14, fac=core.FRIEND),
         entity.Entity(x=322, y=1, w=13, h=14, fac=core.FRIEND),
         entity.Entity(x=12, y=3, w=13, h=20, fac=core.ENEMY),
@@ -427,16 +440,19 @@ if __name__ == "__main__":
         entity.Entity(x=12, y=3, w=13, h=40, fac=core.ENEMY)
     ]
 
+    [en.init_rect() for en in entities]
+
     for i, en in enumerate(entities):
-        
+
         collision.insert(en)
 
+        print()
         collision.print_()
+
+        print()
+        print("Inserted:", en.rect)
+        print("Lenght:", collision.lenght())
+
         print("--------------------------------------------")
 
-        if i + 1 == 3: break
-
-    collision = Quadtree(pygame.Rect(0, 0, 500, 400), 2, True)
-    collision.split()
-
-    collision.print_()
+        # if i + 1 == 5: break
