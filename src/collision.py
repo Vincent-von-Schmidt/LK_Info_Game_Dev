@@ -232,13 +232,13 @@ class Quadtree:
         
         # Prepare surface
 
-        surface = pygame.Surface( self.rect.size )
+        surface = pygame.Surface( self.rect.size, pygame.SRCALPHA )
         surface.convert_alpha()
         surface.fill([0,0,0,0])
 
         # Draw rectangles
         
-        return [(self._render(surface), (self.rect.x, self.rect.y))]
+        return [(self._render(surface), (0, 32))]
     
     def _render(self, __surface) -> pygame.Surface:
         """Renders a surface of quadrants for debugging."""
@@ -246,7 +246,7 @@ class Quadtree:
         # Draw rect
 
         pygame.draw.rect(
-            __surface, pygame.Color("Red"), self.rect, width=2
+            __surface, pygame.Color("Red"), self.rect, width=1
         )
 
         # Step down
