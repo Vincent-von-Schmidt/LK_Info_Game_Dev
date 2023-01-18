@@ -78,9 +78,9 @@ class Quadtree:
 
             # TODO
             
-            # else:
-            #     if not self.root:
-            #         self.reconstruct()
+            else:
+                if not self.root:
+                    self.reconstruct()
 
         # Split quadrant
 
@@ -238,7 +238,7 @@ class Quadtree:
 
         # Draw rectangles
         
-        return [(self._render(surface), (0, 32))]
+        return [(self._render(surface), self.rect.topleft)]
     
     def _render(self, __surface) -> pygame.Surface:
         """Renders a surface of quadrants for debugging."""
