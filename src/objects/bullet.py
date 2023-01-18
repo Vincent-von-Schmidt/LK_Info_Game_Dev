@@ -17,34 +17,18 @@ class Bullet(entity.Entity, sprites.bullet.Bullet):
 
         self.dir = kwargs["dir"]
         self.speed = kwargs["speed"]
-        # self.target = kwargs["target"]
+        
         if self.dir == core.RIGHT or self.dir == core.LEFT:
+            
             self.w = self.image_left.get_width()
             self.h = self.image_left.get_height()
+        
         else:
+            
             self.w = self.image_up.get_width()
             self.h = self.image_up.get_height()
+        
         self.init_rect()
-
-        # self.xl, self.yl = self.x, self.y # Last point
-
-        # Build flight trajectory
-
-        # x1, y1 = self.x, self.y
-        # x2, y2 = self.target.x, self.target.y
-
-        # a = (y1-y2) / (x2**2-x1**2)
-        # sign = random.choice((-1, +1))
-        # yv = random.randint(208 - 176, 208) # Vertex
-        # xv = x1 - sign * (
-        #     (y1-yv) * (x2**2-x1**2) / (y1-y2)
-        # )**0.5
-
-        # self.trajectory = lambda x: a * (x-xv)**2 + yv # ypos(xpos)
-        # self.derivation = lambda x: a*(x - xv) + yv # ypos'(xpos)
-        # self.distance = lambda x: (
-            
-        # ) # ydis(xpos)
 
     def update(self, elapsed_time: float) -> None:
         """Update the flight of shooten bullets."""
