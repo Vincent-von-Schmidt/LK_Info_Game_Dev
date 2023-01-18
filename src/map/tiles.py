@@ -23,9 +23,9 @@ class Tile( entity.Entity ):
         self.w = self.surface.get_width()
         self.h = self.surface.get_height()
 
-        self.set_entitiy( self.x, self.y, self.w, self.h )
+        self.set_entity( self.x, self.y, self.w, self.h )
 
-    def set_entitiy(
+    def set_entity(
 
         self,
         x: float = 0.0,
@@ -53,7 +53,7 @@ class Tile( entity.Entity ):
     def set_cordinates( self, x: float, y: float) -> None:
         self.x: float = x
         self.y: float = y
-        self.set_entitiy( x, y, self.w, self.h )
+        self.set_entity( x, y, self.w, self.h )
 
     def set_texture( self, path: str ) -> None:
         self.texture: str = path
@@ -70,7 +70,7 @@ class Wall( Tile ):
 
         # special hitbox for the north facing wall
         if facing == "north":
-            self.set_entitiy(
+            self.set_entity(
                 w = self.surface.get_width(),
                 h = self.surface.get_height() - 12
             )
