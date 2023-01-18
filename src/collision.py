@@ -343,7 +343,14 @@ class Quadtree:
                 # Bullet - Wall
                 
                 if isinstance(entity1, objects.bullet.Bullet):
-                    if entity2.fac == core.MAP: # BUG
+                    
+                    if isinstance(
+                        entity2, (
+                            map.tiles.Block,
+                            map.tiles.Edge,
+                            map.tiles.Block
+                        )
+                    ): # BUG
 
                         entity1.active = False
                         continue
@@ -354,7 +361,14 @@ class Quadtree:
                     entity1,
                     (objects.player.Player, objects.archer.Archer)
                 ):
-                    if entity2.fac == core.MAP: # BUG
+                    
+                    if isinstance(
+                        entity2, (
+                            map.tiles.Block,
+                            map.tiles.Edge,
+                            map.tiles.Block
+                        )
+                    ): # BUG
 
                         tmp_up = [
                             entity1.x, entity1.y,

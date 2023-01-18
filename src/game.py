@@ -318,7 +318,7 @@ class Game:
         if self.dead:
             objects += self.infos.kill_screen(self.killer)
         
-        # objects += self.collision.render(self.player)
+        objects += self.collision.render(self.player)
         # self.collision.print_()
         
         # Display
