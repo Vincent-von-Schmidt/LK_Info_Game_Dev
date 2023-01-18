@@ -270,7 +270,7 @@ class Quadtree:
 
         return __surface    
     
-    def handle(self, entities: entity.Entity) -> None:
+    def handle(self, entities: list[entity.Entity]) -> None:
         """Handle collisions in map."""
 
         for entity1 in entities:

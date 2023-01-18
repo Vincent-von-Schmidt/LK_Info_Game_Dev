@@ -28,5 +28,5 @@ class Entity:
     def update_rect(self):
         self.rect.x, self.rect.y = self.x, self.y
     
-    def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
+    def render(self) -> list[tuple[pygame.surface.Surface, tuple[float, ...]]]:
         return [(self._render(), (self.x, self.y))]

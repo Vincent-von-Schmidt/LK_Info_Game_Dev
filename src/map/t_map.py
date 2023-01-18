@@ -1,66 +1,7 @@
-from dataclasses import dataclass
 import json
 import pygame
 
-import entity
-import core
-
-
-@dataclass
-class Tile:
-    def __init__(
-
-        self, 
-        texture: str,
-        collision: bool = False,
-
-    ) -> None:
-        
-        self.set_texture( path = texture )
-        self.collision: bool = collision
-
-        # type definition
-        if "wall" in self.texture: self.type: str = core.WALL
-        elif "door" in self.texture: self.type: str = core.DOOR
-        elif "ground" in self.texture: self.type: str = core.GROUND
-        elif "block" in self.texture: self.type: str = core.WALL
-        elif "edge" in self.texture: self.type: str = core.WALL
-
-    def set_texture( self, path: str ) -> None:
-        self.texture: str = path
-        self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
-
-
-class Door(Tile):
-    def __init__( self,
-
-            open: bool = True,
-            facing: str = "north",
-            split: int = 1
-
-    ) -> None:
-
-        self.facing: str = facing
-        self.split: int = split
-        self.set_state( open )
-
-    def __set_tile( self ) -> None:
-
-        if self.facing == "west" or self.facing == "east":
-            texture: str = f"./assets/map/door/{self.state}/{self.facing}_{self.split}.png"
-
-        else: 
-            texture: str = f"./assets/map/door/{self.state}/{self.facing}.png"
-
-        super().__init__( texture )
-
-    def get_state( self ) -> str:
-        return self.state
-
-    def set_state( self, open: bool ) -> None:
-
-        self.state: str = "open" if open else "closed"
-        self.__set_tile()
+import map.tiles as tiles
 
 
 class TilesMap:
@@ -78,33 +19,7 @@ class TilesMap:
         # -> main - radio : 256, 208
         self.surface: pygame.surface.Surface = pygame.surface.Surface( (272, 176) )
         self.heightmap: str = heightmap
-        self.entity_list: list = []
         self.tile_construct: list = []
-
-        self.tiles: dict = {
-            "wall_north": Tile( texture = "./assets/map/wall/north.png", collision = True ),
-            "wall_east": Tile( texture = "./assets/map/wall/east.png", collision = True ),
-            "wall_south": Tile( texture = "./assets/map/wall/south.png", collision = True ),
-            "wall_west": Tile( texture = "./assets/map/wall/west.png", collision = True ),
-            "ground": Tile( texture = "./assets/map/ground.png" ),
-            "edge_north_east": Tile( texture = "./assets/map/edge/north_east.png" ),
-            "edge_north_west": Tile( texture = "./assets/map/edge/north_west.png" ),
-            "edge_south_west": Tile( texture = "./assets/map/edge/south_west.png" ),
-            "edge_south_east": Tile( texture = "./assets/map/edge/south_east.png" ),
-            "block": Tile( texture = "./assets/map/block.png", collision = True ),
-            "door_closed_north": Door( open = False, facing = "north" ),
-            "door_closed_east_1": Door( open = False, facing = "east", split = 1 ),
-            "door_closed_east_2": Door( open = False, facing = "east", split = 2 ),
-            "door_closed_south": Door( open = False, facing = "south" ),
-            "door_closed_west_1": Door( open = False, facing = "west", split = 1 ),
-            "door_closed_west_2": Door( open = False, facing = "west", split = 2 ),
-            "door_open_north": Door( open = True, facing = "north" ),
-            "door_open_east_1": Door( open = True, facing = "east", split = 1 ),
-            "door_open_east_2": Door( open = True, facing = "east", split = 2 ),
-            "door_open_south": Door( open = True, facing = "south" ),
-            "door_open_west_1": Door( open = True, facing = "west", split = 1 ),
-            "door_open_west_2": Door( open = True, facing = "west", split = 2 ),
-        }
 
         self.door_north: bool | str = door_north
         self.door_east: bool | str = door_east
@@ -140,13 +55,17 @@ class TilesMap:
             for bin in i:
                 
                 match bin:
-                    case 0: tmp.append( self.tiles["ground"] )
-                    case 1: tmp.append( self.tiles["block"] )
+                    case 0: tmp.append( tiles.Ground() )
+                    case 1: tmp.append( tiles.Block() )
                     case _: raise FileExistsError( "File not in binary." )
 
         return output
 
     def load_height_map( self, heightmap: str ) -> None:
+        """
+        Creates a list with all Tiles in the right order to draw the map.
+        The Rows represent the lists in the main list.
+        """
 
         # save the new heightmap
         self.heightmap: str = heightmap
@@ -154,33 +73,43 @@ class TilesMap:
         tile_construct: list = []
 
         # first row ---------------------------------------------
-        tile_construct.append( tmp := [] )
-        tmp.append( self.tiles["edge_north_west"] )
 
-        for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
+        # append row list
+        tile_construct.append( tmp := [] )
+
+        # append edge
+        tmp.append( tiles.Edge( "north_west" ) )
+
+        # append first set of walls
+        for _ in range( 6 ): tmp.append( tiles.Wall( "north" ) )
 
         # door state
         match self.door_north:
-            case "open": tmp.append( self.tiles["door_open_north"] )
-            case "closed": tmp.append( self.tiles["door_closed_north"] )
-            case _: tmp.append( self.tiles["wall_north"] )
+            case "open": tmp.append( tiles.Door( open = True, facing = "north", split = 1 ))
+            case "closed": tmp.append( tiles.Door( open = False, facing = "north", split = 2 ))
+            case _:
 
-        for _ in range( 6 ): tmp.append( self.tiles["wall_north"] )
+                # append 2 walls, to compensate the missing door (door -> 2 blocks)
+                for _ in range( 2 ): tmp.append( tiles.Wall( "north" ))
 
-        tmp.append( self.tiles["edge_north_east"] )
+        # append second set of walls
+        for _ in range( 6 ): tmp.append( tiles.Wall( "north" ))
+
+        # append the edge to complete the first row
+        tmp.append( tiles.Edge( "north_east" ))
 
         # between -----------------------------------------------
 
-        # map content of the hightmap to Tiles
+        # map content of the hightmap to tiles.Tiles
         with open( heightmap, "r" ) as file:
             content: list = self.__map_tiles_to_binary( json.loads(file.read()) )
 
         tmp_i: int = 0
         for i in range( 3 ):
             tile_construct.append( tmp := [] )
-            tmp.append( self.tiles["wall_west"] )
+            tmp.append( tiles.Wall( "west" ))
             for a in range( 14 ): tmp.append( content[tmp_i][a] )
-            tmp.append( self.tiles["wall_east"] )
+            tmp.append( tiles.Wall( "east" ) )
 
             tmp_i += 1
 
@@ -188,110 +117,88 @@ class TilesMap:
             tile_construct.append( tmp := [] )
 
             match self.door_west:
-                case "open": tmp.append( self.tiles[f"door_open_west_{i + 1}"] )
-                case "closed": tmp.append( self.tiles[f"door_closed_west_{i + 1}"] )
-                case _: tmp.append( self.tiles["wall_west"] )
+                case "open": tmp.append( tiles.Door( open = True, facing = "west", split = i + 1 ))
+                case "closed": tmp.append( tiles.Door( open = False, facing = "west", split = i + 1 ))
+                case _: tmp.append( tiles.Wall( "west" ) )
 
             for a in range( 14 ): tmp.append( content[tmp_i][a] )
 
             match self.door_east:
-                case "open": tmp.append( self.tiles[f"door_open_east_{i + 1}"] )
-                case "closed": tmp.append( self.tiles[f"door_closed_east_{i + 1}"] )
-                case _: tmp.append( self.tiles["wall_east"] )
+                case "open": tmp.append( tiles.Door( open = True, facing = "east", split = i + 1 ))
+                case "closed": tmp.append( tiles.Door( open = False, facing = "east", split = i + 1 ))
+                case _: tmp.append( tiles.Wall( "east" ) )
 
             tmp_i += 1
-
 
         for i in range( 3 ):
             tile_construct.append( tmp := [] )
-            tmp.append( self.tiles["wall_west"] )
+            tmp.append( tiles.Wall( "west" ) )
             for a in range( 14 ): tmp.append( content[tmp_i][a] )
-            tmp.append( self.tiles["wall_east"] )
+            tmp.append( tiles.Wall( "east" ) )
 
             tmp_i += 1
 
-
         # last row ----------------------------------------------
         tile_construct.append( tmp := [] )
-        tmp.append( self.tiles["edge_south_west"] )
+        tmp.append( tiles.Edge( "south_west" ) )
 
-        for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
+        for _ in range( 6 ): tmp.append( tiles.Wall( "south" ))
 
         # door state
         match self.door_south:
-            case "open": tmp.append( self.tiles["door_open_south"] )
-            case "closed": tmp.append( self.tiles["door_closed_south"] )
-            case _: tmp.append( self.tiles["wall_south"] )
+            case "open": tmp.append( tiles.Door( open = True, facing = "south" ))
+            case "closed": tmp.append( tiles.Door( open = False, facing = "south" ))
+            case _:
+                for _ in range( 2 ): tmp.append( tiles.Wall( "south" ))
 
-        for _ in range( 6 ): tmp.append( self.tiles["wall_south"] )
+        for _ in range( 6 ): tmp.append( tiles.Wall( "south" ))
 
-        tmp.append( self.tiles["edge_south_east"] )
+        tmp.append( tiles.Edge( "south_east" ))
 
-        self.__render(tile_construct)
+        self.__render( tile_construct )
 
         # save tile_construct
         self.tile_construct: list = tile_construct
 
-    def __render( self, constuct: list ) -> None:
+    def __render( self, construct: list ) -> None:
         """Render the map. -> Draws the tiles on the map surface."""
 
         # default height for the first row
         tmp_height: list = [0]
 
         # for each row
-        for row in constuct:
+        for row in construct:
 
             # default width for the first column
             tmp_width: list = [0]
 
             # tile cache -> tmp_heigt save
-            tmp_tile: Tile | None = None
+            tmp_tile: tiles.Tile | None = None
 
             # for each column
             for tile in row:
+
+                # calc cordinates
+                x: int = sum( tmp_width )
+                y: int = sum( tmp_height )
+
+                # set cordinates of the entity
+                tile.set_cordinates( x, y )
                 
                 # map draw
                 self.surface.blit(
                     source = tile.surface,
-                    dest = (
-                        sum( tmp_width ),
-                        sum( tmp_height )
-                    ) 
+                    dest = ( x, y ) 
                 )
-
-                # entity list -> collision
-                match tile.type:
-                    case core.WALL: fac = core.MAP
-                    case core.DOOR: fac = core.SPECIAL
-                    case core.GROUND: fac = core.NEUTRAL
-                    case _:
-                        print(tile)
-                        raise TypeError("Tile not defined by CORE")
-                
-                if "north" in tile.texture and not "edge" in tile.texture:
-                    h_dif = 12
-                else: 
-                    h_dif = 0
-                self.entity_list.append(
-                    entity.Entity(
-                        x = sum( tmp_width ),
-                        y = sum( tmp_height ) + 32,
-                        fac = fac
-                    )
-                )
-                self.entity_list[-1].w = tile.surface.get_width()
-                self.entity_list[-1].h = tile.surface.get_height() - h_dif
-                self.entity_list[-1].init_rect()
 
                 # save current width for the next column
-                tmp_width.append( tile.surface.get_width() )
+                tmp_width.append( tile.surface.get_width())
 
                 # save the current tile
-                tmp_tile: Tile | None = tile
+                tmp_tile: tiles.Tile | None = tile
 
             # save height of last tile for next row
-            tmp_height.append( tmp_tile.surface.get_height() )
-
+            tmp_height.append( tmp_tile.surface.get_height())
 
     def get_map( self ) -> list:
         # offset: x = 0, y = 32
@@ -300,21 +207,11 @@ class TilesMap:
     def get_tile_map( self ) -> list:
         return self.tile_construct
 
-    def get_entity_list( self ) -> list:
-        return self.entity_list
+    def get_entity_map( self ) -> list:
+        output: list = []
 
+        for row in self.tile_construct:
+            for entity in row:
+                output.append( entity )
 
-if __name__ == "__main__":
-    pygame.init()
-    screen = pygame.display.set_mode( (1280, 720) )
-
-    map: TilesMap = TilesMap( door_north=True, door_south=True )
-    map.set_door_state()
-
-    while True:
-        for event in pygame.event.get():
-            if event == pygame.QUIT: pygame.quit()
-
-        screen.blits( map.get_map() )
-
-        pygame.display.flip()
+        return output
