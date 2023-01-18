@@ -40,7 +40,8 @@ class Tile( entity.Entity ):
         self.w = w
         self.h = h
 
-        super().__init__(
+        entity.Entity.__init__(
+            self,
             x = x,
             y = y,
             w = w,
@@ -51,11 +52,13 @@ class Tile( entity.Entity ):
         self.init_rect()
 
     def set_cordinates( self, x: float, y: float) -> None:
+        
         self.x: float = x
         self.y: float = y
         self.set_entity( x, y, self.w, self.h )
 
     def set_texture( self, path: str ) -> None:
+        
         self.texture: str = path
         self.surface: pygame.surface.Surface = pygame.image.load( self.texture )
 
@@ -63,12 +66,14 @@ class Tile( entity.Entity ):
 class Wall( Tile ):
     def __init__( self, facing: str ) -> None:
 
-        super().__init__(
+        Tile.__init__(
+            self,
             texture = f"./assets/map/wall/{facing}.png",
             type = core.MAP,
         )
 
-        # special hitbox for the north facing wall
+        # Special hitbox for the north facing wall
+
         if facing == "north":
             self.set_entity(
                 w = self.surface.get_width(),
@@ -79,7 +84,8 @@ class Wall( Tile ):
 class Edge( Tile ):
     def __init__( self, facing: str ) -> None:
 
-        super().__init__(
+        Tile.__init__(
+            self,
             texture = f"./assets/map/edge/{facing}.png",
             type = core.MAP,
         )
@@ -88,7 +94,8 @@ class Edge( Tile ):
 class Ground( Tile ):
     def __init__( self ) -> None:
 
-        super().__init__(
+        Tile.__init__(
+            self,
             texture = "./assets/map/ground.png",
             type = core.NEUTRAL,
         )
@@ -97,7 +104,8 @@ class Ground( Tile ):
 class Block( Tile ):
     def __init__( self ) -> None:
 
-        super().__init__(
+        Tile.__init__(
+            self,
             texture = "./assets/map/block.png",
             type = core.MAP,
         )
@@ -125,7 +133,7 @@ class Door( Tile ):
         else: 
             texture: str = f"./assets/map/door/{self.state}/{self.facing}.png"
 
-        super().__init__( texture, type = core.SPECIAL )
+        Tile.__init__( self, texture, type = core.SPECIAL )
 
     def get_state( self ) -> str:
         return self.state
@@ -134,4 +142,3 @@ class Door( Tile ):
 
         self.state: str = "open" if open else "closed"
         self.__set_tile()
-
