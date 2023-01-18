@@ -332,6 +332,8 @@ class Quadtree:
                 
                 # Player / Archer - Wall
 
+                # TODO -> bug -> entity2 is only fac = core.ENEMY
+
                 if isinstance(
                     entity1,
                     (objects.player.Player, objects.archer.Archer)

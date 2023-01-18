@@ -184,7 +184,7 @@ class TilesMap:
 
                 # set cordinates of the entity
                 tile.set_cordinates( x, y )
-                
+
                 # map draw
                 self.surface.blit(
                     source = tile.surface,
