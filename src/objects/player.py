@@ -68,19 +68,27 @@ class Player(entity.Entity, sprites.player.Player):
         return False
 
     def shoot(self):
+        """Create a bullet."""
+        
         if self.shooting:
+            
             self.attack_last = 0
             x = self.x + self.w/2
             y = self.y + self.h/2
+            
             match self.dir:
                 case core.UP: x, y = x-2, y-7
                 case core.DOWN: x, y = x-2, y-8
                 case core.LEFT: x, y = x-7, y-7
                 case core.RIGHT: x, y = x-7, y-7
+            
             return objects.bullet.Bullet(
-                                x=x,
-                                y=y,
-                                dir=self.dir,
-                                speed=100,
-                                fac=core.FRIEND)
-        else: return None
+                x = x,
+                y = y,
+                dir = self.dir,
+                speed = 100,
+                fac = core.FRIEND
+            )
+        
+        else:
+            return None
