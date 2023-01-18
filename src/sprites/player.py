@@ -37,7 +37,7 @@ class Player:
         self.step_idx = 0 # Index
         self.step_stop = True # Bool
 
-    def move_up(self, elapsed_time: float = 0) -> float:
+    def move_up(self, elapsed_time: float) -> float:
         """Move the sprite up."""
 
         ################################################################
@@ -52,7 +52,7 @@ class Player:
 
         return dis
     
-    def move_down(self, elapsed_time: float = 0) -> float:
+    def move_down(self, elapsed_time: float) -> float:
         """Move the sprite down."""
 
         ################################################################
@@ -67,7 +67,7 @@ class Player:
 
         return dis
     
-    def move_left(self, elapsed_time: float = 0) -> float:
+    def move_left(self, elapsed_time: float) -> float:
         """Move the sprite left."""
 
         ################################################################
@@ -82,7 +82,7 @@ class Player:
 
         return dis
     
-    def move_right(self, elapsed_time: float = 0) -> float:
+    def move_right(self, elapsed_time: float) -> float:
         """Move the sprite right."""
 
         ################################################################
@@ -97,7 +97,7 @@ class Player:
 
         return dis
     
-    def move_up_right(self, elapsed_time: float = 0) -> float:
+    def move_up_right(self, elapsed_time: float) -> float:
         """Move the sprite up right."""
 
         dis = self.step_speed * elapsed_time / 2**0.5
@@ -110,7 +110,7 @@ class Player:
         
         return 2*dis
 
-    def move_up_left(self, elapsed_time: float = 0) -> float:
+    def move_up_left(self, elapsed_time: float) -> float:
         """Move the sprite up left."""
 
         dis = self.step_speed * elapsed_time / 2**0.5
@@ -123,7 +123,7 @@ class Player:
         
         return 2*dis
     
-    def move_down_left(self, elapsed_time: float = 0) -> float:
+    def move_down_left(self, elapsed_time: float) -> float:
         """Move the sprite down left."""
 
         dis = self.step_speed * elapsed_time / 2**0.5
@@ -136,7 +136,7 @@ class Player:
         
         return 2*dis
     
-    def move_down_right(self, elapsed_time: float = 0) -> float:
+    def move_down_right(self, elapsed_time: float) -> float:
         """Move the sprite down right."""
 
         dis = self.step_speed * elapsed_time / 2**0.5
