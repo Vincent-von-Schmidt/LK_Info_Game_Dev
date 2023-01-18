@@ -25,12 +25,12 @@ class Game:
         # Objects
         
         self.player = objects.player.Player(
-            x=100,
-            y=100,
-            fac=core.FRIEND,
+            x = 125,
+            y = 100,
+            fac = core.FRIEND,
             dir = core.DOWN,
             speed = 30,
-            change = 0.2
+            change =0.2
         )
         self.infos = infos.Infos()
         self.map = map.t_map.TilesMap(
@@ -41,9 +41,9 @@ class Game:
             door_west = "closed",
         )
         self.archer = objects.archer.Archer(
-            x=200,
-            y=100,
-            fac=core.ENEMY,
+            x = 210,
+            y = 100,
+            fac = core.ENEMY,
             dir = core.DOWN,
             speed = 50,
             change = 0.2
@@ -63,8 +63,7 @@ class Game:
         self.maxfps = maxfps
         self.collision = collision.Quadtree(
             pygame.Rect(0, 32, 272, 176),
-            capacity=5,
-            root=True
+            capacity = 3
         )
 
         self.screen = pygame.display.set_mode((816, 624))
@@ -136,6 +135,7 @@ class Game:
             self.eventqueue += [(core.MOVE, core.DOWN)]
 
         # TODO -> remove -> test map change
+
         elif keys[pygame.K_n]:
             self.map.load_height_map( "./assets/map/heightmaps/test.json" )
 
