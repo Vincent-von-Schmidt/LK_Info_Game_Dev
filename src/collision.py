@@ -206,7 +206,7 @@ class Quadtree:
 
         indent = __height * "    "
         
-        print(indent, self.rect)
+        print(indent, self.rect, "fix" if self.fix else "")
         print(indent, [en.rect for en in self.entities])
             
         # Step down
@@ -423,7 +423,7 @@ class Quadtree:
 
 if __name__ == "__main__":
 
-    collision = Quadtree(pygame.Rect(0, 0, 500, 400), 2)
+    collision = Quadtree(pygame.Rect(0, 0, 500, 400), 3)
 
     entities = [
         entity.Entity(x=12, y=40, w=13, h=20, fac=core.FRIEND),
@@ -432,11 +432,11 @@ if __name__ == "__main__":
         entity.Entity(x=322, y=1, w=13, h=14, fac=core.FRIEND),
         entity.Entity(x=12, y=3, w=15, h=30, fac=core.ENEMY),
         entity.Entity(x=12, y=7, w=13, h=14, fac=core.FRIEND),
-        entity.Entity(x=12, y=14, w=13, h=14, fac=core.ENEMY),
+        entity.Entity(x=12, y=14, w=200, h=110, fac=core.ENEMY),
         entity.Entity(x=12, y=234, w=18, h=14, fac=core.FRIEND),
         entity.Entity(x=322, y=1, w=13, h=14, fac=core.FRIEND),
         entity.Entity(x=12, y=3, w=13, h=20, fac=core.ENEMY),
-        entity.Entity(x=12, y=3, w=13, h=40, fac=core.ENEMY),
+        entity.Entity(x=12, y=3, w=400, h=300, fac=core.ENEMY),
         entity.Entity(x=12, y=3, w=13, h=40, fac=core.ENEMY)
     ]
 

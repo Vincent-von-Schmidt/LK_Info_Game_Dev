@@ -30,3 +30,4 @@ class Entity:
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float, ...]]]:
         return [(self._render(), (self.x, self.y))]
+    
