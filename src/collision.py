@@ -222,10 +222,10 @@ class Quadtree:
 
         if not self.leaf:
 
-            self.up_right.print_(__height + 1)
-            self.up_left.print_(__height + 1)
-            self.down_right.print_(__height + 1)
-            self.down_left.print_(__height + 1)
+            self.up_right._print_(__height + 1)
+            self.up_left._print_(__height + 1)
+            self.down_right._print_(__height + 1)
+            self.down_left._print_(__height + 1)
     
     def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         """Renders a surface of quadrants for debugging."""
