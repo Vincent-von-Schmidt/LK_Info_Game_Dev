@@ -62,7 +62,7 @@ class Game:
         self.maxfps = maxfps
         self.collision = collision.Quadtree(
             pygame.Rect(0, 32, 272, 176),
-            capacity=8,
+            capacity=10,
             root=True
         )
 
@@ -317,7 +317,8 @@ class Game:
         objects += self.infos.render()
         if self.dead:
             objects += self.infos.kill_screen(self.killer)
-        # objects += self.collision.render()
+        
+        # objects += self.collision.render(self.player)
         
         # Display
 

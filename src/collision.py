@@ -4,6 +4,7 @@ import entity
 import core
 import objects.player
 import objects.archer
+import objects.bullet
 
 
 class Quadtree:
@@ -75,12 +76,9 @@ class Quadtree:
                 self.down_right.insert(en)
             
             # Size check
-
-            # TODO
             
-            else:
-                if not self.root:
-                    self.reconstruct()
+            # else:
+            #     self.reconstruct()
 
         # Split quadrant
 
@@ -97,7 +95,9 @@ class Quadtree:
         # Deconstruct
 
         entities = self._reconstruct()
-        self.capacity = max( len(entities) + 1, self.capacity )
+
+        if self.root:
+            self.capacity = len(entities) + 1
 
         # Reconstruct
 
@@ -144,25 +144,15 @@ class Quadtree:
 
         self.leaf = False
 
-        # Pass entities
-
-        for en in self.entities:
-
-            if self.rect_up_left.contains(en.rect):
-                self.up_left.insert(en)
-            
-            elif self.rect_up_right.contains(en.rect):
-                self.up_right.insert(en)
-            
-            elif self.rect_down_left.contains(en.rect):
-                self.down_left.insert(en)
-            
-            elif self.rect_down_right.contains(en.rect):
-                self.down_right.insert(en)
-        
         # Clear entities
         
+        entities = self.entities.copy()
         self.entities.clear()
+
+        # Insert entities
+
+        for en in entities:
+            self.insert(en)
 
     def retrieve(self, en: entity.Entity) -> list[entity.Entity]:
         """Retrieve all possible colliders with an entity."""
@@ -227,27 +217,47 @@ class Quadtree:
             self.down_right._print_(__height + 1)
             self.down_left._print_(__height + 1)
     
-    def render(self) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
+    def render(
+        self, en: entity.Entity | None = None
+    ) -> list[tuple[pygame.surface.Surface, tuple[float]]]:
         """Renders a surface of quadrants for debugging."""
         
         # Prepare surface
 
-        surface = pygame.Surface( (272, 208), pygame.SRCALPHA )
+        surface = pygame.Surface((272, 208), pygame.SRCALPHA)
         surface.convert_alpha()
-        surface.fill([0,0,0,0])
+        surface.fill([0, 0, 0, 0])
 
         # Draw rectangles
         
-        return [(self._render(surface), (0, 0))]
+        return [(self._render(surface, en), (0, 0))]
     
-    def _render(self, __surface) -> pygame.Surface:
+    def _render(
+        self, __surface, en: entity.Entity | None = None
+    ) -> pygame.Surface:
         """Renders a surface of quadrants for debugging."""
+        
+        # Check collision (with debug object)
+
+        collide = False
+
+        if en:
+            if self.leaf and self.rect.colliderect(en.rect):
+                collide = True
 
         # Draw rect
 
-        pygame.draw.rect(
-            __surface, pygame.Color("Red"), self.rect, width=1
-        )
+        if collide:
+
+            pygame.draw.rect(
+                __surface, pygame.Color("Yellow"), self.rect, width=1
+            )
+        
+        else:
+
+            pygame.draw.rect(
+                __surface, pygame.Color("Red"), self.rect, width=1
+            )
 
         # Step down
 
@@ -327,6 +337,8 @@ class Quadtree:
                     (objects.player.Player, objects.archer.Archer)
                 ):
                     if entity2.fac == core.MAP:
+                        
+                        # BUG
 
                         tmp_up = [
                             entity1.x, entity1.y,
@@ -395,14 +407,14 @@ class Quadtree:
 
 if __name__ == "__main__":
 
-    collision = Quadtree(0, 0, 500, 400, 2)
+    collision = Quadtree(pygame.Rect(0, 0, 500, 400), 2, True)
 
     entities = [
         entity.Entity(x=12, y=234, w=13, h=14, fac=core.FRIEND),
         entity.Entity(x=12, y=54, w=13, h=14, fac=core.ENEMY),
         entity.Entity(x=12, y=234, w=18, h=14, fac=core.FRIEND),
         entity.Entity(x=322, y=1, w=13, h=14, fac=core.FRIEND),
-        entity.Entity(x=12, y=3, w=300, h=300, fac=core.ENEMY), #
+        entity.Entity(x=12, y=3, w=300, h=300, fac=core.ENEMY),
         entity.Entity(x=12, y=234, w=13, h=14, fac=core.FRIEND),
         entity.Entity(x=12, y=54, w=13, h=14, fac=core.ENEMY),
         entity.Entity(x=12, y=234, w=18, h=14, fac=core.FRIEND),
@@ -416,7 +428,7 @@ if __name__ == "__main__":
         
         collision.insert(en)
 
-        if i == 5: break
+        if i == 2: break
     
     collision.print_()
     print("--------------------------------------------")
