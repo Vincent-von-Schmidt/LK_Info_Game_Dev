@@ -306,7 +306,7 @@ class Quadtree:
 
                 # Same object
 
-                if entity1 in entities2:
+                if entity1 is entity2:
                     continue
 
                 # Check collision
