@@ -22,6 +22,25 @@ class Game:
         # 2. Init PyGame.                                              #
         ################################################################
 
+        # Pygame
+
+        self.maxfps = maxfps
+        self.collision = collision.Quadtree(
+            pygame.Rect(0, 32, 272, 176),
+            capacity = 10
+        )
+
+        self.screen = pygame.display.set_mode((816, 624))
+        pygame.display.set_caption("The Master Sword's Return")
+        
+        self.clock = pygame.time.Clock()
+        
+        pygame.key.set_repeat(30, 30)
+
+        pygame.font.init()
+        self.running = True
+        self.start = False
+
         # Objects
         
         self.player = objects.player.Player(
@@ -57,24 +76,6 @@ class Game:
 
         self.dead = False
         self.killer = None
-
-        # Pygame
-
-        self.maxfps = maxfps
-        self.collision = collision.Quadtree(
-            pygame.Rect(0, 32, 272, 176),
-            capacity = 10
-        )
-
-        self.screen = pygame.display.set_mode((816, 624))
-        pygame.display.set_caption("The Master Sword's Return")
-        
-        self.clock = pygame.time.Clock()
-        
-        pygame.key.set_repeat(30, 30)
-
-        self.running = True
-        self.start = False
     
     def handle_inputs(self) -> None:
         """Get the user input and react."""
@@ -319,7 +320,12 @@ class Game:
             objects += self.infos.kill_screen(self.killer)
         
         # objects += self.collision.render(self.player)
-        # self.collision.print_()
+        # objects += core._render_coordinates(
+        #     core._downscale_coordinates(
+        #         pygame.mouse.get_pos(),
+        #         (816, 624), (272, 208)
+        #     )
+        # )
         
         # Display
 

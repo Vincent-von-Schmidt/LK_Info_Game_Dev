@@ -274,7 +274,7 @@ class Quadtree:
         else:
 
             pygame.draw.rect(
-                __surface, pygame.Color("Red"), self.rect, width=1
+                __surface, pygame.Color("Green"), self.rect, width=1
             )
 
         # Step down

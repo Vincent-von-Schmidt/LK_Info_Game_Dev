@@ -15,7 +15,6 @@ class Infos:
 
         # Infos
 
-        pygame.font.init()
         self.font = pygame.font.SysFont('Arial', 10)
         self.font2 = pygame.font.SysFont('Arial', 20)
 
