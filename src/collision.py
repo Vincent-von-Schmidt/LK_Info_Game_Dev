@@ -113,21 +113,21 @@ class Quadtree:
 
         self.leaf = True
     
-    def _destruct(self) -> list[entity.Entity]:
+    def _destruct(self, __collector=[]) -> list[entity.Entity]:
         """Reconstruct all childs for size reasons."""
 
         # Collect entities
 
-        entities = self.entities
+        __collector += self.entities
 
         if not self.leaf:
 
-            entities += self.up_left._destruct()
-            entities += self.up_right._destruct()
-            entities += self.down_left._destruct()
-            entities += self.down_right._destruct()
+            self.up_left._destruct(__collector)
+            self.up_right._destruct(__collector)
+            self.down_left._destruct(__collector)
+            self.down_right._destruct(__collector)
         
-        return entities
+        return __collector
     
     def split(self) -> None:
         """Split the tree into quad subtrees."""
@@ -207,7 +207,7 @@ class Quadtree:
         indent = __height * "    "
         
         print(indent, self.rect, "fix" if self.fix else "")
-        print(indent, [en.rect for en in self.entities])
+        print(indent, self.entities)
             
         # Step down
 
@@ -306,7 +306,7 @@ class Quadtree:
 
                 # Same object
 
-                if entity1 is entity2:
+                if entity1 in entities2:
                     continue
 
                 # Check collision
@@ -325,7 +325,6 @@ class Quadtree:
 
                         entity1.update_health(-0.5)
                         entity2.active = False
-                        continue
                 
                 # Bullet - Archer
                 
@@ -338,7 +337,6 @@ class Quadtree:
                         
                         entity1.active = False
                         entity2.update_health(-1)
-                        continue
                 
                 # Bullet - Wall
                 
@@ -348,12 +346,12 @@ class Quadtree:
                         entity2, (
                             map.tiles.Block,
                             map.tiles.Edge,
-                            map.tiles.Block
+                            map.tiles.Block,
+                            map.tiles.Wall
                         )
                     ): # BUG
 
                         entity1.active = False
-                        continue
                 
                 # Player / Archer - Wall
 
@@ -366,7 +364,8 @@ class Quadtree:
                         entity2, (
                             map.tiles.Block,
                             map.tiles.Edge,
-                            map.tiles.Block
+                            map.tiles.Block,
+                            map.tiles.Wall
                         )
                     ): # BUG
 
@@ -403,7 +402,6 @@ class Quadtree:
                             
                             dis = entity2.y + entity2.h - entity1.y
                             entity1.y += dis
-                            continue
                         
                         if (
                             tmp_rect.contains(tmp_down)
@@ -413,7 +411,6 @@ class Quadtree:
                             
                             dis = -entity1.y - entity1.h + entity2.y
                             entity1.y += dis
-                            continue
                         
                         if (
                             tmp_rect.contains(tmp_left)
@@ -423,7 +420,6 @@ class Quadtree:
                             
                             dis = entity2.x + entity2.w - entity1.x
                             entity1.x += dis
-                            continue
                         
                         if (
                             tmp_rect.contains(tmp_right)
@@ -433,7 +429,6 @@ class Quadtree:
                             
                             dis = -entity1.x - entity1.w + entity2.x
                             entity1.x += dis
-                            continue
 
 if __name__ == "__main__":
 
