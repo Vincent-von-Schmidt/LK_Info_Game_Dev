@@ -54,13 +54,13 @@ class Archer(entity.Entity, sprites.archer.Archer):
             self.dir = core.UP
             return self.shoot()
 
-        if dis_y > 0: pos_y = core.DOWN #ueber
-        else: pos_y = core.UP #unter
+        if dis_y > 0: pos_y = core.DOWN # Above
+        else: pos_y = core.UP # Under
         
-        if dis_x < 0 and pos_y == core.DOWN: pos_x = core.LEFT #unten links
-        elif dis_x > 0 and pos_y == core.DOWN: pos_x = core.RIGHT #unten rechts
-        elif dis_x < 0 and pos_y == core.UP: pos_x = core.LEFT #oben links
-        else: pos_x = core.RIGHT #oben rechts
+        if dis_x < 0 and pos_y == core.DOWN: pos_x = core.LEFT # Bottom left
+        elif dis_x > 0 and pos_y == core.DOWN: pos_x = core.RIGHT # Bottom right
+        elif dis_x < 0 and pos_y == core.UP: pos_x = core.LEFT # Top left
+        else: pos_x = core.RIGHT # Top right
     
         match player.dir:
             
