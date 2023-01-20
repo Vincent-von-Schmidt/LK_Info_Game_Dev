@@ -180,7 +180,7 @@ class TilesMap:
 
                 # calc cordinates
                 x: int = sum( tmp_width )
-                y: int = sum( tmp_height )
+                y: int = sum( tmp_height ) + 32 # BUG
 
                 # set cordinates of the entity
                 tile.set_cordinates( x, y )
@@ -202,7 +202,7 @@ class TilesMap:
 
     def get_map( self ) -> list:
         # offset: x = 0, y = 32
-        return [(self.surface, (0, 32))]
+        return [(self.surface, (0, 0))] # BUG
 
     def get_tile_map( self ) -> list:
         return self.tile_construct

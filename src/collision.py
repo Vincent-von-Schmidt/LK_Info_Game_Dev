@@ -314,6 +314,9 @@ class Quadtree:
                 if not entity1.rect.colliderect(entity2.rect):
                     continue
 
+                if isinstance(entity2, map.tiles.Block):
+                    print(entity2.rect)
+
                 # Player - Bullet
 
                 if isinstance(entity1, objects.player.Player):

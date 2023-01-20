@@ -319,13 +319,13 @@ class Game:
         if self.dead:
             objects += self.infos.kill_screen(self.killer)
         
-        # objects += self.collision.render(self.player)
-        # objects += core._render_coordinates(
-        #     core._downscale_coordinates(
-        #         pygame.mouse.get_pos(),
-        #         (816, 624), (272, 208)
-        #     )
-        # )
+        objects += self.collision.render(self.player)
+        objects += core._render_coordinates(
+            core._downscale_coordinates(
+                pygame.mouse.get_pos(),
+                (816, 624), (272, 208)
+            )
+        )
         
         # Display
 
