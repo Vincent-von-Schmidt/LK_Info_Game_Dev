@@ -22,7 +22,6 @@ class Quadtree:
 
         self.entities = []
         self.leaf = True
-        self.fix = False
 
         self.x = rect.x
         self.y = rect.y
@@ -65,24 +64,17 @@ class Quadtree:
 
         if not self.leaf:
             
-            if self.rect_up_left.contains(en.rect):
+            if self.rect_up_left.colliderect(en.rect):
                 self.up_left.insert(en)
             
-            elif self.rect_up_right.contains(en.rect):
+            if self.rect_up_right.colliderect(en.rect):
                 self.up_right.insert(en)
             
-            elif self.rect_down_left.contains(en.rect):
+            if self.rect_down_left.colliderect(en.rect):
                 self.down_left.insert(en)
             
-            elif self.rect_down_right.contains(en.rect):
+            if self.rect_down_right.colliderect(en.rect):
                 self.down_right.insert(en)
-            
-            # Size check
-            
-            # else: # BUG
-                
-            #     self.destruct()
-            #     self.entities += [en]
 
         # Append entity
 
@@ -92,42 +84,8 @@ class Quadtree:
 
             # Split quadrant
 
-            if (not self.fix) and (len(self.entities) > self.capacity):
+            if len(self.entities) > self.capacity:
                 self.split()
-    
-    def destruct(self) -> None:
-        """Reconstruct all childs for size reasons."""
-        
-        # Destruct tree
-
-        self.entities = self._destruct()
-
-        self.fix = True
-
-        # Clear subtrees
-
-        self.up_right = None
-        self.up_left = None
-        self.down_right = None
-        self.down_left = None
-
-        self.leaf = True
-    
-    def _destruct(self, __collector=[]) -> list[entity.Entity]:
-        """Reconstruct all childs for size reasons."""
-
-        # Collect entities
-
-        __collector += self.entities
-
-        if not self.leaf:
-
-            self.up_left._destruct(__collector)
-            self.up_right._destruct(__collector)
-            self.down_left._destruct(__collector)
-            self.down_right._destruct(__collector)
-        
-        return __collector
     
     def split(self) -> None:
         """Split the tree into quad subtrees."""
@@ -309,13 +267,13 @@ class Quadtree:
                 if entity1 is entity2:
                     continue
 
+                if isinstance(entity1, objects.archer.Archer):
+                    print(entity2.rect)
+
                 # Check collision
 
                 if not entity1.rect.colliderect(entity2.rect):
                     continue
-
-                if isinstance(entity2, map.tiles.Block):
-                    print(entity2.rect)
 
                 # Player - Bullet
 
