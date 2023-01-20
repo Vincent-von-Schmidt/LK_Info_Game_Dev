@@ -46,3 +46,15 @@ class Bullet(entity.Entity, sprites.bullet.Bullet):
 
         elif self.dir == core.DOWN:
             self.move_down(elapsed_time)
+        
+        elif self.dir == core.DOWN_LEFT:
+            self.move_down_left(elapsed_time)
+        
+        elif self.dir == core.DOWN_RIGHT:
+            self.move_down_right(elapsed_time)
+        
+        elif self.dir == core.UP_LEFT:
+            self.move_up_left(elapsed_time)
+        
+        elif self.dir == core.UP_RIGHT:
+            self.move_up_right(elapsed_time)

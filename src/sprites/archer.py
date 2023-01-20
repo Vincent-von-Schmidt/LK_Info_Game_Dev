@@ -37,6 +37,10 @@ class Archer:
             pygame.image.load("./assets/archer/archer_right_1.png"),
             pygame.image.load("./assets/archer/archer_right_2.png")
         )
+        self.images_up_right = self.images_right
+        self.images_up_left = self.images_left
+        self.images_down_left = self.images_left
+        self.images_down_right = self.images_right
     
     def move_up(self, elapsed_time: float = 0) -> float:
         """Move the sprite up."""
@@ -106,7 +110,7 @@ class Archer:
         self.y -= dis
         self.x += dis
 
-        self.dir = core.RIGHT
+        self.dir = core.UP_RIGHT
         self.step_stop = False
         
         return 2*dis
@@ -119,7 +123,7 @@ class Archer:
         self.y -= dis
         self.x -= dis
 
-        self.dir = core.LEFT
+        self.dir = core.UP_LEFT
         self.step_stop = False
         
         return 2*dis
@@ -132,7 +136,7 @@ class Archer:
         self.y += dis
         self.x -= dis
     
-        self.dir = core.LEFT
+        self.dir = core.DOWN_LEFT
         self.step_stop = False
         
         return 2*dis
@@ -145,7 +149,7 @@ class Archer:
         self.y += dis
         self.x += dis
 
-        self.dir = core.RIGHT
+        self.dir = core.DOWN_RIGHT
         self.step_stop = False
         
         return 2*dis
@@ -185,3 +189,15 @@ class Archer:
         
         elif self.dir == core.DOWN:
             return self.images_down[self.step_idx]
+        
+        elif self.dir == core.DOWN_RIGHT:
+            return self.images_down_right[self.step_idx]
+        
+        elif self.dir == core.DOWN_LEFT:
+            return self.images_down_left[self.step_idx]
+        
+        elif self.dir == core.UP_LEFT:
+            return self.images_up_left[self.step_idx]
+        
+        elif self.dir == core.UP_RIGHT:
+            return self.images_up_right[self.step_idx]

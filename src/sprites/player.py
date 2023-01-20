@@ -31,6 +31,10 @@ class Player:
             pygame.image.load("./assets/player/player_right_1.png"),
             pygame.image.load("./assets/player/player_right_2.png")
         )
+        self.images_up_right = self.images_right
+        self.images_up_left = self.images_left
+        self.images_down_left = self.images_left
+        self.images_down_right = self.images_right
 
         self.step_max = 3 - 1 # Num
         self.step_last = 0 # Time
@@ -105,7 +109,7 @@ class Player:
         self.y -= dis
         self.x += dis
 
-        self.dir = core.RIGHT
+        self.dir = core.UP_RIGHT
         self.step_stop = False
         
         return 2*dis
@@ -118,7 +122,7 @@ class Player:
         self.y -= dis
         self.x -= dis
 
-        self.dir = core.LEFT
+        self.dir = core.UP_LEFT
         self.step_stop = False
         
         return 2*dis
@@ -131,7 +135,7 @@ class Player:
         self.y += dis
         self.x -= dis
     
-        self.dir = core.LEFT
+        self.dir = core.DOWN_LEFT
         self.step_stop = False
         
         return 2*dis
@@ -144,7 +148,7 @@ class Player:
         self.y += dis
         self.x += dis
 
-        self.dir = core.RIGHT
+        self.dir = core.DOWN_RIGHT
         self.step_stop = False
         
         return 2*dis
@@ -186,4 +190,16 @@ class Player:
         
         elif self.dir == core.DOWN:
             return self.images_down[self.step_idx]
+        
+        elif self.dir == core.DOWN_RIGHT:
+            return self.images_down_right[self.step_idx]
+        
+        elif self.dir == core.DOWN_LEFT:
+            return self.images_down_left[self.step_idx]
+        
+        elif self.dir == core.UP_LEFT:
+            return self.images_up_left[self.step_idx]
+        
+        elif self.dir == core.UP_RIGHT:
+            return self.images_up_right[self.step_idx]
     
