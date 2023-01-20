@@ -267,9 +267,6 @@ class Quadtree:
                 if entity1 is entity2:
                     continue
 
-                if isinstance(entity1, objects.archer.Archer):
-                    print(entity2.rect)
-
                 # Check collision
 
                 if not entity1.rect.colliderect(entity2.rect):
@@ -310,8 +307,7 @@ class Quadtree:
                             map.tiles.Block,
                             map.tiles.Wall
                         )
-                    ): # BUG
-
+                    ):
                         entity1.active = False
                 
                 # Player / Archer - Wall
