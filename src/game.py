@@ -1,5 +1,12 @@
 import pygame
 
+from PyQt6.QtCore import (
+    QRunnable,
+    QObject,
+    pyqtSlot,
+    pyqtSignal
+)
+
 import core
 import collision
 import objects.bullet
@@ -11,10 +18,15 @@ import map.tiles
 import entity
 
 
-class Game:
+class GameSignals(QObject):
+    surface = pyqtSignal(pygame.surface.Surface)
+
+
+class Game(QRunnable):
     """Main game class."""
 
     def __init__(self, maxfps: int) -> None:
+        super().__init__()
         """Initialisation of game objects and variables."""
 
         ################################################################
@@ -76,6 +88,8 @@ class Game:
 
         self.dead = False
         self.killer = None
+
+        self.signal: GameSignals = GameSignals()
     
     def handle_inputs(self) -> None:
         """Get the user input and react."""
@@ -335,8 +349,10 @@ class Game:
 
         scld_surface = pygame.transform.scale(orig_surface, (816, 624))
 
-        self.screen.blit(scld_surface, (0, 0))
-        pygame.display.flip()
+        self.signal.surface.emit(scld_surface)
+
+        # self.screen.blit(scld_surface, (0, 0))
+        # pygame.display.flip()
     
     def wait(self) -> None:
         """Wait to keep up a perfect frame rate."""
@@ -347,6 +363,7 @@ class Game:
 
         self.clock.tick(self.maxfps)
     
+    @pyqtSlot()
     def run(self) -> None:
         """Run the main loop of the game."""
 
